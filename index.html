@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Brand guide for The Qoogies animated series by XBX Entertainment.">
+<meta name="description" content="Series bible and brand guide for The Qoogies animated series by XBX Entertainment.">
 <meta property="og:title" content="The Qoogies Brand Guide">
 <meta property="og:image" content="img/pilot-29.jpg">
 <title>The Qoogies Brand Guide</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Exo+2:wght@500;600;700&family=Nunito:ital,wght@0,400;0,600;0,800;1,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&family=M+PLUS+Rounded+1c:wght@500;800&family=Exo+2:wght@500;600;700&family=Nunito:ital,wght@0,400;0,600;0,800;1,400&display=swap">
 <style>
 /* Layout: one long brand book under a deep-water sky; a sticky chapter rail, glass panels like the character sheets, bubbles only in the hero. */
 :root{
@@ -20,6 +20,7 @@
   --irid:linear-gradient(110deg,#5CE1E6, #B6F03C, #FFE14A, #FF8A5C, #FF5FA2, #8B6CF6);
   --f-display:"Lilita One","Arial Rounded MT Bold","Trebuchet MS",system-ui,sans-serif;
   --f-label:"Exo 2","Segoe UI",system-ui,sans-serif;
+  --f-jp:"M PLUS Rounded 1c","Hiragino Maru Gothic ProN",sans-serif;
   --f-body:"Nunito","Segoe UI",system-ui,sans-serif;
   --s1:.875rem; --s2:1rem; --s3:1.25rem; --s4:1.75rem; --s5:2.5rem; --s6:clamp(2.75rem,7vw,5rem);
 }
@@ -190,6 +191,83 @@ figure{margin:0}
 .inventory figcaption{font-size:.75rem;padding:.4rem .55rem;color:var(--muted)}
 footer{padding-block:40px;color:var(--muted);font-size:.88rem}
 
+
+/* ---- studio pass ---- */
+.jp{font-family:var(--f-jp);font-weight:800;letter-spacing:.08em;color:var(--lime);margin-right:.6em}
+.eyebrow .jp{font-size:.95rem;letter-spacing:.12em}
+.titlecard{position:relative;display:grid;gap:.6rem;justify-items:start}
+.tc-ep{display:inline-flex;align-items:center;gap:.75rem;font-family:var(--f-jp);font-weight:800;color:var(--foam);background:rgba(7,18,41,.55);border:1px solid var(--line);border-radius:999px;padding:.35rem .9rem .35rem .4rem}
+.tc-ep b{white-space:nowrap;background:var(--red);color:#fff;border-radius:999px;padding:.15rem .6rem;font-size:.85rem}
+.tc-kana{font-family:var(--f-jp);font-weight:800;font-size:clamp(1.6rem,4vw,2.6rem);letter-spacing:.18em;color:var(--foam);text-shadow:0 0 18px rgba(79,195,240,.6)}
+.tc-kana small{display:block;font-family:var(--f-label);font-weight:600;font-size:.75rem;letter-spacing:.3em;color:var(--aqua);text-transform:uppercase;text-shadow:none}
+.roster{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.25rem}
+.medal{display:grid;justify-items:center;gap:.3rem;text-decoration:none;color:var(--foam);font-family:var(--f-label);font-weight:600;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase}
+.medal img{width:64px;height:64px;border-radius:50%;object-fit:cover;box-shadow:0 0 0 3px var(--ring,#4FC3F0),0 0 0 6px rgba(7,18,41,.9),0 8px 22px rgba(0,0,0,.45);transition:transform .25s cubic-bezier(.3,1.6,.5,1)}
+.medal:hover img,.medal:focus-visible img{transform:translateY(-4px) scale(1.08)}
+.medal span{color:var(--muted)}
+.cs-wrap{background:#04101F;border:1px solid var(--line);border-radius:18px;padding:clamp(12px,2vw,20px);display:grid;gap:.75rem}
+.cs-strip{position:relative;height:120px;border-radius:10px;overflow:hidden}
+.cs-strip canvas{width:100%;height:100%;display:block}
+.cs-ruler{position:relative;height:22px;font-family:var(--f-label);font-size:.7rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.cs-ruler span{position:absolute;transform:translateX(-50%);top:4px}
+.cs-ruler span::before{content:"";position:absolute;left:50%;top:-6px;height:5px;border-left:1px solid var(--line)}
+.beats{position:relative;height:auto;display:grid;gap:.35rem}
+.beat{display:grid;grid-template-columns:4.2rem minmax(0,1fr);gap:.6rem;font-size:.9rem;align-items:baseline}
+.beat code{font-family:var(--f-label);color:var(--aqua);font-size:.8rem;font-variant-numeric:tabular-nums}
+.cs-marks{position:absolute;inset:0;pointer-events:none}
+.cs-marks i{position:absolute;top:0;bottom:0;border-left:2px solid rgba(255,255,255,.85);mix-blend-mode:overlay}
+.cs-marks b{position:absolute;top:6px;transform:translateX(4px);font-family:var(--f-label);font-size:.68rem;letter-spacing:.08em;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.8);font-weight:700;white-space:nowrap}
+.mix{display:flex;height:16px;border-radius:999px;overflow:hidden}
+.cm{display:grid;gap:1rem}
+.cm-tabs{display:flex;flex-wrap:wrap;gap:.5rem}
+.cm-tab{all:unset;cursor:pointer;display:flex;align-items:center;gap:.5rem;padding:.3rem .8rem .3rem .3rem;border-radius:999px;border:1px solid var(--line);background:var(--panel-solid);font-family:var(--f-label);font-weight:600;font-size:.8rem;letter-spacing:.06em}
+.cm-tab img{width:30px;height:30px;border-radius:50%;object-fit:cover}
+.cm-tab[aria-selected="true"]{background:var(--lime);color:var(--ink);border-color:var(--lime)}
+.cm-tab:focus-visible{outline:3px solid var(--spark);outline-offset:2px}
+.cm-light{display:flex;flex-wrap:wrap;gap:.4rem}
+.cm-light button{all:unset;cursor:pointer;font-family:var(--f-label);font-size:.75rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:.45rem .8rem;border-radius:8px;border:1px solid var(--line);color:var(--muted)}
+.cm-light button[aria-pressed="true"]{color:var(--ink);background:var(--aqua);border-color:var(--aqua)}
+.cm-light button:focus-visible{outline:3px solid var(--spark);outline-offset:2px}
+.cm-body{display:grid;grid-template-columns:minmax(0,240px) minmax(0,1fr);gap:1.25rem;align-items:start}
+.cm-fig{border-radius:16px;overflow:hidden;border:1px solid var(--line);position:relative}
+.cm-fig img{width:100%;transition:filter .3s}
+.cm-fig .tint{position:absolute;inset:0;mix-blend-mode:multiply;pointer-events:none;transition:background .3s}
+.cm-table{overflow-x:auto}
+.cm-table table{min-width:520px}
+.cm-table td{padding:.45rem .5rem}
+.chipc{display:grid;gap:.15rem;justify-items:start}
+.chipc i{display:block;width:64px;height:30px;border-radius:7px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.18)}
+.chipc code{font-family:var(--f-label);font-size:.72rem;color:var(--muted);letter-spacing:.04em}
+.cm-note{font-size:.88rem;color:var(--muted)}
+.lineup{position:relative;background:#04101F;border:1px solid var(--line);border-radius:18px;padding:18px 18px 12px 52px;overflow-x:auto}
+.lu-grid{position:relative;height:300px;min-width:640px;display:flex;align-items:flex-end;gap:14px}
+.lu-line{position:absolute;left:-40px;right:0;border-top:1px dashed rgba(79,195,240,.35);font-family:var(--f-label);font-size:.7rem;color:var(--aqua)}
+.lu-line span{position:absolute;left:0;top:-.6rem;background:#04101F;padding-right:4px}
+.lu-fig{position:relative;display:grid;justify-items:center;gap:4px;z-index:1}
+.lu-fig img{height:var(--h);width:auto;border-radius:8px;box-shadow:0 0 0 1px var(--line)}
+.lu-fig b{font-family:var(--f-label);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--foam);white-space:nowrap}
+.lu-fig small{font-family:var(--f-label);font-size:.68rem;color:var(--lime)}
+.lu-human{width:46px;height:var(--h);background:linear-gradient(#33507A,#22385A);border-radius:22px 22px 6px 6px;opacity:.75;clip-path:polygon(30% 0,70% 0,72% 11%,95% 16%,95% 55%,78% 55%,74% 100%,56% 100%,50% 60%,44% 100%,26% 100%,22% 55%,5% 55%,5% 16%,28% 11%)}
+.anim-stage{display:grid;place-items:center;min-height:240px;border-radius:18px;background:radial-gradient(circle at 50% 40%,#1F6FD1,#071229 72%);overflow:hidden;position:relative}
+.anim-stage img{width:min(300px,80%);border-radius:14px}
+.anim-stage.play img{animation:pop 1s cubic-bezier(.2,.9,.3,1) both}
+.anim-stage .ring{position:absolute;width:40px;height:40px;border-radius:50%;border:3px solid rgba(232,246,255,.9);opacity:0}
+.anim-stage.play .ring{animation:ring .5s .2s ease-out both}
+@keyframes pop{0%{transform:scale(.05);filter:blur(8px);opacity:0;border-radius:50%}20%{transform:scale(.35);opacity:1;filter:blur(2px);border-radius:50%}25%{transform:scale(1.18,.86);filter:none;border-radius:14px}37%{transform:scale(.94,1.06)}50%{transform:scale(1.03,.98)}62%,100%{transform:scale(1)}}
+@keyframes ring{0%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(9)}}
+.ts{overflow-x:auto}
+.ts table{min-width:520px;font-variant-numeric:tabular-nums}
+.ts td:first-child,.ts th:first-child{font-family:var(--f-label);color:var(--aqua)}
+.ts .bar{display:block;height:8px;border-radius:4px;background:var(--lime)}
+.bounce{height:150px;position:relative;border-radius:14px;background:#04101F;border:1px solid var(--line);overflow:hidden}
+.bounce i{position:absolute;left:calc(50% - 24px);bottom:14px;width:48px;height:48px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff 0 9%,rgba(160,225,255,.5) 30%,rgba(79,195,240,.25) 70%,rgba(232,246,255,.8) 100%);animation:bob 1.4s cubic-bezier(.45,0,.55,1) infinite;transform-origin:50% 100%}
+@keyframes bob{0%,100%{transform:translateY(0) scale(1.25,.75)}12%{transform:translateY(-12px) scale(.85,1.18)}50%{transform:translateY(-82px) scale(1,1)}88%{transform:translateY(-12px) scale(.88,1.14)}}
+.bounce .ticks{position:absolute;right:16px;top:14px;bottom:14px;width:30px}
+.bounce .ticks span{position:absolute;right:0;width:18px;border-top:2px solid var(--aqua)}
+.callout{border-left:3px solid var(--lime);padding:.2rem 0 .2rem 1rem}
+@media (max-width:860px){.cm-body{grid-template-columns:minmax(0,1fr)}.cm-fig{max-width:260px}}
+@media (prefers-reduced-motion:reduce){.bounce i,.anim-stage.play img,.anim-stage.play .ring{animation:none}}
+
 @media (max-width:860px){
   .hero .wrap,.char,.cols-2,.say,.versus{grid-template-columns:minmax(0,1fr)}
   .spec-row{grid-template-columns:minmax(0,1fr);gap:.4rem}
@@ -206,8 +284,13 @@ footer{padding-block:40px;color:var(--muted);font-size:.88rem}
   <div class="wrap">
     <div>
       <img class="hero-logo" src="img/logo-current.jpg" alt="The Qoogies logo: lime bubble letters with a blue glow" width="254" height="100">
-      <h1>Brand Guide <span>v1.0</span></h1>
+      <div class="titlecard">
+        <p class="tc-kana">クーギーズ<small>The Qoogies · Series bible and brand guide</small></p>
+        <p class="tc-ep"><b>第1話</b>「ヒーロー・ミーツ・ネオン」 Heelo Meets Neon</p>
+      </div>
+      <h1>Brand Guide <span>v2.0</span></h1>
       <p class="lede">Colors, characters, style, type, voice and website direction for the animated series from XBX Entertainment.</p>
+      <nav class="roster" aria-label="Cast"><a class="medal" href="#wisp" style="--ring:#E2262B"><img src="img/face-wisp.jpg" alt="" width="160" height="160"><span>Wisp</span></a><a class="medal" href="#heelo" style="--ring:#FF8A1A"><img src="img/face-heelo.jpg" alt="" width="160" height="160"><span>Heelo</span></a><a class="medal" href="#nonni" style="--ring:#E8B830"><img src="img/face-nonni.jpg" alt="" width="160" height="160"><span>Nonni</span></a><a class="medal" href="#hydro" style="--ring:#2E7FE0"><img src="img/face-hydro.jpg" alt="" width="160" height="160"><span>Hydro</span></a><a class="medal" href="#buoy" style="--ring:#8E6FD8"><img src="img/face-buoy.jpg" alt="" width="160" height="160"><span>Buoy</span></a><a class="medal" href="#docneon" style="--ring:#A6D64A"><img src="img/face-docneon.jpg" alt="" width="160" height="160"><span>Doc Neon</span></a><a class="medal" href="#neonites" style="--ring:#FF2A12"><img src="img/face-neonites.jpg" alt="" width="160" height="160"><span>Neonites</span></a></nav>
       <div class="meta"><span>October 2026</span><span>Season One · Team Aero</span><span>Built from the pitch guide, character sheets and pilot episode</span></div>
     </div>
     <figure class="hero-art"><img src="img/ship.jpg" alt="The Qoogie bubble-pod ship firing a beam toward an arid planet" width="512" height="279"></figure>
@@ -223,7 +306,7 @@ footer{padding-block:40px;color:var(--muted);font-size:.88rem}
 <main>
 <section class="ch" id="brand"><div class="wrap">
   <div class="ch-head">
-    <p class="eyebrow">Chapter 1 · The brand</p>
+    <p class="eyebrow"><span class="jp">ブランド</span>Chapter 1 · The brand</p>
     <h2>Water versus dry, told with bubbles</h2>
     <p class="sub">The Qoogies, a race of hydro-formers, and Doc Neon, a creator of arid worlds, vie for galactic dominance as each tries to transform worlds to their liking.</p>
   </div>
@@ -249,7 +332,7 @@ footer{padding-block:40px;color:var(--muted);font-size:.88rem}
 
 <section class="ch" id="logo"><div class="wrap">
   <div class="ch-head">
-    <p class="eyebrow">Chapter 2 · Logo</p>
+    <p class="eyebrow"><span class="jp">タイトルロゴ</span>Chapter 2 · Logo</p>
     <h2>One logo going forward</h2>
     <p class="sub">There are two logos in the files. The 2026 character sheets use a lime bubble logo. The 2022 pitch guide uses a pink and orange one. Lead with the lime logo everywhere new.</p>
   </div>
@@ -284,6 +367,31 @@ footer{padding-block:40px;color:var(--muted);font-size:.88rem}
       <p>All logo copies here are raster crops from sheets. Before the website launches, get a master vector (SVG/AI) plus transparent PNGs at 512, 1024 and 2048 px, and a one-color white version for video bugs and merch.</p>
     </div>
   </div>
+
+  <div class="cols-2" style="margin-top:2rem">
+    <div class="stack">
+      <h4>Title logo animation · 2 seconds at 24 fps</h4>
+      <div class="anim-stage" id="logo-anim"><span class="ring" aria-hidden="true"></span><img src="img/logo-current.jpg" alt="The Qoogies logo" width="254" height="100"></div>
+      <div class="btn-demo"><button class="b-ghost" type="button" id="logo-play">Play the logo sting</button></div>
+      <p class="muted">The logo is blown like a bubble: it forms, pops into shape, overshoots, and wobbles to rest. Use this for the series open, end card and the website's first load.</p>
+    </div>
+    <div class="stack">
+      <h4>Timesheet · タイムシート</h4>
+      <div class="ts"><table>
+        <thead><tr><th>Frame</th><th>Key</th><th>Scale</th><th>Hold</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Bubble forms, soft and blurred</td><td>5%</td><td><span class="bar" style="width:20%"></span></td></tr>
+          <tr><td>5</td><td>Bubble rises into frame</td><td>35%</td><td><span class="bar" style="width:5%"></span></td></tr>
+          <tr><td>6</td><td>POP: ring flash, letters snap out</td><td>118 × 86%</td><td><span class="bar" style="width:12%"></span></td></tr>
+          <tr><td>9</td><td>Stretch back</td><td>94 × 106%</td><td><span class="bar" style="width:12%"></span></td></tr>
+          <tr><td>12</td><td>Small overshoot</td><td>103 × 98%</td><td><span class="bar" style="width:12%"></span></td></tr>
+          <tr><td>15</td><td>Settle. Bubbles drift off the letters</td><td>100%</td><td><span class="bar" style="width:100%"></span></td></tr>
+          <tr><td>48</td><td>Cut or dissolve</td><td>100%</td><td></td></tr>
+        </tbody>
+      </table></div>
+      <p class="muted">Pop SFX lands on frame 6. Animate on ones (every frame) for the pop, on twos for the drift. Squash and stretch keep the logo's area the same.</p>
+    </div>
+  </div>
   <h4 style="margin-top:2rem">Don't</h4>
   <div class="donts">
     <div class="dont"><div class="stage d-stretch"><img src="img/logo-current.jpg" alt="" width="254" height="100"></div><p>Stretch or squash it.</p></div>
@@ -295,7 +403,7 @@ footer{padding-block:40px;color:var(--muted);font-size:.88rem}
 
 <section class="ch" id="color"><div class="wrap">
   <div class="ch-head">
-    <p class="eyebrow">Chapter 3 · Color</p>
+    <p class="eyebrow"><span class="jp">色彩設計</span>Chapter 3 · Color</p>
     <h2>Colorways</h2>
     <p class="sub">Values are taken from the character sheets and cleaned up for screen and print. Click any swatch to copy its hex.</p>
   </div>
@@ -313,6 +421,28 @@ footer{padding-block:40px;color:var(--muted);font-size:.88rem}
     <p class="muted">Lime and laser red belong to the villains in story art. In the UI, lime is the logo and the main button, which is fine: Doc Neon's lime is yellower and softer (Neon Slime), and he never appears on a lime button.</p>
     <h4 style="margin-top:1.5rem">Legacy 2022 palette (archive only)</h4>
     <div class="sw-grid"><button class="sw" type="button" data-hex="#E8308C" style="--c:#E8308C;--ink:#F4FBFF"><span class="chip"></span><span class="sw-name">Bubblegum</span><span class="sw-hex">#E8308C</span><span class="sw-role">2022 logo outline</span></button><button class="sw" type="button" data-hex="#FF8A1E" style="--c:#FF8A1E;--ink:#071229"><span class="chip"></span><span class="sw-name">Tangerine</span><span class="sw-hex">#FF8A1E</span><span class="sw-role">2022 logo fill</span></button><button class="sw" type="button" data-hex="#FFC93C" style="--c:#FFC93C;--ink:#071229"><span class="chip"></span><span class="sw-name">Marigold</span><span class="sw-hex">#FFC93C</span><span class="sw-role">2022 logo highlight</span></button><button class="sw" type="button" data-hex="#C9297F" style="--c:#C9297F;--ink:#F4FBFF"><span class="chip"></span><span class="sw-name">Magenta Head</span><span class="sw-hex">#C9297F</span><span class="sw-role">2022 section titles</span></button></div>
+  </div>
+
+  <div class="cm panel" style="margin-top:2.5rem" id="color-models">
+    <div class="ch-head" style="margin-bottom:0">
+      <h3>Color models · 色指定</h3>
+      <p class="muted">Each part has a base color, a first shadow (影1), a deep shadow (影2) and a highlight (ハイライト). Shadows shift toward blue-violet instead of going grey, so the gel never looks muddy. Pick a lighting setup to see the same character under each scene's light.</p>
+    </div>
+    <div class="cm-tabs" role="tablist" aria-label="Character"><button class="cm-tab" type="button" role="tab" id="cm-wisp" aria-selected="true" data-k="wisp"><img src="img/face-wisp.jpg" alt="" width="160" height="160">Wisp</button><button class="cm-tab" type="button" role="tab" id="cm-heelo" aria-selected="false" data-k="heelo"><img src="img/face-heelo.jpg" alt="" width="160" height="160">Heelo</button><button class="cm-tab" type="button" role="tab" id="cm-nonni" aria-selected="false" data-k="nonni"><img src="img/face-nonni.jpg" alt="" width="160" height="160">Nonni</button><button class="cm-tab" type="button" role="tab" id="cm-hydro" aria-selected="false" data-k="hydro"><img src="img/face-hydro.jpg" alt="" width="160" height="160">Hydro</button><button class="cm-tab" type="button" role="tab" id="cm-buoy" aria-selected="false" data-k="buoy"><img src="img/face-buoy.jpg" alt="" width="160" height="160">Buoy</button><button class="cm-tab" type="button" role="tab" id="cm-docneon" aria-selected="false" data-k="docneon"><img src="img/face-docneon.jpg" alt="" width="160" height="160">Doc Neon</button><button class="cm-tab" type="button" role="tab" id="cm-neonites" aria-selected="false" data-k="neonites"><img src="img/face-neonites.jpg" alt="" width="160" height="160">Neonites</button></div>
+    <div class="cm-light" role="group" aria-label="Lighting">
+      <button type="button" data-l="normal" aria-pressed="true">Normal · 通常</button>
+      <button type="button" data-l="dusk" aria-pressed="false">Arridia dusk · 夕</button>
+      <button type="button" data-l="alert" aria-pressed="false">Red alert · 警報</button>
+      <button type="button" data-l="night" aria-pressed="false">Ship night · 夜</button>
+    </div>
+    <div class="cm-body">
+      <figure class="cm-fig"><img id="cm-img" src="img/front-wisp.jpg" alt="Front view of the selected character" width="212" height="360"><span class="tint" id="cm-tint"></span></figure>
+      <div class="cm-table"><table>
+        <thead><tr><th>Part</th><th>Base</th><th>影1 Shadow</th><th>影2 Deep</th><th>Highlight</th></tr></thead>
+        <tbody id="cm-rows"></tbody>
+      </table>
+      <p class="cm-note" id="cm-note">Normal light. Values are for the character sheet and promo art.</p></div>
+    </div>
   </div>
   <div class="cols-2" style="margin-top:2rem">
     <div class="panel stack">
@@ -341,7 +471,7 @@ footer{padding-block:40px;color:var(--muted);font-size:.88rem}
 
 <section class="ch" id="style"><div class="wrap">
   <div class="ch-head">
-    <p class="eyebrow">Chapter 4 · Style</p>
+    <p class="eyebrow"><span class="jp">美術・スタイル</span>Chapter 4 · Style</p>
     <h2>3D bubble form leads, 2D supports</h2>
     <p class="sub">The 2026 sheets define the show's look: glossy, translucent toy-like characters lit from inside. The 2022 pitch art and storyboards show a 2D cartoon line that is still useful for boards, merch and activities.</p>
   </div>
@@ -378,15 +508,41 @@ footer{padding-block:40px;color:var(--muted);font-size:.88rem}
       </div>
     </div>
   </div>
+
+  <div class="stack" style="margin-top:2rem">
+    <h4>Height lineup · 頭身 (heads tall)</h4>
+    <div class="lineup"><div class="lu-grid"><div class="lu-line" style="bottom:36px"><span>0H</span></div><div class="lu-line" style="bottom:116px"><span>1H</span></div><div class="lu-line" style="bottom:196px"><span>2H</span></div><div class="lu-line" style="bottom:276px"><span>3H</span></div><div class="lu-fig"><img src="img/front-wisp.jpg" alt="Wisp front view" style="--h:200px" width="212" height="360"><b>Wisp</b><small>2.5 heads</small></div><div class="lu-fig"><img src="img/front-heelo.jpg" alt="Heelo front view" style="--h:208px" width="212" height="360"><b>Heelo</b><small>2.6 heads</small></div><div class="lu-fig"><img src="img/front-nonni.jpg" alt="Nonni front view" style="--h:200px" width="212" height="360"><b>Nonni</b><small>2.5 heads</small></div><div class="lu-fig"><img src="img/front-hydro.jpg" alt="Hydro front view" style="--h:200px" width="212" height="360"><b>Hydro</b><small>2.5 heads</small></div><div class="lu-fig"><img src="img/front-buoy.jpg" alt="Buoy front view" style="--h:200px" width="212" height="360"><b>Buoy</b><small>2.5 heads</small></div><div class="lu-fig"><img src="img/front-docneon.jpg" alt="Doc Neon front view" style="--h:216px" width="212" height="360"><b>Doc Neon</b><small>2.7 heads</small></div><div class="lu-fig"><img src="img/front-neonites.jpg" alt="Neonite front view" style="--h:192px" width="212" height="360"><b>Neonite</b><small>2.4 heads</small></div></div></div>
+    <div class="cols">
+      <p class="callout"><strong>Qoogies are 2.5 heads tall.</strong> One head for the bubble, one and a half for body and legs. Heelo's spikes add a tenth on top; never count hair or hats.</p>
+      <p class="callout"><strong>Doc Neon is a little taller at 2.7 heads,</strong> plus antennae. He should always look down at the Qoogies.</p>
+      <p class="callout"><strong>An average human is about 7.5 heads.</strong> A Qoogie stands roughly at a human's hip, matching the size comparisons on the sheets.</p>
+    </div>
+  </div>
   <div class="versus" style="margin-top:1.5rem">
     <figure class="figure"><img src="img/aquafy.jpg" alt="Project Aquafy control room with a holographic globe" width="1100" height="629" loading="lazy"><figcaption>Project Aquafy control room. Reference for labs, UI holograms and website panels.</figcaption></figure>
     <figure class="figure"><img src="img/storyboards.jpg" alt="Episode 1 storyboard panels, black and white" width="1100" height="850" loading="lazy"><figcaption>Episode 1 storyboards from the 2022 pitch guide. The 2D line style in use.</figcaption></figure>
+  </div>
+
+  <div class="cols-2" style="margin-top:2rem">
+    <div class="stack">
+      <h4>Bubble physics · squash and stretch</h4>
+      <div class="bounce" aria-hidden="true"><i></i><div class="ticks"><span style="top:0"></span><span style="top:8%"></span><span style="top:20%"></span><span style="top:38%"></span><span style="top:62%"></span><span style="top:100%"></span></div></div>
+    </div>
+    <div class="panel stack">
+      <h4>Movement rules</h4>
+      <ul class="clean">
+        <li><strong>Everything Qoogie squashes.</strong> Landings flatten to about 125 × 75%, take-offs stretch to 85 × 118%. Volume stays constant.</li>
+        <li><strong>Ease in, ease out.</strong> Spacing bunches at the top of a hop (the ticks on the left), like a bubble slowing in water.</li>
+        <li><strong>Secondary jiggle.</strong> Hair, hats and antennae lag one or two frames behind the head.</li>
+        <li><strong>Doc Neon is stiffer.</strong> Less squash, sharper stops. When he gets wet, he loses all structure and melts.</li>
+      </ul>
+    </div>
   </div>
 </div></section>
 
 <section class="ch" id="pilot"><div class="wrap">
   <div class="ch-head">
-    <p class="eyebrow">Chapter 5 · From the pilot</p>
+    <p class="eyebrow"><span class="jp">パイロット</span>Chapter 5 · From the pilot</p>
     <h2>What Episode 1 adds</h2>
     <p class="sub">Checked against "Qoogies Pilot Episode 1" (14 min 28 s, 1080p) and the pilot demo script by Joe Caruso. The pilot matches the 3D bubble-form style and hero palette in this guide. It also adds a few things the guide now covers.</p>
   </div>
@@ -417,11 +573,30 @@ footer{padding-block:40px;color:var(--muted);font-size:.88rem}
       <li>Website hero loop: 8–12 seconds from the launch bay or orbit shots, muted, with captions on the full player.</li>
     </ul></div>
   </div>
+
+  <div class="stack" style="margin-top:2rem">
+    <h4>Color script · カラースクリプト</h4>
+    <p class="muted">Every 2 seconds of the pilot, reduced to its key color. Built from the actual episode (434 samples, 14:28).</p>
+    <div class="cs-wrap">
+      <div class="cs-strip"><canvas id="cs" width="868" height="120" role="img" aria-label="Color script of the pilot: mostly blue, warm at the start and rising warm toward the end"></canvas><div class="cs-marks"><i style="left:16.59%"></i><i style="left:34.56%"></i><i style="left:44.93%"></i><i style="left:50.69%"></i><i style="left:62.21%"></i><i style="left:80.65%"></i><i style="left:86.87%"></i><i style="left:91.01%"></i><i style="left:96.77%"></i></div></div>
+      <div class="cs-ruler" aria-hidden="true"><span style="left:0.00%">0:00</span><span style="left:6.91%">1:00</span><span style="left:13.82%">2:00</span><span style="left:20.74%">3:00</span><span style="left:27.65%">4:00</span><span style="left:34.56%">5:00</span><span style="left:41.47%">6:00</span><span style="left:48.39%">7:00</span><span style="left:55.30%">8:00</span><span style="left:62.21%">9:00</span><span style="left:69.12%">10:00</span><span style="left:76.04%">11:00</span><span style="left:82.95%">12:00</span><span style="left:89.86%">13:00</span><span style="left:96.77%">14:00</span></div>
+    </div>
+    <div class="cols-2">
+      <div class="beats"><div class="beat"><code>0:00</code><span>Cold open: XBX sting over Arridia, then Doc Neon's cavern</span></div><div class="beat"><code>2:24</code><span>The Qoogie ship arrives in orbit</span></div><div class="beat"><code>5:00</code><span>Command Center: Wisp and Doc Neon on the video link</span></div><div class="beat"><code>6:30</code><span>Neonite rally: "Clones for a dry galaxy"</span></div><div class="beat"><code>7:20</code><span>Launch Bay 01: Heelo suits up</span></div><div class="beat"><code>9:00</code><span>Doc Neon's food caterpillars</span></div><div class="beat"><code>11:40</code><span>Rocket launch from the cavern</span></div><div class="beat"><code>12:34</code><span>Heelo catches the rocket with water</span></div><div class="beat"><code>13:10</code><span>Doc Neon gets wet and melts</span></div><div class="beat"><code>14:00</code><span>Red alert finish</span></div></div>
+      <div class="panel stack">
+        <h4>What it tells us</h4>
+        <p><strong>The show lives in blue.</strong> About 80% of the pilot reads blue. That's the brand's home color, and the site should feel the same.</p>
+        <p><strong>Warm means danger.</strong> Orange only shows in the cold open and builds from 10:00 as the rockets launch and the alarms go off. Keep warm light for conflict.</p>
+        <p><strong>Lime is a spice.</strong> Doc Neon's green barely registers frame-wide, so it pops whenever he's on screen. Don't flood whole scenes or web pages with it.</p>
+        <p><strong>Next step:</strong> paint a color script for each Season One episode before layout starts, using this one as the template.</p>
+      </div>
+    </div>
+  </div>
 </div></section>
 
 <section class="ch" id="type"><div class="wrap">
   <div class="ch-head">
-    <p class="eyebrow">Chapter 6 · Typography</p>
+    <p class="eyebrow"><span class="jp">書体</span>Chapter 6 · Typography</p>
     <h2>Three families, all free</h2>
     <p class="sub">All three are on Google Fonts, so the website, decks and social templates can use them with no licensing cost. The logo stays custom lettering and is never typeset.</p>
   </div>
@@ -450,7 +625,7 @@ footer{padding-block:40px;color:var(--muted);font-size:.88rem}
 
 <section class="ch" id="characters"><div class="wrap">
   <div class="ch-head">
-    <p class="eyebrow">Chapter 7 · Characters</p>
+    <p class="eyebrow"><span class="jp">キャラクター設定</span>Chapter 7 · Characters</p>
     <h2>Meet Team Aero</h2>
     <p class="sub">Each character owns one color nobody else on the team has. Keep that color on everything made for them: their web card, their merch, their episode tile.</p>
   </div>
@@ -478,6 +653,7 @@ footer{padding-block:40px;color:var(--muted);font-size:.88rem}
     <p class="char-line">Tension creates balance. Balance creates brighter worlds.</p>
     <p><strong>Silhouette key.</strong> Flame-spike orange hair and a yellow hi-vis jacket with red stripes. He is the warm accent of the team.</p>
     <p class="muted"><strong>Personality.</strong> Confident, energetic, witty, dependable</p>
+    <p class="muted"><strong>Name note.</strong> "Heelo" read in Japanese is ヒーロー, hīrō, "hero". Keep that in mind for an anime or Japanese release.</p>
     <div class="sw-row small"><button class="sw" type="button" data-hex="#FF8A1A" style="--c:#FF8A1A;--ink:#071229"><span class="chip"></span><span class="sw-name">Flame Orange</span><span class="sw-hex">#FF8A1A</span></button><button class="sw" type="button" data-hex="#F6B92A" style="--c:#F6B92A;--ink:#071229"><span class="chip"></span><span class="sw-name">Hi-Vis Yellow</span><span class="sw-hex">#F6B92A</span></button><button class="sw" type="button" data-hex="#D0262A" style="--c:#D0262A;--ink:#F4FBFF"><span class="chip"></span><span class="sw-name">Stripe Red</span><span class="sw-hex">#D0262A</span></button><button class="sw" type="button" data-hex="#E8302F" style="--c:#E8302F;--ink:#F4FBFF"><span class="chip"></span><span class="sw-name">Goggle Red</span><span class="sw-hex">#E8302F</span></button><button class="sw" type="button" data-hex="#3FB6E8" style="--c:#3FB6E8;--ink:#071229"><span class="chip"></span><span class="sw-name">Bubble Aqua</span><span class="sw-hex">#3FB6E8</span></button></div>
   </div>
 </article>
@@ -555,7 +731,7 @@ footer{padding-block:40px;color:var(--muted);font-size:.88rem}
 
 <section class="ch" id="ships"><div class="wrap">
   <div class="ch-head">
-    <p class="eyebrow">Chapter 8 · Ships</p>
+    <p class="eyebrow"><span class="jp">メカ設定</span>Chapter 8 · Ships</p>
     <h2>Two fleets you can tell apart in a second</h2>
     <p class="sub">Qoogie ships are made of water and light. Doc Neon's rockets are made of metal and smoke. Keep that contrast in every shot, toy and web graphic.</p>
   </div>
@@ -609,7 +785,7 @@ footer{padding-block:40px;color:var(--muted);font-size:.88rem}
 
 <section class="ch" id="voice"><div class="wrap">
   <div class="ch-head">
-    <p class="eyebrow">Chapter 9 · Voice</p>
+    <p class="eyebrow"><span class="jp">声とトーン</span>Chapter 9 · Voice</p>
     <h2>How the Qoogies sound</h2>
     <p class="sub">Bright, curious and kind, with a wink. Short lines that a kid can repeat on the playground.</p>
   </div>
@@ -646,7 +822,7 @@ footer{padding-block:40px;color:var(--muted);font-size:.88rem}
 
 <section class="ch" id="web"><div class="wrap">
   <div class="ch-head">
-    <p class="eyebrow">Chapter 10 · Website</p>
+    <p class="eyebrow"><span class="jp">ウェブサイト</span>Chapter 10 · Website</p>
     <h2>A site that feels like the ship's screen</h2>
     <p class="sub">The site has one job at launch: get people to watch the pilot, then meet the characters. It should look like the glass panels on the character sheets, floating over deep water.</p>
   </div>
@@ -711,7 +887,7 @@ footer{padding-block:40px;color:var(--muted);font-size:.88rem}
 
 <section class="ch" id="open"><div class="wrap">
   <div class="ch-head">
-    <p class="eyebrow">Chapter 11 · Open items</p>
+    <p class="eyebrow"><span class="jp">未決事項</span>Chapter 11 · Open items</p>
     <h2>Things to settle before launch</h2>
   </div>
   <div class="cols-2">
@@ -752,7 +928,7 @@ footer{padding-block:40px;color:var(--muted);font-size:.88rem}
 </div></section>
 </main>
 
-<footer><div class="wrap"><p>The Qoogies © XBX Entertainment. Brand Guide v1.0, October 2026. Waves Connect Worlds.</p></div></footer>
+<footer><div class="wrap"><p>The Qoogies © XBX Entertainment. Brand Guide v2.0, October 2026. Waves Connect Worlds.</p></div></footer>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
@@ -768,6 +944,7 @@ footer{padding-block:40px;color:var(--muted);font-size:.88rem}
     });
   });
   function sel(b){var r=document.createRange();r.selectNodeContents(b.querySelector('.sw-hex'));var s=getSelection();s.removeAllRanges();s.addRange(r)}
+  var still0=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   ['demo-watch','demo-meet'].forEach(function(id){document.getElementById(id).addEventListener('click',function(){show('Demo button')})});
 
   // chapter rail highlight
@@ -790,6 +967,47 @@ footer{padding-block:40px;color:var(--muted);font-size:.88rem}
   function tick(){bs.forEach(function(b,i){b.y-=b.v;b.w+=.01;b.x+=Math.sin(b.w)*.25;if(b.y<-b.r*2)bs[i]=mk(1)});draw();requestAnimationFrame(tick)}
   window.addEventListener('resize',function(){size();draw()});
   if(still)draw();else tick();
+
+  // color script
+  var CS=["383e4f", "543d4d", "5c414f", "726060", "9b715d", "b07c58", "b98056", "b0774f", "aa7754", "ac7957", "2d5582", "2b5480", "526f85", "597c87", "6c9384", "4496b3", "4f95a2", "5f8aad", "5683a4", "5583a4", "828284", "8a878b", "457e9e", "44819e", "4f8096", "42809a", "3e6a85", "427086", "538184", "527d80", "527f80", "3d929e", "5289a7", "51cc9a", "64713e", "52a06f", "578cac", "478d8d", "526d99", "435d88", "49565c", "4d637a", "4e6785", "4b75a8", "52626f", "5e6b6c", "5a686b", "556787", "556786", "54698a", "5e6c85", "4b7f9f", "847555", "436faf", "436792", "4d7297", "5a7e9a", "71567f", "655c84", "864a6e", "783f5f", "61717a", "8d6e64", "43729d", "4c779b", "5d8099", "485673", "6e7e76", "5f566b", "6d586c", "62526b", "a1735f", "91736f", "536a9c", "537ebb", "577bad", "756b85", "60769f", "628fc3", "5873a3", "5e7194", "687898", "666e97", "666e92", "647aa6", "5f7bac", "5e7bad", "5c7791", "6e8b9e", "769f9a", "89ae7a", "648184", "647d80", "628f92", "578798", "519d9d", "3d4e4e", "3c699a", "4375a0", "5081ad", "639aba", "5fa3c8", "587a98", "497cb5", "346fac", "33689b", "386d9a", "50526d", "b05d56", "944457", "665f84", "5070ab", "5e769f", "717290", "737994", "797a8f", "426aab", "476eac", "5c7cb0", "6b7ea3", "667393", "3b68a7", "507fb5", "5382b6", "5989b9", "598ba7", "588aa7", "538eb6", "6195b4", "679aba", "a19c99", "a39c9b", "68909d", "6d8c93", "647ca0", "657ea4", "5f8299", "6a8792", "5278a2", "496d92", "5f8da6", "5c81ac", "747688", "66769c", "517eb5", "517bab", "417fb4", "64a0d4", "5288c0", "5694b8", "5194bb", "576e8f", "aec5e6", "4d81b5", "4c73a8", "4069a1", "3668a8", "61a8da", "4b88bb", "4e88af", "637e9f", "427dae", "4684b6", "4a87b5", "5f89a5", "466a8e", "4a6d95", "48749b", "3587c0", "6e9393", "709ba9", "65949f", "6196a3", "647698", "667592", "667592", "727586", "81828e", "61809a", "617e95", "618494", "6c888e", "6b898d", "546b8d", "616883", "636474", "48648e", "536a88", "587292", "687689", "527a9b", "457095", "4e7895", "457291", "527a9b", "557c97", "5a8499", "1c448f", "3b5485", "3c5382", "508fae", "5997a9", "5d9bac", "4a779c", "647b99", "697590", "7b7e81", "836d76", "68787f", "5b6d8f", "637493", "6e7e9a", "75839d", "7a7d87", "847e7e", "887e7b", "8f8178", "8c837d", "838084", "797988", "777b8a", "8d8c9a", "607390", "76899f", "7086a1", "808c92", "7d8182", "5879a4", "857879", "7e8fae", "6b7a93", "7f8894", "506c92", "577199", "666982", "6c6f84", "737991", "777b91", "797d9b", "777d9c", "747fa4", "6c8fae", "7c8da4", "7c8193", "918784", "7c6c75", "7986a0", "475c81", "4a5e81", "505f7d", "3c4b70", "807483", "6e7091", "664f58", "577193", "5a789e", "526f92", "2f364b", "675356", "786973", "776e7b", "637297", "5e7ca9", "6785ad", "686d89", "6e7ea5", "596380", "687ca8", "716262", "675b66", "4e6e9f", "6e758d", "5e7598", "918b7c", "5e95bc", "5a88b0", "12223e", "595e71", "89787e", "7382b6", "a1786b", "5b7ba7", "607ea9", "4478b2", "457bb2", "5388ba", "5388ba", "5f769c", "647392", "a57774", "c98d69", "a57561", "a46744", "64718e", "3d5880", "838191", "9f8787", "497eb5", "7381a1", "788689", "62859b", "737796", "867f88", "7e8499", "3687ca", "8a787c", "8b7d7c", "87777f", "7d7681", "7d767a", "7a7478", "817879", "5e7393", "527ca2", "785d65", "776570", "856f75", "787e76", "aa7868", "c35f46", "8e3a3e", "bb5941", "7b777d", "79787e", "8e976d", "7a7c76", "42527c", "5d4762", "66616c", "554f62", "6a7a7c", "5f7a86", "72918e", "628289", "77a78f", "78a491", "5c7a86", "5f7f88", "54444a", "54708d", "57728b", "638ea4", "788c95", "728490", "5e596d", "646e86", "727c88", "627284", "5d6f80", "656971", "836864", "8e6c62", "bd938d", "947778", "9c6c56", "916e59", "6d8289", "835d44", "2e5466", "415f71", "354c5d", "355663", "6e6063", "937a65", "cd885d", "295188", "515768", "657c90", "848e83", "858f78", "838b88", "5b6787", "46556f", "525b7c", "5a889d", "5595bc", "7e6869", "46648a", "354a67", "495e7f", "50667e", "a84958", "979881", "8b6257", "864e5a", "745465", "6c4744", "62617f", "a15e72", "7d6955", "9e7262", "685771", "a65f68", "61627d", "856369", "8e706f", "726477", "8c676e", "988b78", "3c4b71", "6e5d72", "7b4e65", "776371", "977b83", "83808b", "77677d", "856770", "6b5f79", "6c647f", "8a707e", "ae9181", "7181a1", "879ebd", "865f52", "636062", "605b5c", "797f5b", "78795e", "80886f", "686b72", "796f70", "807673", "8a7876", "615458", "4c473e", "434035", "4d1612", "671a15", "4d140e", "551f17", "772c23", "703425", "6f3920", "1a0504"];
+  (function(){var c=document.getElementById('cs');if(!c)return;var x=c.getContext('2d'),w=c.width/CS.length;
+    CS.forEach(function(h,i){x.fillStyle='#'+h;x.fillRect(Math.floor(i*w),0,Math.ceil(w)+1,c.height)});
+    var g=x.createLinearGradient(0,0,0,c.height);g.addColorStop(0,'rgba(255,255,255,.12)');g.addColorStop(.5,'rgba(255,255,255,0)');g.addColorStop(1,'rgba(0,0,0,.25)');x.fillStyle=g;x.fillRect(0,0,c.width,c.height)})();
+
+  // color models
+  var MODELS={"wisp": [["Gel skin", "3FA9E8"], ["Hair", "F0C64A"], ["Goggles", "E2262B"], ["Jacket", "C8161D"], ["Trousers", "1C1A24"]], "heelo": [["Gel skin", "3FB6E8"], ["Hair", "FF8A1A"], ["Jacket", "F6B92A"], ["Stripe", "D0262A"], ["Goggles", "E8302F"]], "nonni": [["Gel skin", "46C2DB"], ["Hair", "7A3E26"], ["Glasses", "E8B830"], ["Lab coat", "F4F7FB"], ["Slacks", "1C2350"]], "hydro": [["Gel skin", "4FB8E6"], ["Hard hat", "F2B620"], ["Specs", "2E7FE0"], ["Jacket", "C8161D"], ["Trousers", "1C1A24"]], "buoy": [["Gel skin", "3FA9E8"], ["Hair", "8E6FD8"], ["Hard hat", "F2B620"], ["Visor", "CFE3F5"], ["Jacket", "C8161D"]], "docneon": [["Gel skin", "A6D64A"], ["Brows", "2FA8E8"], ["Eyes", "F1C21B"], ["Turtleneck", "D2601A"], ["Lab coat", "F4F7FB"]], "neonites": [["Scales", "556B2F"], ["Eyes", "FF2A12"], ["Brass", "C9A13B"], ["Power gem", "A646D9"], ["Spines", "B5652A"]]};
+  var LIGHT={normal:{c:[255,255,255],a:0,note:'Normal light. Values are for the character sheet and promo art.'},
+    dusk:{c:[255,150,80],a:.28,note:'Arridia dusk: warm orange key light from the planet. Keep the deep shadows cool.'},
+    alert:{c:[255,40,70],a:.34,note:'Red alert: red wash on everything; highlights stay white so faces read.'},
+    night:{c:[60,80,190],a:.38,note:'Ship night: low blue light. Lift the gel highlight so the bubble still glows.'}};
+  function hx(h){return [parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16)]}
+  function th(c){return c.map(function(v){v=Math.max(0,Math.min(255,Math.round(v)));return ('0'+v.toString(16)).slice(-2)}).join('').toUpperCase()}
+  function mix(a,b,t){return a.map(function(v,i){return v+(b[i]-v)*t})}
+  function mult(a,b){return a.map(function(v,i){return v*b[i]/255})}
+  var cur='wisp',lt='normal';
+  function lit(c){var L=LIGHT[lt];return L.a?mix(c,mult(c,L.c),L.a*1.6):c}
+  function render(){var rows=MODELS[cur].map(function(p){var b=hx(p[1]);
+      var base=lit(b),s1=lit(mix(mult(b,[150,150,215]),b,.25)),s2=lit(mult(b,[85,85,150])),hi=mix(lit(b),[255,252,240],.62);
+      function cell(c){var t=th(c);return '<td><span class="chipc"><i style="background:#'+t+'"></i><code>#'+t+'</code></span></td>'}
+      return '<tr><td>'+p[0]+'</td>'+cell(base)+cell(s1)+cell(s2)+cell(hi)+'</tr>'}).join('');
+    document.getElementById('cm-rows').innerHTML=rows;
+    document.getElementById('cm-img').src='img/front-'+cur+'.jpg';
+    var L=LIGHT[lt];document.getElementById('cm-tint').style.background=L.a?'rgba('+L.c.join(',')+','+L.a+')':'transparent';
+    document.getElementById('cm-note').textContent=L.note}
+  document.querySelectorAll('.cm-tab').forEach(function(b){b.addEventListener('click',function(){cur=b.dataset.k;document.querySelectorAll('.cm-tab').forEach(function(o){o.setAttribute('aria-selected',o===b)});render()})});
+  document.querySelectorAll('.cm-light button').forEach(function(b){b.addEventListener('click',function(){lt=b.dataset.l;document.querySelectorAll('.cm-light button').forEach(function(o){o.setAttribute('aria-pressed',o===b)});render()})});
+  render();
+
+  // logo sting
+  var st=document.getElementById('logo-anim');
+  function sting(){st.classList.remove('play');void st.offsetWidth;st.classList.add('play')}
+  document.getElementById('logo-play').addEventListener('click',sting);
+  if('IntersectionObserver' in window&&!still0){var once1=new IntersectionObserver(function(es){if(es[0].isIntersecting){sting();once1.disconnect()}},{threshold:.6});once1.observe(st)}
+
+  // pop bubbles on click
+  document.querySelector('.hero').addEventListener('click',function(e){if(e.target.closest('a,button'))return;var r=c.getBoundingClientRect(),px=e.clientX-r.left,py=e.clientY-r.top;
+    bs.forEach(function(b,i){if(Math.hypot(b.x-px,b.y-py)<b.r+6)bs[i]=mk(1)})});
+
 })();
 </script>
 
