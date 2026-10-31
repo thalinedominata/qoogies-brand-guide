@@ -44,7 +44,7 @@ p{margin:0}
 header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(7,18,41,.72);backdrop-filter:blur(14px);border-bottom:1px solid rgba(79,195,240,.18)}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:21;background:var(--deep)}
 .nav{display:flex;align-items:center;gap:24px;padding-block:10px}
-.nav img{width:150px;border-radius:12px}
+.nav img{width:150px;height:auto}
 .nav nav{display:flex;gap:22px;margin-left:auto;font:700 15px var(--label);letter-spacing:.06em}
 .nav nav a{text-decoration:none;opacity:.85}.nav nav a:hover{opacity:1;color:var(--aqua)}
 .nav .btn{padding:12px 20px;font-size:15px}
@@ -52,7 +52,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 
 /* hero */
 .hero{position:relative;overflow:hidden;isolation:isolate}
-.hero-bg{position:absolute;inset:0;z-index:-2;background:url(../img/ship-144.jpg) center/cover}
+.hero-bg{position:absolute;inset:0;z-index:-2;background:url(../img/hd/ship-144.jpg) center/cover}
 .hero-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,18,41,.25) 0,rgba(7,18,41,.55) 55%,var(--deep) 100%),radial-gradient(60% 70% at 15% 40%,rgba(7,18,41,.85),transparent)}
 .hero .wrap{padding-block:clamp(70px,12vw,150px) clamp(60px,9vw,110px);display:grid;gap:26px;max-width:1180px}
 .hero img.logo{width:min(440px,80vw);border-radius:28px;box-shadow:0 20px 60px rgba(0,0,0,.5),0 0 0 2px rgba(79,195,240,.3)}
@@ -89,8 +89,9 @@ section{padding-block:clamp(64px,9vw,110px)}
 .card{position:relative;border-radius:26px;padding:12px 12px 18px;background:linear-gradient(180deg,rgba(79,195,240,.14),rgba(11,47,102,.5));box-shadow:inset 0 0 0 1px rgba(232,246,255,.16);transition:transform .25s cubic-bezier(.3,1.6,.5,1),box-shadow .2s;text-decoration:none;display:grid;gap:10px}
 .card:hover,.card:focus-visible{transform:rotate(-2deg) translateY(-6px);box-shadow:inset 0 0 0 2px var(--aqua),0 18px 40px rgba(79,195,240,.25)}
 .card:nth-child(even):hover{transform:rotate(2deg) translateY(-6px)}
-.card .pic{border-radius:18px;overflow:hidden;aspect-ratio:3/4;background:var(--hydro)}
-.card .pic img{width:100%;height:100%;object-fit:cover;object-position:top}
+.card .pic{border-radius:18px;overflow:hidden;aspect-ratio:3/4;background:radial-gradient(90% 70% at 50% 30%,color-mix(in srgb,var(--c) 55%,#fff),var(--c) 60%,color-mix(in srgb,var(--c) 60%,#071229))}
+.card .pic img{width:100%;height:100%;object-fit:cover;object-position:50% 6%;transition:transform .35s}
+.card:hover .pic img{transform:scale(1.06) translateY(-2%)}
 .card h3{font-size:26px;padding-inline:6px}
 .card .role{font:700 12px var(--label);letter-spacing:.14em;text-transform:uppercase;padding-inline:6px;color:var(--c)}
 .card q{font-size:14px;padding-inline:6px;color:#CFE6F7;quotes:"“" "”"}
@@ -105,9 +106,10 @@ section{padding-block:clamp(64px,9vw,110px)}
 .villain h2{color:#16200A;font-size:clamp(40px,6vw,74px);margin-block:16px}
 .villain p{color:#2B2414;font-size:18px;max-width:44ch}
 .villain .duo{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.villain .duo figure{margin:0;border-radius:22px;overflow:hidden;box-shadow:0 0 0 4px var(--slime),0 20px 40px rgba(40,30,0,.35);background:#2b3b13}
+.villain .duo figure{margin:0;border-radius:22px;overflow:hidden;cursor:pointer;box-shadow:0 0 0 4px var(--slime),0 20px 40px rgba(40,30,0,.35);background:#2b3b13}
 .villain .duo figure:nth-child(2){transform:translateY(34px) rotate(2deg);box-shadow:0 0 0 4px #FF2A12,0 20px 40px rgba(40,30,0,.35)}
-.villain .duo img{aspect-ratio:3/4;object-fit:cover;object-position:top;width:100%}
+.villain .duo img{aspect-ratio:3/4;object-fit:cover;object-position:50% 8%;width:100%;background:radial-gradient(80% 70% at 50% 30%,#C9EC7E,#5F9A2C)}
+.villain .duo figure:nth-child(2) img{background:radial-gradient(80% 70% at 50% 30%,#8a6a3a,#2b2b14)}
 .villain figcaption{font:700 12px var(--label);letter-spacing:.14em;text-transform:uppercase;color:var(--slime);padding:10px 14px}
 .villain .duo figure:nth-child(2) figcaption{color:#FF8A70}
 .creed{margin-top:22px;font:400 28px/1 var(--display);color:#3F1A08}
@@ -157,7 +159,7 @@ footer small{width:100%;color:#6F87A3;font-size:13px}
 
 <header>
   <div class="wrap nav">
-    <a href="#top" aria-label="The Qoogies home"><img src="../img/logo-current.jpg" alt="The Qoogies"></a>
+    <a href="#top" aria-label="The Qoogies home"><img src="../img/hd/logo.webp" alt="The Qoogies"></a>
     <nav aria-label="Main"><a href="#crew">Characters</a><a href="#episodes">Episodes</a><a href="#villains">World</a><a href="#fun">Fun zone</a></nav>
     <a class="btn btn-lime" href="#watch">Watch</a>
   </div>
@@ -185,14 +187,14 @@ footer small{width:100%;color:#6F87A3;font-size:13px}
 <section id="crew"><div class="wrap">
   <div class="sec-head">
     <div><span class="label">Team Aero</span><h2>Meet the crew</h2></div>
-    <p>Each Qoogie has one job in making rain, and one color nobody else wears. Tap a card to open their page.</p>
+    <p>Each Qoogie has one job in making rain, and one color nobody else wears. Tap a card to open their profile.</p>
   </div>
   <div class="crew">
-    <a class="card" href="#crew" style="--c:#F0C64A"><div class="pic"><img src="../img/front-wisp.jpg" alt="Wisp"></div><span class="role">Team Leader</span><h3>Wisp</h3><q>Bigger waves. Brighter worlds.</q></a>
-    <a class="card" href="#crew" style="--c:#FF8A1A"><div class="pic"><img src="../img/front-heelo.jpg" alt="Heelo"></div><span class="role">Tension Specialist</span><h3>Heelo</h3><q>Keep it together. That's the power.</q></a>
-    <a class="card" href="#crew" style="--c:#46C2DB"><div class="pic"><img src="../img/front-nonni.jpg" alt="Dr. Nonni Nunu"></div><span class="role">Hyper Wave Specialist</span><h3>Nonni</h3><q>Every wave has a story to tell.</q></a>
-    <a class="card" href="#crew" style="--c:#36C8F5"><div class="pic"><img src="../img/front-hydro.jpg" alt="Hydro"></div><span class="role">Mixologist</span><h3>Hydro</h3><q>A better tomorrow can be brewed.</q></a>
-    <a class="card" href="#crew" style="--c:#8E6FD8"><div class="pic"><img src="../img/front-buoy.jpg" alt="Buoy"></div><span class="role">Interface Specialist</span><h3>Buoy</h3><q>Different worlds. Same connection.</q></a>
+    <a class="card" href="#crew" data-crew="wisp" style="--c:#F0C64A"><div class="pic"><img src="../img/hd/wisp.webp" alt="Wisp"></div><span class="role">Team Leader</span><h3>Wisp</h3><q>Bigger waves. Brighter worlds.</q></a>
+    <a class="card" href="#crew" data-crew="heelo" style="--c:#FF8A1A"><div class="pic"><img src="../img/hd/heelo.webp" alt="Heelo"></div><span class="role">Tension Specialist</span><h3>Heelo</h3><q>Keep it together. That's the power.</q></a>
+    <a class="card" href="#crew" data-crew="nonni" style="--c:#46C2DB"><div class="pic"><img src="../img/hd/nonni.webp" alt="Dr. Nonni Nunu"></div><span class="role">Hyper Wave Specialist</span><h3>Nonni</h3><q>Every wave has a story to tell.</q></a>
+    <a class="card" href="#crew" data-crew="hydro" style="--c:#36C8F5"><div class="pic"><img src="../img/hd/hydro.webp" alt="Hydro"></div><span class="role">Mixologist</span><h3>Hydro</h3><q>A better tomorrow can be brewed.</q></a>
+    <a class="card" href="#crew" data-crew="buoy" style="--c:#8E6FD8"><div class="pic"><img src="../img/hd/buoy.webp" alt="Buoy"></div><span class="role">Interface Specialist</span><h3>Buoy</h3><q>Different worlds. Same connection.</q></a>
   </div>
 </div></section>
 
@@ -204,8 +206,8 @@ footer small{width:100%;color:#6F87A3;font-size:13px}
     <p class="creed">“No more water.”</p>
   </div>
   <div class="duo">
-    <figure><img src="../img/front-docneon.jpg" alt="Doc Neon"><figcaption>Doc Neon · Chief Scientist</figcaption></figure>
-    <figure><img src="../img/front-neonites.jpg" alt="A Neonite trooper"><figcaption>Neonites · Clones</figcaption></figure>
+    <figure data-crew="docneon"><img src="../img/hd/docneon.webp" alt="Doc Neon"><figcaption>Doc Neon · Chief Scientist</figcaption></figure>
+    <figure data-crew="neonites"><img src="../img/hd/neonites.webp" alt="The Neonites"><figcaption>Neonites · Clones</figcaption></figure>
   </div>
 </div></section>
 
@@ -215,9 +217,9 @@ footer small{width:100%;color:#6F87A3;font-size:13px}
     <p>Start with the pilot. New episodes splash down here as they're released.</p>
   </div>
   <div class="rail" tabindex="0" aria-label="Season One episodes">
-    <article class="ep"><div class="th"><img src="../img/pilot-27.jpg" alt=""><span class="num">EP 01</span></div><div class="bd"><h3>Heelo Meets Neon</h3><p>Wisp sends Heelo down to Arridia, where he meets Doc Neon. It does not go well for the rockets.</p></div></article>
-    <article class="ep"><div class="th"><img src="../img/pilot-56.jpg" alt=""><span class="num">EP 02</span></div><div class="bd"><h3>Qoogsploration</h3><p>Wisp and Team Aero chart a planet no one has ever rained on.</p></div></article>
-    <article class="ep"><div class="th"><img src="../img/neon-lab.jpg" alt=""><span class="num">EP 03</span></div><div class="bd"><h3>Qoogie And Sons</h3><p>A family business, a leaky ship, and one very nosy Neonite.</p></div></article>
+    <article class="ep"><div class="th"><img src="../img/hd/pilot-27.jpg" alt=""><span class="num">EP 01</span></div><div class="bd"><h3>Heelo Meets Neon</h3><p>Wisp sends Heelo down to Arridia, where he meets Doc Neon. It does not go well for the rockets.</p></div></article>
+    <article class="ep"><div class="th"><img src="../img/hd/pilot-56.jpg" alt=""><span class="num">EP 02</span></div><div class="bd"><h3>Qoogsploration</h3><p>Wisp and Team Aero chart a planet no one has ever rained on.</p></div></article>
+    <article class="ep"><div class="th"><img src="../img/hd/neon-lab.jpg" alt=""><span class="num">EP 03</span></div><div class="bd"><h3>Qoogie And Sons</h3><p>A family business, a leaky ship, and one very nosy Neonite.</p></div></article>
     <article class="ep soon"><div class="th"><span>04</span></div><div class="bd"><h3>Coming soon</h3><p>Title and synopsis go here.</p></div></article>
     <article class="ep soon"><div class="th"><span>05</span></div><div class="bd"><h3>Coming soon</h3><p>Title and synopsis go here.</p></div></article>
   </div>
@@ -228,9 +230,9 @@ footer small{width:100%;color:#6F87A3;font-size:13px}
     <div><span class="label">Fun zone</span><h2>Make a splash at home</h2></div>
   </div>
   <div class="fun">
-    <div class="tile"><img src="../img/team-2022.jpg" alt="Team Aero line art"><h3>Coloring pages</h3><p>Print Team Aero and color them in. Bonus points for rainbow gel.</p><a class="more" href="#fun">Get the pages →</a></div>
-    <div class="tile"><img src="../img/ship-754.jpg" alt=""><h3>Wallpapers</h3><p>The glass ship and Doc Neon's rockets, sized for phones and desktops.</p><a class="more" href="#fun">Pick a wallpaper →</a></div>
-    <div class="tile"><img src="../img/pilot-29.jpg" alt=""><h3>Which Qoogie are you?</h3><p>Seven questions. One crew member. Doc Neon is a possible answer.</p><a class="more" href="#fun">Take the quiz →</a></div>
+    <div class="tile"><img src="../img/hd/team-2022.jpg" alt="Team Aero line art"><h3>Coloring pages</h3><p>Print Team Aero and color them in. Bonus points for rainbow gel.</p><a class="more" href="#fun">Get the pages →</a></div>
+    <div class="tile"><img src="../img/hd/ship-754.jpg" alt=""><h3>Wallpapers</h3><p>The glass ship and Doc Neon's rockets, sized for phones and desktops.</p><a class="more" href="#fun">Pick a wallpaper →</a></div>
+    <div class="tile"><img src="../img/hd/pilot-29.jpg" alt=""><h3>Which Qoogie are you?</h3><p>Seven questions. One crew member. Doc Neon is a possible answer.</p><a class="more" href="#fun">Take the quiz →</a></div>
   </div>
   <div class="news">
     <div><span class="label" style="color:var(--foam)">For parents</span><h3>Get new episodes and printables by email</h3></div>
@@ -246,6 +248,7 @@ footer small{width:100%;color:#6F87A3;font-size:13px}
   <small>The Qoogies © XBX Entertainment. Template 1 · Bubble Sphere.</small>
 </div></footer>
 
+<script src="crew.js" data-skin="glass"></script>
 <script>
 (()=>{
   const box=document.getElementById('bubbles'),n=document.getElementById('popn');let c=0;

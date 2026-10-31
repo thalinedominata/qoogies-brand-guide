@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Qoogies · Bubble Pop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Exo+2:wght@600;700&family=Lilita+One&family=Nunito:wght@400;700;800;900&display=swap">
+<style>
+/* Layout: bright and light. Pop the big bubble to meet a random Qoogie → a display shelf of every character (heroes and villains) → Team Aero lineup → watch band → parents strip. Characters stand on colored plinths like collectible figures, but nothing is for sale. */
+:root{
+  --ground:#F3FAFF; --ink:#0B2F66; --soft:#5E7BA6; --hydro:#1F6FD1; --aqua:#4FC3F0; --lime:#9BE22E; --spark:#E6F52F;
+  --pink:#FF5FA2; --violet:#8B6CF6; --coral:#FF8A5C; --cyan:#5CE1E6;
+  --iri:linear-gradient(120deg,#5CE1E6,#B6F03C 22%,#FFE14A 40%,#FF8A5C 58%,#FF5FA2 76%,#8B6CF6);
+  --display:"Lilita One","Arial Rounded MT Bold",system-ui,sans-serif;
+  --label:"Exo 2","Trebuchet MS",system-ui,sans-serif;
+  --body:"Nunito","Segoe UI",system-ui,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{margin:0;color:var(--ink);font:400 17px/1.55 var(--body);overflow-x:hidden;background:
+  radial-gradient(40% 30% at 90% 5%,rgba(255,95,162,.18),transparent 70%),
+  radial-gradient(40% 30% at 0% 20%,rgba(92,225,230,.25),transparent 70%),
+  radial-gradient(50% 30% at 60% 60%,rgba(139,108,246,.12),transparent 70%),var(--ground)}
+img{max-width:100%;display:block}
+a{color:inherit}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--pink);outline-offset:3px;border-radius:10px}
+.wrap{max-width:1200px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.lab{font:700 12px/1.2 var(--label);letter-spacing:.18em;text-transform:uppercase;color:var(--hydro)}
+h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;line-height:1;text-wrap:balance}
+p{margin:0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font:900 16px/1 var(--body);padding:15px 22px;border-radius:999px;border:0;text-decoration:none;transition:transform .12s,box-shadow .12s}
+.btn.lime{background:var(--lime);color:var(--ink);box-shadow:0 5px 0 #5E9A16}
+.btn.lime:active{transform:translateY(4px);box-shadow:0 1px 0 #5E9A16}
+.btn.line{box-shadow:inset 0 0 0 2px var(--ink);background:#fff}
+
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(243,250,255,.88);backdrop-filter:blur(12px);border-bottom:1px solid rgba(11,47,102,.08)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:21;background:var(--ground)}
+.hd{display:flex;align-items:center;gap:20px;padding-block:10px}
+.hd img{width:150px;height:auto}
+.hd nav{display:flex;gap:18px;font:800 15px var(--body);margin-left:auto;align-items:center}
+.hd nav a{text-decoration:none}.hd nav a:hover{color:var(--hydro)}
+@media (max-width:760px){.hd nav a:not(.btn){display:none}}
+
+.hero{display:grid;grid-template-columns:1fr 1fr;gap:clamp(20px,4vw,50px);align-items:center;padding-block:clamp(30px,6vw,70px)}
+@media (max-width:860px){.hero{grid-template-columns:1fr}}
+.hero h1{font-size:clamp(48px,7.4vw,90px)}
+.hero h1 em{font-style:normal;background:var(--iri);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{font-size:19px;color:var(--soft);max-width:40ch;margin-block:18px 26px}
+.hero .ctas{display:flex;gap:12px;flex-wrap:wrap}
+.mystery{position:relative;justify-self:center;width:min(440px,92%);aspect-ratio:1;display:grid;place-items:center}
+.orb{position:absolute;inset:0;border:0;border-radius:50%;padding:0;
+  background:radial-gradient(circle at 30% 25%,rgba(255,255,255,.95) 0 7%,rgba(255,255,255,.2) 20%,transparent 40%),
+  conic-gradient(from 200deg,rgba(92,225,230,.55),rgba(182,240,60,.5),rgba(255,225,74,.5),rgba(255,138,92,.5),rgba(255,95,162,.55),rgba(139,108,246,.55),rgba(92,225,230,.55));
+  box-shadow:inset 0 0 50px rgba(255,255,255,.7),0 30px 60px rgba(139,108,246,.25);animation:wob 4s ease-in-out infinite;transition:transform .25s,opacity .25s}
+.orb::after{content:"?";position:absolute;inset:0;display:grid;place-items:center;font:400 clamp(90px,16vw,160px) var(--display);color:rgba(255,255,255,.9);text-shadow:0 4px 0 rgba(11,47,102,.25)}
+.orb:hover{transform:scale(1.03)}
+@keyframes wob{0%,100%{border-radius:50%}33%{border-radius:52% 48% 50% 50%/48% 52% 48% 52%}66%{border-radius:48% 52% 52% 48%/52% 48% 52% 48%}}
+.mystery.popped .orb{transform:scale(1.4);opacity:0;pointer-events:none}
+.reveal{position:absolute;inset:4%;border-radius:36px;background:#fff;box-shadow:0 20px 50px rgba(11,47,102,.18);display:grid;grid-template-columns:46% 1fr;gap:16px;align-items:center;padding:16px;opacity:0;transform:scale(.8);transition:opacity .3s .1s,transform .35s .1s;pointer-events:none}
+.mystery.popped .reveal{opacity:1;transform:scale(1);pointer-events:auto}
+.reveal .pic{border-radius:24px;overflow:hidden;background:radial-gradient(80% 70% at 50% 35%,color-mix(in srgb,var(--c) 55%,#fff),var(--c));aspect-ratio:3/5;position:relative}
+.reveal .pic img{position:absolute;inset:auto 0 0;width:100%;height:100%;object-fit:cover;object-position:50% 0}
+.reveal h3{font-size:clamp(28px,4vw,40px)}
+.reveal .rl{font:700 12px var(--label);letter-spacing:.16em;text-transform:uppercase;color:var(--d)}
+.reveal q{display:block;margin-top:8px;color:var(--soft);font-weight:700;quotes:"“" "”"}
+.reveal .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.reveal .acts .btn{padding:11px 14px;font-size:14px}
+.hint{position:absolute;bottom:-34px;left:0;right:0;text-align:center;font:700 13px var(--label);letter-spacing:.14em;text-transform:uppercase;color:var(--soft)}
+
+.facts{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding-block:30px 10px}
+@media (max-width:760px){.facts{grid-template-columns:repeat(2,1fr)}}
+.facts div{background:#fff;border-radius:18px;padding:14px 16px;box-shadow:0 2px 10px rgba(11,47,102,.06)}
+.facts b{display:block;font:400 22px var(--display)}
+.facts span{font-size:14px;color:var(--soft)}
+
+section{padding-block:clamp(40px,6vw,70px)}
+.sh{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap;margin-bottom:20px}
+.sh h2{font-size:clamp(34px,5vw,54px)}
+.sh p{color:var(--soft);max-width:44ch}
+.filters{display:flex;gap:8px;flex-wrap:wrap}
+.chip{border:0;border-radius:999px;padding:10px 16px;background:#fff;font:800 14px var(--body);box-shadow:inset 0 0 0 2px rgba(11,47,102,.12)}
+.chip[aria-pressed="true"]{background:var(--ink);color:#fff;box-shadow:none}
+.shelf{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+@media (max-width:980px){.shelf{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:640px){.shelf{grid-template-columns:repeat(2,1fr);gap:12px}}
+.fig{display:grid;gap:8px;align-content:start;text-decoration:none;border:0;background:none;padding:0;text-align:left}
+.fig[hidden]{display:none}
+.stage{position:relative;border-radius:26px;background:linear-gradient(180deg,#fff 0,#fff 62%,var(--c) 62%);aspect-ratio:4/5;overflow:hidden;box-shadow:0 2px 0 rgba(11,47,102,.06)}
+.stage::before{content:"";position:absolute;left:50%;top:10%;width:72%;aspect-ratio:1;transform:translateX(-50%);border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--c) 30%,transparent),transparent 70%)}
+.stage img{position:absolute;left:50%;bottom:6%;transform:translateX(-50%);height:90%;width:auto;max-width:none;transition:transform .35s cubic-bezier(.2,.9,.3,1.2);filter:drop-shadow(0 14px 14px rgba(11,47,102,.25))}
+.stage.wide img{height:auto;width:96%}
+.fig:hover .stage img,.fig:focus-visible .stage img{transform:translateX(-50%) translateY(-10px) rotate(-3deg) scale(1.03)}
+.stage .badge{position:absolute;left:12px;top:12px;font:700 11px var(--label);letter-spacing:.14em;text-transform:uppercase;background:#fff;padding:5px 9px;border-radius:999px;color:var(--d)}
+.fig h3{font-size:24px}
+.fig .rl{font:700 11px var(--label);letter-spacing:.16em;text-transform:uppercase;color:var(--d)}
+.fig .open{font:800 14px var(--body);color:var(--hydro)}
+
+.lineup{border-radius:36px;overflow:hidden;display:grid;grid-template-columns:1.25fr 1fr;background:var(--ink);color:#fff}
+@media (max-width:860px){.lineup{grid-template-columns:1fr}}
+.lineup .five{display:grid;grid-template-columns:repeat(5,1fr);align-items:end;padding:30px 16px 0;gap:4px;background:radial-gradient(90% 80% at 50% 100%,#1F6FD1,#0B2F66)}
+.lineup .five button{border:0;background:none;padding:0;transition:transform .25s}
+.lineup .five button:hover,.lineup .five button:focus-visible{transform:translateY(-8px)}
+.lineup .five img{width:100%;height:auto;filter:drop-shadow(0 10px 10px rgba(0,0,0,.35))}
+.lineup .txt{padding:clamp(22px,4vw,44px);display:grid;gap:14px;align-content:center}
+.lineup h2{font-size:clamp(34px,4.6vw,52px)}
+.lineup h2 em{font-style:normal;color:var(--lime)}
+.lineup p{color:#C9DCF2}
+
+.watch{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center}
+@media (max-width:860px){.watch{grid-template-columns:1fr}}
+.watch .vid{position:relative;border-radius:28px;overflow:hidden;aspect-ratio:16/9;box-shadow:0 20px 40px rgba(11,47,102,.2)}
+.watch .vid img{width:100%;height:100%;object-fit:cover}
+.watch .vid span{position:absolute;inset:0;margin:auto;width:84px;height:84px;border-radius:50%;background:rgba(255,255,255,.92);display:grid;place-items:center;font-size:30px;color:var(--ink);box-shadow:0 8px 24px rgba(0,0,0,.3)}
+.watch h2{font-size:clamp(32px,4.4vw,48px)}
+.watch p{color:var(--soft);margin-block:12px 20px;max-width:42ch}
+
+.parents{border-radius:28px;background:#fff;padding:clamp(20px,3vw,34px);display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:center;box-shadow:0 2px 14px rgba(11,47,102,.07)}
+@media (max-width:760px){.parents{grid-template-columns:1fr}}
+.parents h3{font-size:30px}
+.parents form{display:flex;gap:8px;flex-wrap:wrap}
+.parents input{flex:1;min-width:0;font:700 16px var(--body);padding:14px 18px;border-radius:999px;border:2px solid rgba(11,47,102,.15);color:var(--ink);background:var(--ground)}
+footer{padding-block:40px calc(40px + env(safe-area-inset-bottom,0px));margin-top:30px;background:#fff}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;align-items:center}
+footer b{font:400 26px var(--display);background:var(--iri);-webkit-background-clip:text;background-clip:text;color:transparent}
+footer small{color:var(--soft)}
+@media (prefers-reduced-motion:reduce){.orb{animation:none}.orb,.reveal,.stage img,.btn,.lineup .five button{transition:none}}
+</style>
+</head>
+<body>
+<header><div class="wrap hd">
+  <a href="#top"><img src="../img/hd/logo.webp" alt="The Qoogies" width="150" height="62"></a>
+  <nav aria-label="Main"><a href="#meet">Characters</a><a href="#team">Team Aero</a><a href="#watch">Watch</a><a href="#parents">Parents</a><a class="btn lime" href="#watch" style="padding:11px 18px">▶ Watch</a></nav>
+</div></header>
+
+<main id="top">
+<div class="wrap hero">
+  <div>
+    <span class="lab">The Qoogies · Season One</span>
+    <h1>Pop a <em>bubble</em>. Meet a Qoogie.</h1>
+    <p>Seven bubble-bodied characters live inside this page. Pop the big bubble to see who floats out, then open their file to learn everything about them.</p>
+    <div class="ctas"><a class="btn lime" href="#watch">▶ Watch Episode 1</a><a class="btn line" href="#meet">See everyone</a></div>
+  </div>
+  <div class="mystery" id="mys">
+    <button class="orb" id="orb" type="button" aria-label="Pop the mystery bubble"></button>
+    <div class="reveal" id="rev" aria-live="polite"></div>
+    <span class="hint" id="hint">Tap to pop</span>
+  </div>
+</div>
+
+<div class="wrap facts">
+  <div><b>7 characters</b><span>Five heroes, two villains</span></div>
+  <div><b>2.5 heads tall</b><span>Every Qoogie, chibi size</span></div>
+  <div><b>14 episodes</b><span>In Season One</span></div>
+  <div><b>Watch free</b><span>Episode 1 is online now</span></div>
+</div>
+
+<section id="meet"><div class="wrap">
+  <div class="sh">
+    <div><span class="lab">The character shelf</span><h2>Who's who</h2></div>
+    <div class="filters" role="group" aria-label="Show characters">
+      <button class="chip" aria-pressed="true" data-f="all">Everyone</button>
+      <button class="chip" aria-pressed="false" data-f="hero">Team Aero</button>
+      <button class="chip" aria-pressed="false" data-f="villain">Villains</button>
+    </div>
+  </div>
+  <div class="shelf" id="shelf">
+    <button class="fig" data-k="hero" data-crew="wisp" style="--c:#F0C64A;--d:#A6750A"><div class="stage"><span class="badge">Leader</span><img src="../img/hd/wisp.webp" alt=""></div><span class="rl">Team Leader</span><h3>Wisp</h3><span class="open">Open profile →</span></button>
+    <button class="fig" data-k="hero" data-crew="heelo" style="--c:#FF8A1A;--d:#C4560A"><div class="stage"><img src="../img/hd/heelo.webp" alt=""></div><span class="rl">Tension Specialist</span><h3>Heelo</h3><span class="open">Open profile →</span></button>
+    <button class="fig" data-k="hero" data-crew="nonni" style="--c:#46C2DB;--d:#11788C"><div class="stage"><span class="badge">Scientist</span><img src="../img/hd/nonni.webp" alt=""></div><span class="rl">Hyper Wave Specialist</span><h3>Dr. Nonni Nunu</h3><span class="open">Open profile →</span></button>
+    <button class="fig" data-k="hero" data-crew="hydro" style="--c:#36C8F5;--d:#1F6FD1"><div class="stage"><img src="../img/hd/hydro.webp" alt=""></div><span class="rl">Mixologist</span><h3>Hydro</h3><span class="open">Open profile →</span></button>
+    <button class="fig" data-k="hero" data-crew="buoy" style="--c:#8E6FD8;--d:#6440B8"><div class="stage"><img src="../img/hd/buoy.webp" alt=""></div><span class="rl">Interface Specialist</span><h3>Buoy</h3><span class="open">Open profile →</span></button>
+    <button class="fig" data-k="villain" data-crew="docneon" style="--c:#A6D64A;--d:#5F9A2C"><div class="stage"><span class="badge">Grumpy</span><img src="../img/hd/docneon.webp" alt=""></div><span class="rl">Super-Intelligent Nemesis</span><h3>Doc Neon</h3><span class="open">Open profile →</span></button>
+    <button class="fig" data-k="villain" data-crew="neonites" style="--c:#7E9A3A;--d:#556B2F"><div class="stage wide"><img src="../img/hd/neonites.webp" alt=""></div><span class="rl">Doc Neon's clones</span><h3>Neonites</h3><span class="open">Open profile →</span></button>
+    <a class="fig" href="#watch" data-k="hero" style="--c:#E6F52F;--d:#0B2F66"><div class="stage" style="display:grid;place-items:center;background:var(--iri)"><span style="position:relative;font:400 30px/1.05 var(--display);text-align:center;padding:16px;color:#fff;text-shadow:0 2px 0 rgba(11,47,102,.35)">Watch them in action</span></div><span class="rl">Episode 1</span><h3>Heelo Meets Neon</h3><span class="open">Play →</span></a>
+  </div>
+</div></section>
+
+<section id="team"><div class="wrap">
+  <div class="lineup">
+    <div class="five">
+      <button type="button" data-crew="wisp"><img src="../img/hd/wisp.webp" alt=""></button>
+      <button type="button" data-crew="heelo"><img src="../img/hd/heelo.webp" alt=""></button>
+      <button type="button" data-crew="nonni"><img src="../img/hd/nonni.webp" alt=""></button>
+      <button type="button" data-crew="hydro"><img src="../img/hd/hydro.webp" alt=""></button>
+      <button type="button" data-crew="buoy"><img src="../img/hd/buoy.webp" alt=""></button>
+    </div>
+    <div class="txt">
+      <span class="lab" style="color:var(--aqua)">Team Aero</span>
+      <h2>Five jobs. One <em>rainstorm</em>.</h2>
+      <p>No Qoogie makes rain alone. Wisp leads, Heelo holds it together, Nonni rides the waves, Hydro mixes the brew and Buoy keeps everyone connected. Tap any of them.</p>
+    </div>
+  </div>
+</div></section>
+
+<section id="watch"><div class="wrap watch">
+  <a class="vid" href="#watch" aria-label="Play Episode 1"><img src="../img/hd/pilot-29.jpg" alt="Launch Bay 01 with the Qoogie ground crew"><span>▶</span></a>
+  <div><span class="lab">Watch</span><h2>Meet them on screen.</h2><p>Episode 1, “Heelo Meets Neon”, is free to watch. Fourteen minutes of rain, rockets and one very grumpy scientist.</p><a class="btn line" href="#watch">▶ Play Episode 1</a></div>
+</div></section>
+
+<section id="parents"><div class="wrap">
+  <div class="parents">
+    <div><span class="lab">For parents</span><h3>New episodes and printables</h3><p style="color:var(--soft)">One email a month. No ads, no tracking.</p></div>
+    <form id="nf"><label for="em" class="lab" style="position:absolute;left:-9999px">Parent email</label><input id="em" type="email" placeholder="parent@email.com" required><button class="btn lime" type="submit">Sign up</button></form>
+  </div>
+</div></section>
+</main>
+
+<footer><div class="wrap"><b>Waves Connect Worlds.</b><small>The Qoogies © XBX Entertainment · Parents · Privacy · Template 4 · Bubble Pop</small></div></footer>
+
+<script src="crew.js" data-skin="pop"></script>
+<script>
+const ids=['wisp','heelo','nonni','hydro','buoy','docneon','neonites'];
+const mys=document.getElementById('mys'),rev=document.getElementById('rev'),hint=document.getElementById('hint');let last=-1;
+document.getElementById('orb').onclick=()=>{let i;do{i=Math.floor(Math.random()*ids.length)}while(i===last);last=i;
+  const id=ids[i],m=QoogiePopup.crew[id];
+  rev.style.setProperty('--c',m.color);rev.style.setProperty('--d',m.deep);
+  rev.innerHTML=`<div class="pic"><img src="../img/hd/${id}.webp" alt="${m.name}"></div><div><span class="rl">${m.role}</span><h3>It's ${m.short||m.name}!</h3><q>${m.quote}</q><div class="acts"><button class="btn lime" type="button" data-crew="${id}">Open profile</button><button class="btn line" type="button" id="rb">Pop again</button></div></div>`;
+  mys.classList.add('popped');hint.textContent='You found '+(m.short||m.name);
+  document.getElementById('rb').onclick=()=>{mys.classList.remove('popped');hint.textContent='Tap to pop'};};
+document.querySelectorAll('.chip').forEach(c=>c.onclick=()=>{document.querySelectorAll('.chip').forEach(x=>x.setAttribute('aria-pressed',x===c));
+  document.querySelectorAll('#shelf .fig').forEach(p=>p.hidden=!(c.dataset.f==='all'||p.dataset.k===c.dataset.f))});
+document.getElementById('nf').addEventListener('submit',e=>{e.preventDefault();e.target.outerHTML='<p style="font-weight:900">You\'re in. Watch your inbox for the first splash.</p>'});
+</script>
+</body>
+</html>

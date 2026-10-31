@@ -39,7 +39,7 @@ p{margin:0}
 
 header{padding-block:16px}
 header .wrap{display:flex;align-items:center;gap:20px}
-header img{width:140px;border-radius:12px}
+header img{width:150px;height:auto}
 header nav{margin-left:auto;display:flex;gap:18px;font:700 14px var(--label);letter-spacing:.1em;text-transform:uppercase}
 header nav a{text-decoration:none;color:var(--dim)}header nav a:hover{color:var(--text)}
 @media (max-width:700px){header nav{display:none}}
@@ -60,8 +60,8 @@ header nav a{text-decoration:none;color:var(--dim)}header nav a:hover{color:var(
 .planet:hover .ball{transform:scale(1.08)}
 .planet[aria-pressed="true"] .ball{box-shadow:inset -8px -10px 18px rgba(0,0,0,.35),0 0 0 4px var(--night),0 0 0 7px var(--gold)}
 .planet .nm{font:800 12px var(--label);letter-spacing:.14em;text-transform:uppercase;background:rgba(20,12,62,.8);padding:4px 8px;border-radius:999px;white-space:nowrap}
-.ship{position:absolute;width:86px;transform:translate(-50%,-120%);transition:left 1.1s cubic-bezier(.45,0,.2,1),top 1.1s cubic-bezier(.45,0,.2,1);pointer-events:none;filter:drop-shadow(0 0 12px rgba(79,195,240,.7))}
-.ship img{border-radius:40%;mix-blend-mode:screen}
+.ship{position:absolute;width:110px;transform:translate(-50%,-120%);transition:left 1.1s cubic-bezier(.45,0,.2,1),top 1.1s cubic-bezier(.45,0,.2,1);pointer-events:none;filter:drop-shadow(0 0 12px rgba(79,195,240,.7))}
+
 .legend{position:absolute;left:16px;bottom:14px;display:flex;gap:14px;font:700 11px var(--label);letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
 .legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px}
 
@@ -74,7 +74,9 @@ header nav a{text-decoration:none;color:var(--dim)}header nav a:hover{color:var(
 .wet .bar i{position:absolute;top:-5px;width:22px;height:22px;border-radius:50%;background:#fff;border:4px solid var(--night);transform:translateX(-50%);transition:left .6s}
 .wet .ends{display:flex;justify-content:space-between;font:700 11px var(--label);letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
 .info .who{display:flex;gap:6px}
-.info .who img{width:40px;height:40px;border-radius:50%;object-fit:cover;box-shadow:0 0 0 2px var(--night),0 0 0 4px rgba(181,169,224,.35)}
+.info .who button{border:0;padding:0;background:none;border-radius:50%;transition:transform .2s}
+.info .who button:hover{transform:scale(1.12)}
+.info .who img{width:46px;height:46px;border-radius:50%;object-fit:cover;background:#2A1670;box-shadow:0 0 0 2px var(--night),0 0 0 4px rgba(181,169,224,.35)}
 .info .tag{font:800 12px var(--label);letter-spacing:.14em;text-transform:uppercase;padding:5px 10px;border-radius:999px;justify-self:start}
 
 section{padding-block:clamp(56px,8vw,96px)}
@@ -87,8 +89,8 @@ section{padding-block:clamp(56px,8vw,96px)}
 @media (max-width:520px){.holes{grid-template-columns:repeat(2,1fr)}}
 .hole{display:grid;gap:10px;justify-items:center;text-align:center;text-decoration:none}
 .hole .win{width:100%;aspect-ratio:1;border-radius:50%;padding:10px;background:conic-gradient(#B9C4D6,#6E7A90,#DDE6F2,#8994AA,#B9C4D6);box-shadow:0 10px 30px rgba(0,0,0,.4)}
-.hole .glass{width:100%;height:100%;border-radius:50%;overflow:hidden;position:relative;background:var(--c)}
-.hole .glass img{width:100%;height:100%;object-fit:cover;object-position:50% 12%;transition:transform .4s}
+.hole .glass{width:100%;height:100%;border-radius:50%;overflow:hidden;position:relative;background:radial-gradient(80% 70% at 50% 30%,color-mix(in srgb,var(--c) 50%,#fff),var(--c) 60%,#140C3E)}
+.hole .glass img{width:100%;height:100%;object-fit:cover;object-position:50% 4%;transition:transform .4s}
 .hole .glass::after{content:"";position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 30% 25%,rgba(255,255,255,.55) 0 8%,transparent 30%);pointer-events:none}
 .hole:hover .glass img{transform:scale(1.1)}
 .hole h3{font-size:24px}
@@ -135,7 +137,7 @@ footer small{color:var(--dim)}
 <body>
 <canvas id="stars" aria-hidden="true"></canvas>
 <header><div class="wrap">
-  <a href="#top"><img src="../img/logo-current.jpg" alt="The Qoogies"></a>
+  <a href="#top"><img src="../img/hd/logo.webp" alt="The Qoogies"></a>
   <nav aria-label="Main"><a href="#map">Galaxy</a><a href="#crew">Crew</a><a href="#fleets">Ships</a><a href="#episodes">Episodes</a></nav>
 </div></header>
 
@@ -151,7 +153,7 @@ footer small{color:var(--dim)}
         <svg viewBox="0 0 1000 625" preserveAspectRatio="none" aria-hidden="true">
           <path d="M110 470 C 210 360, 250 250, 300 200 S 420 120, 470 250 S 560 470, 640 420 S 760 160, 820 170 S 900 360, 900 470" fill="none" stroke="rgba(181,169,224,.55)" stroke-width="3" stroke-dasharray="2 12" stroke-linecap="round"/>
         </svg>
-        <div class="ship" id="ship"><img src="../img/ship.jpg" alt=""></div>
+        <div class="ship" id="ship"><img src="../img/hd/ship-icon.webp" alt=""></div>
         <div class="legend"><span><i style="background:var(--aqua)"></i>Wet</span><span><i style="background:var(--dust)"></i>Dry</span><span><i style="background:var(--lime)"></i>Doc Neon</span></div>
       </div>
     </div>
@@ -163,28 +165,28 @@ footer small{color:var(--dim)}
 <section id="crew"><div class="wrap">
   <div class="sh"><span class="lab">Aboard the glass ship</span><h2>Wave at Team Aero</h2></div>
   <div class="holes">
-    <a class="hole" href="#crew" style="--c:#F0C64A"><div class="win"><div class="glass"><img src="../img/front-wisp.jpg" alt="Wisp"></div></div><span>Team Leader</span><h3>Wisp</h3></a>
-    <a class="hole" href="#crew" style="--c:#FF8A1A"><div class="win"><div class="glass"><img src="../img/front-heelo.jpg" alt="Heelo"></div></div><span>Tension Specialist</span><h3>Heelo</h3></a>
-    <a class="hole" href="#crew" style="--c:#46C2DB"><div class="win"><div class="glass"><img src="../img/front-nonni.jpg" alt="Dr. Nonni Nunu"></div></div><span>Hyper Wave</span><h3>Nonni</h3></a>
-    <a class="hole" href="#crew" style="--c:#36C8F5"><div class="win"><div class="glass"><img src="../img/front-hydro.jpg" alt="Hydro"></div></div><span>Mixologist</span><h3>Hydro</h3></a>
-    <a class="hole" href="#crew" style="--c:#8E6FD8"><div class="win"><div class="glass"><img src="../img/front-buoy.jpg" alt="Buoy"></div></div><span>Interface</span><h3>Buoy</h3></a>
+    <a class="hole" href="#crew" data-crew="wisp" style="--c:#F0C64A"><div class="win"><div class="glass"><img src="../img/hd/wisp.webp" alt="Wisp"></div></div><span>Team Leader</span><h3>Wisp</h3></a>
+    <a class="hole" href="#crew" data-crew="heelo" style="--c:#FF8A1A"><div class="win"><div class="glass"><img src="../img/hd/heelo.webp" alt="Heelo"></div></div><span>Tension Specialist</span><h3>Heelo</h3></a>
+    <a class="hole" href="#crew" data-crew="nonni" style="--c:#46C2DB"><div class="win"><div class="glass"><img src="../img/hd/nonni.webp" alt="Dr. Nonni Nunu"></div></div><span>Hyper Wave</span><h3>Nonni</h3></a>
+    <a class="hole" href="#crew" data-crew="hydro" style="--c:#36C8F5"><div class="win"><div class="glass"><img src="../img/hd/hydro.webp" alt="Hydro"></div></div><span>Mixologist</span><h3>Hydro</h3></a>
+    <a class="hole" href="#crew" data-crew="buoy" style="--c:#8E6FD8"><div class="win"><div class="glass"><img src="../img/hd/buoy.webp" alt="Buoy"></div></div><span>Interface</span><h3>Buoy</h3></a>
   </div>
 </div></section>
 
 <section id="fleets"><div class="wrap">
   <div class="sh"><span class="lab">Two fleets</span><h2>Water and light vs. metal and smoke</h2></div>
   <div class="fleets">
-    <article class="fleet q"><img src="../img/ship-144.jpg" alt="The glass Qoogie ship"><div class="t"><span class="lab">Team Aero</span><h3>The Qoogie ship</h3><ul><li>A rounded glass hull you can see right through</li><li>Three bubble-pod engines and a dome on top</li><li>Inside: Command Center, Launch Bay 01, Nonni's lab</li></ul><a class="btn ring" href="#fleets" style="justify-self:start">Tour the ship</a></div></article>
-    <article class="fleet n"><img src="../img/neon-hangar.jpg" alt="Doc Neon's rocket hangar"><div class="t"><span class="lab" style="color:var(--lime)">Doc Neon</span><h3>The rocket fleet</h3><ul><li>Retro rockets with fins, rivets and a red band</li><li>They launch from a silo under Arridia</li><li>The heavy launcher has four lime boosters</li></ul><a class="btn ring" href="#fleets" style="justify-self:start">See the hangar</a></div></article>
+    <article class="fleet q"><img src="../img/hd/ship-144.jpg" alt="The glass Qoogie ship"><div class="t"><span class="lab">Team Aero</span><h3>The Qoogie ship</h3><ul><li>A rounded glass hull you can see right through</li><li>Three bubble-pod engines and a dome on top</li><li>Inside: Command Center, Launch Bay 01, Nonni's lab</li></ul><a class="btn ring" href="#fleets" style="justify-self:start">Tour the ship</a></div></article>
+    <article class="fleet n"><img src="../img/hd/neon-hangar.jpg" alt="Doc Neon's rocket hangar"><div class="t"><span class="lab" style="color:var(--lime)">Doc Neon</span><h3>The rocket fleet</h3><ul><li>Retro rockets with fins, rivets and a red band</li><li>They launch from a silo under Arridia</li><li>The heavy launcher has four lime boosters</li></ul><a class="btn ring" href="#fleets" style="justify-self:start">See the hangar</a></div></article>
   </div>
 </div></section>
 
 <section id="episodes"><div class="wrap">
   <div class="sh"><span class="lab">Stops along the route</span><h2>Season One</h2></div>
   <div class="stops">
-    <article class="stop" style="--g:var(--dust)"><img src="../img/pilot-27.jpg" alt=""><div><span class="lab">Episode 1 · Arridia</span><h3>Heelo Meets Neon</h3><p>Wisp sends Heelo to the surface, where he meets Doc Neon. Rockets launch. Water wins.</p><a class="btn lime" href="#episodes" style="margin-top:12px">▶ Watch</a></div></article>
-    <article class="stop" style="--g:var(--aqua)"><img src="../img/pilot-56.jpg" alt=""><div><span class="lab">Episode 2</span><h3>Qoogsploration</h3><p>Wisp and Team Aero head somewhere new.</p></div></article>
-    <article class="stop soon" style="--g:var(--violet)"><img src="../img/aquafy.jpg" alt=""><div><span class="lab">Episode 3</span><h3>Qoogie And Sons</h3><p>Coming soon.</p></div></article>
+    <article class="stop" style="--g:var(--dust)"><img src="../img/hd/pilot-27.jpg" alt=""><div><span class="lab">Episode 1 · Arridia</span><h3>Heelo Meets Neon</h3><p>Wisp sends Heelo to the surface, where he meets Doc Neon. Rockets launch. Water wins.</p><a class="btn lime" href="#episodes" style="margin-top:12px">▶ Watch</a></div></article>
+    <article class="stop" style="--g:var(--aqua)"><img src="../img/hd/pilot-56.jpg" alt=""><div><span class="lab">Episode 2</span><h3>Qoogsploration</h3><p>Wisp and Team Aero head somewhere new.</p></div></article>
+    <article class="stop soon" style="--g:var(--violet)"><img src="../img/hd/aquafy.jpg" alt=""><div><span class="lab">Episode 3</span><h3>Qoogie And Sons</h3><p>Coming soon.</p></div></article>
   </div>
 </div></section>
 
@@ -199,6 +201,7 @@ footer small{color:var(--dim)}
 
 <footer><div class="wrap"><b>Waves Connect Worlds.</b><small>The Qoogies © XBX Entertainment · Press and partners · Parents · Template 5 · Galaxy Route. Planet details are placeholders.</small></div></footer>
 
+<script src="crew.js" data-skin="space"></script>
 <script>
 const P=[
  {n:'Bubble Sphere',x:11,y:75,s:74,w:100,g:'radial-gradient(circle at 35% 30%,#E8F6FF,#4FC3F0 40%,#1F6FD1 75%,#0B2F66)',st:'Home',tc:'#4FC3F0',d:"Home of the Qoogies. Every rain mission starts here.",who:['wisp','heelo','nonni','hydro','buoy']},
@@ -212,7 +215,7 @@ const map=document.getElementById('mapc'),ship=document.getElementById('ship'),i
 P.forEach((p,i)=>{const b=document.createElement('button');b.className='planet';b.type='button';b.style.left=p.x+'%';b.style.top=p.y+'%';b.style.setProperty('--s',p.s+'px');b.style.setProperty('--g',p.g);b.setAttribute('aria-pressed','false');b.innerHTML=`<span class="ball"></span><span class="nm">${p.n}</span>`;b.onclick=()=>go(i);map.appendChild(b)});
 function go(i){const p=P[i];map.querySelectorAll('.planet').forEach((b,j)=>b.setAttribute('aria-pressed',j===i));
  ship.style.left=p.x+'%';ship.style.top=(p.y-p.s/12)+'%';
- info.innerHTML=`<span class="lab">Now orbiting</span><div class="top"><span class="ball" style="background:${p.g}"></span><h2>${p.n}</h2></div><span class="tag" style="background:${p.tc};color:#140C3E">${p.st}</span><p>${p.d}</p><div class="wet"><div class="bar"><i style="left:${Math.max(4,p.w)}%"></i></div><div class="ends"><span>Bone dry</span><span>Soaking</span></div></div>${p.who.length?`<span class="lab">Spotted here</span><div class="who">${p.who.map(w=>`<img src="../img/face-${w}.jpg" alt="${w}">`).join('')}</div>`:''}`;}
+ info.innerHTML=`<span class="lab">Now orbiting</span><div class="top"><span class="ball" style="background:${p.g}"></span><h2>${p.n}</h2></div><span class="tag" style="background:${p.tc};color:#140C3E">${p.st}</span><p>${p.d}</p><div class="wet"><div class="bar"><i style="left:${Math.max(4,p.w)}%"></i></div><div class="ends"><span>Bone dry</span><span>Soaking</span></div></div>${p.who.length?`<span class="lab">Spotted here</span><div class="who">${p.who.map(w=>`<button type="button" data-crew="${w}" aria-label="Open ${w} profile"><img src="../img/hd/face-${w}.webp" alt=""></button>`).join('')}</div>`:''}`;}
 go(4);
 // stars
 const c=document.getElementById('stars'),x=c.getContext('2d');let S=[];

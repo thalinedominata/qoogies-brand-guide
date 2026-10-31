@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Exo+2:wght@600;800&family=Lilita+One&family=Nunito:wght@400;700;800;900&display=swap">
 <style>
-/* Layout: the home page is a comic book. Cover masthead → the pilot told in 5 panels with speech balloons → a sticker sheet of the crew → a "Meanwhile..." splash page for Doc Neon → collectibles strip → back-page activities. */
+/* Layout: the home page is a comic book. Cover masthead → the pilot told in 5 panels with speech balloons → a sticker sheet of the crew → a "Meanwhile..." splash page for Doc Neon → back-page activities. */
 :root{
   --paper:#E8F6FF; --ink:#0E1A3A; --hydro:#1F6FD1; --aqua:#4FC3F0; --lime:#9BE22E; --spark:#E6F52F;
   --coral:#FF8A5C; --pink:#FF5FA2; --violet:#8B6CF6; --red:#C8161D; --gold:#F2B620; --slime:#A6D64A;
@@ -38,7 +38,7 @@ p{margin:0}
 /* masthead */
 .mast{padding-block:18px 0}
 .mast .bar{display:flex;align-items:center;gap:16px;flex-wrap:wrap;background:var(--hydro);color:#fff;padding:12px 16px;border:var(--line);border-radius:6px 6px 0 0}
-.mast .bar img{width:150px;border-radius:10px;border:3px solid var(--ink)}
+.mast .bar img{width:150px;height:auto}
 .mast nav{display:flex;gap:6px;flex-wrap:wrap;margin-left:auto}
 .mast nav a{font:800 14px var(--label);letter-spacing:.08em;text-transform:uppercase;text-decoration:none;padding:8px 12px;border-radius:999px;background:rgba(255,255,255,.12)}
 .mast nav a:hover{background:var(--spark);color:var(--ink)}
@@ -54,7 +54,7 @@ p{margin:0}
 .burst{position:relative;justify-self:center;width:min(420px,90%);aspect-ratio:1}
 .burst .star{position:absolute;inset:0;background:var(--pink);clip-path:polygon(50% 0,61% 18%,82% 8%,79% 30%,100% 34%,85% 50%,100% 66%,79% 70%,82% 92%,61% 82%,50% 100%,39% 82%,18% 92%,21% 70%,0 66%,15% 50%,0 34%,21% 30%,18% 8%,39% 18%);animation:spin 40s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.burst img{position:absolute;inset:14%;width:72%;height:72%;object-fit:cover;object-position:top;border:var(--line);border-radius:50%;background:var(--hydro)}
+.burst img{position:absolute;inset:14%;width:72%;height:72%;object-fit:cover;object-position:50% 6%;border:var(--line);border-radius:50%;background:radial-gradient(80% 70% at 50% 30%,#FFD08A,#FF8A1A)}
 .burst .tag{position:absolute;right:0;bottom:6%;background:var(--spark);transform:rotate(-8deg);padding:10px 14px;font:400 22px var(--display)}
 
 /* comic page */
@@ -80,8 +80,8 @@ section{padding-block:clamp(40px,7vw,80px)}
 @media (max-width:520px){.sheet{grid-template-columns:repeat(2,1fr)}}
 .sticker{text-align:center;display:grid;gap:8px;justify-items:center;text-decoration:none;transform:rotate(var(--r));transition:transform .2s}
 .sticker:hover,.sticker:focus-visible{transform:rotate(0) scale(1.06)}
-.sticker .die{width:100%;aspect-ratio:1;border-radius:50%;border:6px solid #fff;outline:3px solid var(--ink);overflow:hidden;background:var(--c);box-shadow:5px 5px 0 var(--ink)}
-.sticker .die img{width:100%;height:100%;object-fit:cover;object-position:top}
+.sticker .die{width:100%;aspect-ratio:1;border-radius:50%;border:6px solid #fff;outline:3px solid var(--ink);overflow:hidden;background:radial-gradient(80% 70% at 50% 30%,color-mix(in srgb,var(--c) 50%,#fff),var(--c));box-shadow:5px 5px 0 var(--ink)}
+.sticker .die img{width:100%;height:100%;object-fit:cover;object-position:50% 4%;transform:scale(1.05);transform-origin:50% 0}
 .sticker h3{font-size:26px}
 .sticker .cap{color:var(--c2,var(--ink))}
 .sticker q{font-size:14px;font-weight:700;quotes:"“" "”"}
@@ -93,23 +93,12 @@ section{padding-block:clamp(40px,7vw,80px)}
 .splash .mw{display:inline-block;background:var(--ink);color:var(--slime);padding:8px 14px;font:400 26px var(--display);transform:rotate(-2deg);justify-self:start}
 .splash h2{font-size:clamp(40px,6vw,72px);line-height:.95}
 .splash .pics{position:relative;min-height:380px}
-.splash .pics img{position:absolute;border:var(--line);border-radius:8px;box-shadow:6px 6px 0 var(--ink);object-fit:cover;object-position:top}
+.splash .pics img{position:absolute;border:var(--line);border-radius:8px;box-shadow:6px 6px 0 var(--ink);object-fit:cover;object-position:50% 8%;background:#fff;cursor:pointer;transition:transform .2s}
+.splash .pics img:hover{transform:rotate(0) scale(1.03)}
 .splash .p1{width:52%;height:78%;left:6%;top:8%;transform:rotate(-4deg)}
 .splash .p2{width:46%;height:66%;right:6%;bottom:6%;transform:rotate(5deg)}
 .splash .zap{position:absolute;left:44%;top:40%;font:400 50px var(--display);color:#FF2A12;-webkit-text-stroke:3px var(--ink);paint-order:stroke fill;transform:rotate(-10deg)}
 
-/* collect */
-.collect{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
-@media (max-width:900px){.collect{grid-template-columns:repeat(2,1fr)}}
-.item{padding:14px;display:grid;gap:10px;align-content:start}
-.item .ph{aspect-ratio:1;border:3px solid var(--ink);border-radius:4px;overflow:hidden;background:var(--bg)}
-.item .ph img{width:100%;height:100%;object-fit:cover;object-position:top}
-.item h3{font-size:22px}
-.item .row{display:flex;justify-content:space-between;align-items:center;gap:8px}
-.item .price{font:400 22px var(--display);background:var(--spark);border:3px solid var(--ink);padding:2px 10px;border-radius:4px}
-.item button{font:900 14px var(--body);border:3px solid var(--ink);border-radius:999px;background:var(--lime);padding:8px 12px;cursor:pointer;box-shadow:3px 3px 0 var(--ink)}
-.item button[aria-pressed="true"]{background:var(--aqua)}
-.note{margin-top:12px;font-size:13px;color:#3B4A6B}
 
 /* back page */
 .back{display:grid;grid-template-columns:1.2fr 1fr;gap:20px}
@@ -133,8 +122,8 @@ footer small{color:#9FB2D6}
 <body>
 <header class="wrap mast">
   <div class="bar">
-    <a href="#top"><img src="../img/logo-current.jpg" alt="The Qoogies"></a>
-    <nav aria-label="Main"><a href="#story">Episode 1</a><a href="#crew">The crew</a><a href="#neon">Doc Neon</a><a href="#collect">Shop</a><a href="#fun">Fun</a></nav>
+    <a href="#top"><img src="../img/hd/logo.webp" alt="The Qoogies"></a>
+    <nav aria-label="Main"><a href="#story">Episode 1</a><a href="#crew">The crew</a><a href="#neon">Doc Neon</a><a href="#fun">Fun</a></nav>
   </div>
   <div class="strip cap"><span>Issue 01 · Season One</span><span>Free to read · Fun for ages 6 to 11</span></div>
 </header>
@@ -147,17 +136,17 @@ footer small{color:#9FB2D6}
     <p>Meet the Qoogies: bubble-bodied heroes who sail the galaxy making rain. Doc Neon wants them gone.</p>
     <div class="ctas"><a class="btn" href="#story">▶ Watch Episode 1</a><a class="btn alt" href="#crew">Meet the crew</a></div>
   </div>
-  <div class="burst"><div class="star"></div><img src="../img/front-heelo.jpg" alt="Heelo"><span class="tag box">Starring Heelo!</span></div>
+  <div class="burst" data-crew="heelo"><div class="star"></div><img src="../img/hd/heelo.webp" alt="Heelo"><span class="tag box">Starring Heelo!</span></div>
 </div>
 
 <section id="story"><div class="wrap">
   <div class="sh"><h2>Heelo Meets Neon</h2><span class="cap chip">Episode 1 · 14 min</span></div>
   <div class="page">
-    <div class="panel box w4"><img src="../img/ship-144.jpg" alt="The Qoogie ship over Arridia"><span class="nar">Somewhere over a very dry planet called Arridia...</span><span class="balloon">Let's make it rain!</span></div>
-    <div class="panel box"><img src="../img/pilot-27.jpg" alt="Doc Neon on a video screen"><span class="balloon l">Water ruins everything.</span></div>
-    <div class="panel box w3"><img src="../img/pilot-29.jpg" alt="Launch Bay with the ground crew"><span class="nar">Launch Bay 01. Heelo suits up.</span></div>
-    <div class="panel box w3"><img src="../img/ship-700.jpg" alt="Doc Neon's rocket launching"><span class="sfx">FWOOSH!</span><span class="nar">Doc Neon has rockets.</span></div>
-    <div class="panel box w4"><img src="../img/ship-754.jpg" alt="Heelo catches a rocket with water"><span class="sfx">SPLASH!</span><span class="balloon">Keep it together!</span></div>
+    <div class="panel box w4"><img src="../img/hd/ship-144.jpg" alt="The Qoogie ship over Arridia"><span class="nar">Somewhere over a very dry planet called Arridia...</span><span class="balloon">Let's make it rain!</span></div>
+    <div class="panel box"><img src="../img/hd/pilot-27.jpg" alt="Doc Neon on a video screen"><span class="balloon l">Water ruins everything.</span></div>
+    <div class="panel box w3"><img src="../img/hd/pilot-29.jpg" alt="Launch Bay with the ground crew"><span class="nar">Launch Bay 01. Heelo suits up.</span></div>
+    <div class="panel box w3"><img src="../img/hd/ship-700.jpg" alt="Doc Neon's rocket launching"><span class="sfx">FWOOSH!</span><span class="nar">Doc Neon has rockets.</span></div>
+    <div class="panel box w4"><img src="../img/hd/ship-754.jpg" alt="Heelo catches a rocket with water"><span class="sfx">SPLASH!</span><span class="balloon">Keep it together!</span></div>
     <div class="panel box" style="background:var(--spark);display:grid;place-items:center;padding:18px;text-align:center"><div style="display:grid;gap:12px;justify-items:center"><span style="font:400 30px/1 var(--display)">What happens next?</span><a class="btn" href="#story">▶ Watch now</a></div></div>
   </div>
 </div></section>
@@ -165,11 +154,11 @@ footer small{color:#9FB2D6}
 <section id="crew"><div class="wrap">
   <div class="sh"><h2>The crew sticker sheet</h2><span class="cap chip">Team Aero</span></div>
   <div class="sheet">
-    <a class="sticker" href="#crew" style="--r:-4deg;--c:#F0C64A;--c2:#A6750A"><div class="die"><img src="../img/front-wisp.jpg" alt=""></div><h3>Wisp</h3><span class="cap">Team Leader</span><q>Bigger waves. Brighter worlds.</q></a>
-    <a class="sticker" href="#crew" style="--r:3deg;--c:#FF8A1A;--c2:#C4560A"><div class="die"><img src="../img/front-heelo.jpg" alt=""></div><h3>Heelo</h3><span class="cap">Tension Specialist</span><q>Keep it together.</q></a>
-    <a class="sticker" href="#crew" style="--r:-2deg;--c:#46C2DB;--c2:#11788C"><div class="die"><img src="../img/front-nonni.jpg" alt=""></div><h3>Dr. Nonni Nunu</h3><span class="cap">Hyper Wave Specialist</span><q>Every wave has a story.</q></a>
-    <a class="sticker" href="#crew" style="--r:5deg;--c:#36C8F5;--c2:#1F6FD1"><div class="die"><img src="../img/front-hydro.jpg" alt=""></div><h3>Hydro</h3><span class="cap">Mixologist</span><q>Tomorrow can be brewed.</q></a>
-    <a class="sticker" href="#crew" style="--r:-5deg;--c:#8E6FD8;--c2:#6440B8"><div class="die"><img src="../img/front-buoy.jpg" alt=""></div><h3>Buoy</h3><span class="cap">Interface Specialist</span><q>Same connection.</q></a>
+    <a class="sticker" href="#crew" data-crew="wisp" style="--r:-4deg;--c:#F0C64A;--c2:#A6750A"><div class="die"><img src="../img/hd/wisp.webp" alt=""></div><h3>Wisp</h3><span class="cap">Team Leader</span><q>Bigger waves. Brighter worlds.</q></a>
+    <a class="sticker" href="#crew" data-crew="heelo" style="--r:3deg;--c:#FF8A1A;--c2:#C4560A"><div class="die"><img src="../img/hd/heelo.webp" alt=""></div><h3>Heelo</h3><span class="cap">Tension Specialist</span><q>Keep it together.</q></a>
+    <a class="sticker" href="#crew" data-crew="nonni" style="--r:-2deg;--c:#46C2DB;--c2:#11788C"><div class="die"><img src="../img/hd/nonni.webp" alt=""></div><h3>Dr. Nonni Nunu</h3><span class="cap">Hyper Wave Specialist</span><q>Every wave has a story.</q></a>
+    <a class="sticker" href="#crew" data-crew="hydro" style="--r:5deg;--c:#36C8F5;--c2:#1F6FD1"><div class="die"><img src="../img/hd/hydro.webp" alt=""></div><h3>Hydro</h3><span class="cap">Mixologist</span><q>Tomorrow can be brewed.</q></a>
+    <a class="sticker" href="#crew" data-crew="buoy" style="--r:-5deg;--c:#8E6FD8;--c2:#6440B8"><div class="die"><img src="../img/hd/buoy.webp" alt=""></div><h3>Buoy</h3><span class="cap">Interface Specialist</span><q>Same connection.</q></a>
   </div>
 </div></section>
 
@@ -179,25 +168,14 @@ footer small{color:#9FB2D6}
       <span class="mw">Meanwhile...</span>
       <h2>Deep under Arridia, Doc Neon is very cross.</h2>
       <p>He thinks water is rude and dust is lovely. His clone army, the Neonites, chant one thing: “No more water.” He loses with style, and he melts when he gets wet.</p>
-      <a class="btn alt" href="#neon" style="justify-self:start">Read his file</a>
+      <a class="btn alt" href="#neon" data-crew="docneon" style="justify-self:start">Read his file</a>
     </div>
-    <div class="pics"><img class="p1" src="../img/front-docneon.jpg" alt="Doc Neon"><img class="p2" src="../img/front-neonites.jpg" alt="A Neonite"><span class="zap">ZAP!</span></div>
+    <div class="pics"><img class="p1" data-crew="docneon" src="../img/hd/docneon.webp" alt="Doc Neon"><img class="p2" data-crew="neonites" src="../img/hd/neonites.webp" alt="The Neonites"><span class="zap">ZAP!</span></div>
   </div>
-</div></section>
-
-<section id="collect"><div class="wrap">
-  <div class="sh"><h2>Collect the whole crew</h2><span class="cap chip">Shop</span></div>
-  <div class="collect">
-    <div class="item box" style="--bg:#F0C64A"><div class="ph"><img src="../img/front-wisp.jpg" alt="Wisp bubble figure"></div><h3>Wisp bubble figure</h3><div class="row"><span class="price">$14</span><button type="button" aria-pressed="false">Add to bag</button></div></div>
-    <div class="item box" style="--bg:#FF8A1A"><div class="ph"><img src="../img/front-heelo.jpg" alt="Heelo plush"></div><h3>Heelo plush</h3><div class="row"><span class="price">$22</span><button type="button" aria-pressed="false">Add to bag</button></div></div>
-    <div class="item box" style="--bg:#F2B620"><div class="ph"><img src="../img/front-hydro.jpg" alt="Team Aero hard hat"></div><h3>Team Aero hard hat</h3><div class="row"><span class="price">$18</span><button type="button" aria-pressed="false">Add to bag</button></div></div>
-    <div class="item box" style="--bg:#A6D64A"><div class="ph"><img src="../img/front-docneon.jpg" alt="Doc Neon name plate"></div><h3>Doc Neon name plate</h3><div class="row"><span class="price">$9</span><button type="button" aria-pressed="false">Add to bag</button></div></div>
-  </div>
-  <p class="note">Template note: products and prices are placeholders.</p>
 </div></section>
 
 <section id="fun"><div class="wrap back">
-  <div class="act box"><span class="cap">The back page</span><h3>Draw your own panel</h3><img src="../img/storyboards.jpg" alt="Episode 1 storyboard sketches"><p>Print the blank comic page, finish the story, and send it in. We share our favorites every month.</p><a class="btn alt" href="#fun" style="justify-self:start">Get the blank page</a></div>
+  <div class="act box"><span class="cap">The back page</span><h3>Draw your own panel</h3><img src="../img/hd/storyboards.jpg" alt="Episode 1 storyboard sketches"><p>Print the blank comic page, finish the story, and send it in. We share our favorites every month.</p><a class="btn alt" href="#fun" style="justify-self:start">Get the blank page</a></div>
   <div class="sign box"><span class="cap">For grown-ups</span><h3>Get the next issue by email</h3><p>New episodes, coloring pages and comics, once a month. No ads.</p>
     <form id="nf"><label class="cap" for="em">Parent email</label><input id="em" type="email" placeholder="parent@email.com" required><button class="btn" type="submit">Sign me up</button></form>
   </div>
@@ -205,8 +183,8 @@ footer small{color:#9FB2D6}
 </main>
 
 <footer><div class="wrap"><span class="t">Brighter Worlds. Together.</span><small>The Qoogies © XBX Entertainment · Press and partners · Parents · Template 2 · Sunday Funnies</small></div></footer>
+<script src="crew.js" data-skin="comic"></script>
 <script>
-document.querySelectorAll('.item button').forEach(b=>b.addEventListener('click',()=>{const on=b.getAttribute('aria-pressed')!=='true';b.setAttribute('aria-pressed',on);b.textContent=on?'In your bag ✓':'Add to bag'}));
 document.getElementById('nf').addEventListener('submit',e=>{e.preventDefault();e.target.outerHTML='<p class="ok">KA-SPLASH! You\'re signed up.</p>'});
 </script>
 </body>

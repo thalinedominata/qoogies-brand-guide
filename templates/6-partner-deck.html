@@ -34,7 +34,7 @@ p{margin:0}
 
 header{border-bottom:1px solid var(--rule)}
 header .wrap{display:flex;align-items:center;gap:22px;padding-block:12px;flex-wrap:wrap}
-header img{width:130px;border-radius:10px}
+header img{width:140px;height:auto}
 header .who{font:800 12px var(--label);letter-spacing:.18em;text-transform:uppercase;color:var(--soft)}
 header nav{margin-left:auto;display:flex;gap:20px;font:800 15px var(--body);align-items:center}
 header nav a{text-decoration:none}
@@ -43,7 +43,10 @@ header nav a{text-decoration:none}
 /* hero blocks */
 .hero{display:grid;grid-template-columns:repeat(6,1fr);grid-auto-rows:minmax(200px,auto);gap:0;margin-top:16px;border-radius:30px;overflow:hidden}
 .blk{position:relative;overflow:hidden;background:var(--c);min-height:150px}
-.blk img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 15%;mix-blend-mode:normal}
+.blk img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 6%;transition:transform .4s}
+.blk[data-crew]:hover img{transform:scale(1.05)}
+.blk[data-crew]::after{content:"Open profile";position:absolute;right:12px;top:12px;font:800 11px var(--label);letter-spacing:.14em;text-transform:uppercase;background:#fff;color:var(--ink);padding:6px 10px;border-radius:999px;opacity:0;transform:translateY(-4px);transition:.2s}
+.blk[data-crew]:hover::after,.blk[data-crew]:focus-visible::after{opacity:1;transform:none}
 .blk .nm{position:absolute;left:14px;bottom:12px;font:400 26px var(--display);color:#fff;text-shadow:0 2px 0 rgba(0,0,0,.25)}
 .title{grid-column:1/5;grid-row:1/3;background:var(--ink);color:#fff;padding:clamp(22px,4vw,48px);display:grid;align-content:space-between;gap:24px}
 .title h1{font-size:clamp(52px,8.6vw,124px)}
@@ -142,7 +145,7 @@ footer small{color:var(--soft)}
 </head>
 <body>
 <header><div class="wrap">
-  <a href="#top"><img src="../img/logo-current.jpg" alt="The Qoogies"></a>
+  <a href="#top"><img src="../img/hd/logo.webp" alt="The Qoogies"></a>
   <span class="who">XBX Entertainment · Partners</span>
   <nav aria-label="Main"><a href="#glance">The show</a><a href="#license">Licensing</a><a href="#kit">Press kit</a><a class="btn dark" href="#contact" style="padding:12px 18px">Talk to us</a></nav>
 </div></header>
@@ -156,12 +159,12 @@ footer small{color:var(--soft)}
       <div style="display:grid;gap:20px"><p>The Qoogies is a 3D animated adventure about bubble-bodied hydro-formers who bring water to dry worlds, and the grumpy scientist who wants them gone.</p>
       <div class="ctas"><a class="btn lime" href="#contact">Request the pitch deck</a><a class="btn" href="#glance" style="box-shadow:inset 0 0 0 2px #fff;color:#fff">▶ Watch the pilot</a></div></div>
     </div>
-    <div class="blk b-wisp" style="--c:var(--wisp)"><img src="../img/front-wisp.jpg" alt="Wisp"><span class="nm">Wisp</span></div>
-    <div class="blk b-heelo" style="--c:var(--heelo)"><img src="../img/front-heelo.jpg" alt="Heelo"><span class="nm">Heelo</span></div>
-    <div class="blk b-nonni" style="--c:var(--nonni)"><img src="../img/front-nonni.jpg" alt="Dr. Nonni Nunu"><span class="nm">Nonni</span></div>
-    <div class="blk b-hydro" style="--c:var(--hydro)"><img src="../img/pilot-29.jpg" alt="Launch Bay 01 from the pilot" style="object-position:center"><span class="nm">The glass ship</span></div>
-    <div class="blk b-buoy" style="--c:var(--buoy)"><img src="../img/front-buoy.jpg" alt="Buoy"><span class="nm">Buoy</span></div>
-    <div class="blk b-neon" style="--c:var(--neon)"><img src="../img/front-docneon.jpg" alt="Doc Neon"><span class="nm">Doc Neon</span></div>
+    <div class="blk b-wisp" data-crew="wisp" style="--c:var(--wisp)"><img src="../img/hd/wisp.webp" alt="Wisp"><span class="nm">Wisp</span></div>
+    <div class="blk b-heelo" data-crew="heelo" style="--c:var(--heelo)"><img src="../img/hd/heelo.webp" alt="Heelo"><span class="nm">Heelo</span></div>
+    <div class="blk b-nonni" data-crew="nonni" style="--c:var(--nonni)"><img src="../img/hd/nonni.webp" alt="Dr. Nonni Nunu"><span class="nm">Nonni</span></div>
+    <div class="blk b-hydro" style="--c:var(--hydro)"><img src="../img/hd/pilot-29.jpg" alt="Launch Bay 01 from the pilot" style="object-position:center"><span class="nm">The glass ship</span></div>
+    <div class="blk b-buoy" data-crew="buoy" style="--c:var(--buoy)"><img src="../img/hd/buoy.webp" alt="Buoy"><span class="nm">Buoy</span></div>
+    <div class="blk b-neon" data-crew="docneon" style="--c:var(--neon)"><img src="../img/hd/docneon.webp" alt="Doc Neon"><span class="nm">Doc Neon</span></div>
     <div class="blk b-tag"><span class="lab">Tagline</span><b>Waves Connect Worlds.</b></div>
   </div>
 </div>
@@ -175,9 +178,9 @@ footer small{color:var(--soft)}
     <div class="fact"><b>7</b><span>Designed leads with full character sheets</span></div>
   </div>
   <div class="stills">
-    <img src="../img/ship-754.jpg" alt="Heelo catches a rocket with a water tether">
-    <img src="../img/pilot-27.jpg" alt="Doc Neon and Wisp on a video link">
-    <img src="../img/neon-lab.jpg" alt="Doc Neon in his lab">
+    <img src="../img/hd/ship-754.jpg" alt="Heelo catches a rocket with a water tether">
+    <img src="../img/hd/pilot-27.jpg" alt="Doc Neon and Wisp on a video link">
+    <img src="../img/hd/neon-lab.jpg" alt="Doc Neon in his lab">
   </div>
 </div></section>
 
@@ -206,7 +209,7 @@ footer small{color:var(--soft)}
 <section id="kit" style="padding-top:0"><div class="wrap">
   <div class="sh"><span class="lab">Partner kit</span><h2>Everything you need to say yes</h2></div>
   <div class="kit">
-    <div class="art"><img src="../img/villains-2d-3d.jpg" alt="Doc Neon and the Neonites in 2D and 3D styles"><span class="lab">2D and 3D styles</span></div>
+    <div class="art"><img src="../img/hd/villains-2d-3d.jpg" alt="Doc Neon and the Neonites in 2D and 3D styles"><span class="lab">2D and 3D styles</span></div>
     <ul class="files">
       <li><div><b>Pitch deck</b><span>Series overview, characters, episode list</span></div><em class="ready">Ready</em></li>
       <li><div><b>Brand guide</b><span>Colors, type, logo rules, voice</span></div><em class="ready">Ready</em></li>
@@ -244,6 +247,7 @@ footer small{color:var(--soft)}
 </main>
 
 <footer><div class="wrap"><b>Waves Connect Worlds.</b><small>The Qoogies © XBX Entertainment · Template 6 · Partner Deck. Contact address is a placeholder.</small></div></footer>
+<script src="crew.js" data-skin="editorial"></script>
 <script>
 document.getElementById('cf').addEventListener('submit',e=>{e.preventDefault();e.target.innerHTML='<p class="ok">Thanks. The deck is on its way.</p>'});
 </script>
