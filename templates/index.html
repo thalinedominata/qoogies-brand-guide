@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Qoogies Website Templates</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Exo+2:wght@700;800&family=Lilita+One&family=Nunito:wght@400;700;800;900&display=swap">
+<style>
+/* Layout: a simple picker. Intro → six template cards (screenshot, name, idea, what it sells best) → how they share the brand. */
+:root{
+  --deep:#071229; --abyss:#0B2F66; --foam:#E8F6FF; --dim:#A9C3DE; --aqua:#4FC3F0; --lime:#9BE22E;
+  --iri:linear-gradient(100deg,#5CE1E6,#B6F03C 25%,#FFE14A 45%,#FF8A5C 62%,#FF5FA2 78%,#8B6CF6);
+  --display:"Lilita One","Arial Rounded MT Bold",system-ui,sans-serif;
+  --label:"Exo 2","Trebuchet MS",system-ui,sans-serif;
+  --body:"Nunito","Segoe UI",system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(70% 40% at 80% 0,rgba(139,108,246,.25),transparent 70%),radial-gradient(60% 40% at 0 30%,rgba(79,195,240,.18),transparent 70%),var(--deep);color:var(--foam);font:400 17px/1.55 var(--body)}
+img{max-width:100%;display:block}
+a{color:inherit}
+:focus-visible{outline:3px solid #E6F52F;outline-offset:4px;border-radius:12px}
+.wrap{max-width:1200px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.lab{font:800 12px/1.2 var(--label);letter-spacing:.2em;text-transform:uppercase;color:var(--aqua)}
+h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;line-height:1;text-wrap:balance}
+p{margin:0}
+header{padding-block:28px 10px;display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+header img{width:150px;border-radius:12px}
+.intro{padding-block:20px 40px;display:grid;gap:16px;max-width:760px}
+.intro h1{font-size:clamp(44px,7vw,84px)}
+.intro h1 span{background:var(--iri);-webkit-background-clip:text;background-clip:text;color:transparent}
+.intro p{color:var(--dim);font-size:19px;max-width:58ch}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+@media (max-width:820px){.grid{grid-template-columns:1fr}}
+.card{display:grid;grid-template-rows:auto 1fr;border-radius:26px;overflow:hidden;background:var(--abyss);box-shadow:inset 0 0 0 1px rgba(79,195,240,.2);text-decoration:none;transition:transform .2s,box-shadow .2s}
+.card:hover{transform:translateY(-4px);box-shadow:inset 0 0 0 2px var(--c),0 18px 40px rgba(0,0,0,.35)}
+.card .shot{aspect-ratio:16/10;overflow:hidden;background:#0d2550;border-bottom:4px solid var(--c)}
+.card .shot img{width:100%;height:100%;object-fit:cover;object-position:top;transition:transform .5s}
+.card:hover .shot img{transform:scale(1.03)}
+.card .bd{padding:20px 22px 24px;display:grid;gap:10px;align-content:start}
+.card .top{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.card h2{font-size:32px}
+.card .n{font:800 13px var(--label);letter-spacing:.16em;color:var(--c)}
+.card p{color:var(--dim)}
+.card .best{font-size:15px;color:var(--foam)}
+.card .best b{color:var(--c)}
+.card .go{font:800 14px var(--label);letter-spacing:.12em;text-transform:uppercase;color:var(--c)}
+.shared{margin-block:56px 30px;border-radius:26px;padding:clamp(20px,4vw,36px);background:rgba(11,47,102,.55);box-shadow:inset 0 0 0 1px rgba(79,195,240,.2);display:grid;grid-template-columns:1fr 1.4fr;gap:24px}
+@media (max-width:820px){.shared{grid-template-columns:1fr}}
+.shared h2{font-size:clamp(28px,4vw,40px)}
+.shared ul{margin:0;padding-left:20px;color:var(--dim);display:grid;gap:8px}
+.shared li b{color:var(--foam)}
+footer{padding-block:30px calc(30px + env(safe-area-inset-bottom,0px));color:var(--dim);font-size:14px}
+footer b{font:400 24px var(--display);background:var(--iri);-webkit-background-clip:text;background-clip:text;color:transparent;margin-right:12px}
+@media (prefers-reduced-motion:reduce){.card,.card .shot img{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header><img src="../img/logo-current.jpg" alt="The Qoogies"><span class="lab">Website templates · October 2026</span></header>
+  <div class="intro">
+    <h1>Six ways to build the <span>Qoogies</span> home page</h1>
+    <p>Each template is a full, clickable home page built from Brand Guide v2.0: the same logo, colors, fonts, characters and taglines, told six different ways. Open one, scroll it, and try the interactive bits.</p>
+  </div>
+
+  <div class="grid">
+    <a class="card" href="1-bubble-sphere.html" style="--c:#4FC3F0"><div class="shot"><img src="thumbs/1-bubble-sphere.jpg" alt="Bubble Sphere template"></div><div class="bd"><div class="top"><h2>Bubble Sphere</h2><span class="n">Template 1</span></div><p>Deep underwater glass panels, straight from the guide's website chapter. Bubbles rise the whole way down and pop when you tap them. The page turns dusty lime when Doc Neon shows up.</p><p class="best"><b>Best for:</b> the main fan site and watching the pilot.</p><span class="go">Open template →</span></div></a>
+    <a class="card" href="2-sunday-funnies.html" style="--c:#FF5FA2"><div class="shot"><img src="thumbs/2-sunday-funnies.jpg" alt="Sunday Funnies template"></div><div class="bd"><div class="top"><h2>Sunday Funnies</h2><span class="n">Template 2</span></div><p>The home page is a comic book. Episode 1 told in panels with speech balloons and sound effects, a crew sticker sheet, and a "Meanwhile..." splash page for Doc Neon.</p><p class="best"><b>Best for:</b> kids, bright and loud, with merch built in.</p><span class="go">Open template →</span></div></a>
+    <a class="card" href="3-launch-bay-os.html" style="--c:#FF2A4D"><div class="shot"><img src="thumbs/3-launch-bay-os.jpg" alt="Launch Bay OS template"></div><div class="bd"><div class="top"><h2>Launch Bay OS</h2><span class="n">Template 3</span></div><p>The whole site is the Qoogie ship's console: viewscreen, crew dossiers, target planets, mission log. Flip the Red Alert switch and Doc Neon takes over the screen.</p><p class="best"><b>Best for:</b> older kids and a game-like feel.</p><span class="go">Open template →</span></div></a>
+    <a class="card" href="4-bubble-shop.html" style="--c:#9BE22E"><div class="shot"><img src="thumbs/4-bubble-shop.jpg" alt="Bubble Shop template"></div><div class="bd"><div class="top"><h2>Bubble Shop</h2><span class="n">Template 4</span></div><p>Sales first. A toy-store home page with a mystery bubble you pop to reveal a figure, filterable shelves, a Team Aero 5-pack bundle and a working bag counter.</p><p class="best"><b>Best for:</b> selling figures, plush and gear.</p><span class="go">Open template →</span></div></a>
+    <a class="card" href="5-galaxy-route.html" style="--c:#8B6CF6"><div class="shot"><img src="thumbs/5-galaxy-route.jpg" alt="Galaxy Route template"></div><div class="bd"><div class="top"><h2>Galaxy Route</h2><span class="n">Template 5</span></div><p>A star chart of the ship's route from the Bubble Sphere to Arridia and beyond. Tap a planet and the ship flies there, with a wet-to-dry meter and who's been spotted.</p><p class="best"><b>Best for:</b> exploring the world and episode guides.</p><span class="go">Open template →</span></div></a>
+    <a class="card" href="6-partner-deck.html" style="--c:#F0C64A"><div class="shot"><img src="thumbs/6-partner-deck.jpg" alt="Partner Deck template"></div><div class="bd"><div class="top"><h2>Partner Deck</h2><span class="n">Template 6</span></div><p>For buyers, broadcasters and licensees. Color-block hero where each character owns a tile, the show at a glance, licensing categories, a partner kit and a deck request form.</p><p class="best"><b>Best for:</b> licensing, distribution and press.</p><span class="go">Open template →</span></div></a>
+  </div>
+
+  <div class="shared">
+    <div><span class="lab">What they share</span><h2>Mix and match freely</h2></div>
+    <ul>
+      <li><b>Same brand tokens.</b> Lilita One, Exo 2 and Nunito; Deep Space, Aqua Glow and one lime button per screen.</li>
+      <li><b>Same story.</b> Team Aero makes rain, Doc Neon wants deserts, and "Waves Connect Worlds." signs off every page.</li>
+      <li><b>Sections swap between templates.</b> The shop shelf from 4 or the planet map from 5 can drop into any other design.</li>
+      <li><b>Placeholders to replace.</b> Prices, products, planet details and episodes 4 to 14 are samples. Pilot frames still carry the XBX bug.</li>
+    </ul>
+  </div>
+</div>
+<footer class="wrap"><b>Waves Connect Worlds.</b>The Qoogies © XBX Entertainment</footer>
+</body>
+</html>

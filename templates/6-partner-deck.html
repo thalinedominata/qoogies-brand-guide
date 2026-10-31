@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Qoogies · Partner Deck</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Exo+2:wght@600;700;800&family=Lilita+One&family=Nunito:wght@400;700;800;900&display=swap">
+<style>
+/* Layout: the sales tool. A home page for buyers, broadcasters and licensees. Color-block hero where every character owns a tile → the property at a glance → why it works (brand pillars) → licensing categories → partner kit → contact form. Big type, flat blocks of character color, no glass. */
+:root{
+  --paper:#FAFDFF; --ink:#071229; --soft:#4A5A78; --rule:rgba(7,18,41,.12);
+  --wisp:#F0C64A; --heelo:#FF8A1A; --nonni:#46C2DB; --hydro:#1F6FD1; --buoy:#8E6FD8; --neon:#A6D64A; --lime:#9BE22E; --red:#C8161D;
+  --display:"Lilita One","Arial Rounded MT Bold",system-ui,sans-serif;
+  --label:"Exo 2","Trebuchet MS",system-ui,sans-serif;
+  --body:"Nunito","Segoe UI",system-ui,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.6 var(--body);overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--heelo);outline-offset:3px}
+.wrap{max-width:1240px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.lab{font:800 12px/1.2 var(--label);letter-spacing:.2em;text-transform:uppercase}
+h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;line-height:.95;text-wrap:balance}
+p{margin:0}
+.btn{display:inline-flex;align-items:center;gap:8px;font:900 16px/1 var(--body);padding:16px 24px;border-radius:999px;text-decoration:none;border:0;cursor:pointer}
+.btn.dark{background:var(--ink);color:#fff}
+.btn.dark:hover{background:var(--hydro)}
+.btn.lime{background:var(--lime);color:var(--ink)}
+
+header{border-bottom:1px solid var(--rule)}
+header .wrap{display:flex;align-items:center;gap:22px;padding-block:12px;flex-wrap:wrap}
+header img{width:130px;border-radius:10px}
+header .who{font:800 12px var(--label);letter-spacing:.18em;text-transform:uppercase;color:var(--soft)}
+header nav{margin-left:auto;display:flex;gap:20px;font:800 15px var(--body);align-items:center}
+header nav a{text-decoration:none}
+@media (max-width:820px){header nav a:not(.btn){display:none}}
+
+/* hero blocks */
+.hero{display:grid;grid-template-columns:repeat(6,1fr);grid-auto-rows:minmax(200px,auto);gap:0;margin-top:16px;border-radius:30px;overflow:hidden}
+.blk{position:relative;overflow:hidden;background:var(--c);min-height:150px}
+.blk img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 15%;mix-blend-mode:normal}
+.blk .nm{position:absolute;left:14px;bottom:12px;font:400 26px var(--display);color:#fff;text-shadow:0 2px 0 rgba(0,0,0,.25)}
+.title{grid-column:1/5;grid-row:1/3;background:var(--ink);color:#fff;padding:clamp(22px,4vw,48px);display:grid;align-content:space-between;gap:24px}
+.title h1{font-size:clamp(52px,8.6vw,124px)}
+.title h1 .a{color:var(--nonni)}.title h1 .b{color:var(--lime)}
+.title p{max-width:46ch;color:#BFD0EA;font-size:19px}
+.title .ctas{display:flex;gap:12px;flex-wrap:wrap}
+.b-wisp{grid-column:5/7;grid-row:1/2}
+.b-heelo{grid-column:5/6;grid-row:2/3}
+.b-nonni{grid-column:6/7;grid-row:2/3}
+.b-hydro{grid-column:1/3;grid-row:3/4}
+.b-buoy{grid-column:3/4;grid-row:3/4}
+.b-neon{grid-column:4/5;grid-row:3/4}
+.b-tag{grid-column:5/7;grid-row:3/4;background:var(--lime);padding:20px;display:grid;align-content:center}
+.b-tag b{font:400 clamp(28px,3.4vw,44px)/1 var(--display)}
+@media (max-width:900px){
+  .hero{grid-template-columns:repeat(2,1fr)}
+  .title{grid-column:1/-1;grid-row:auto}
+  .b-wisp,.b-heelo,.b-nonni,.b-hydro,.b-buoy,.b-neon{grid-column:auto;grid-row:auto;min-height:220px}
+  .b-tag{grid-column:1/-1;grid-row:auto}
+}
+
+/* facts */
+section{padding-block:clamp(56px,8vw,100px)}
+.sh{display:grid;grid-template-columns:260px 1fr;gap:30px;margin-bottom:34px}
+@media (max-width:820px){.sh{grid-template-columns:1fr;gap:10px}}
+.sh h2{font-size:clamp(38px,5.4vw,66px)}
+.sh .lab{padding-top:10px;color:var(--soft)}
+.facts{display:grid;grid-template-columns:repeat(4,1fr);border-top:3px solid var(--ink)}
+@media (max-width:820px){.facts{grid-template-columns:repeat(2,1fr)}}
+.fact{padding:20px 18px 24px 0;border-bottom:1px solid var(--rule);display:grid;gap:6px}
+.fact b{font:400 clamp(38px,4.6vw,58px)/1 var(--display);font-variant-numeric:tabular-nums}
+.fact span{color:var(--soft);font-size:15px}
+.fact small{font:700 11px var(--label);letter-spacing:.14em;text-transform:uppercase;color:var(--heelo)}
+
+/* pillars */
+.pillars{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+@media (max-width:980px){.pillars{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:520px){.pillars{grid-template-columns:1fr}}
+.pil{border-radius:24px;padding:24px;display:grid;gap:12px;align-content:start;background:var(--c);color:var(--t,var(--ink))}
+.pil h3{font-size:30px}
+.pil p{font-size:16px}
+
+/* stills */
+.stills{display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px;margin-top:14px}
+@media (max-width:760px){.stills{grid-template-columns:1fr 1fr}.stills img:first-child{grid-column:1/-1}}
+.stills img{border-radius:20px;aspect-ratio:16/10;object-fit:cover;width:100%;height:100%}
+
+/* categories */
+.cats{display:grid;grid-template-columns:repeat(3,1fr);border-top:3px solid var(--ink)}
+@media (max-width:820px){.cats{grid-template-columns:1fr}}
+.cat{padding:24px 24px 26px 0;border-bottom:1px solid var(--rule);display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start}
+.cat i{width:46px;height:46px;border-radius:50%;background:var(--c);display:block}
+.cat h3{font-size:26px;margin-bottom:6px}
+.cat p{color:var(--soft);font-size:15px}
+
+/* kit */
+.kit{display:grid;grid-template-columns:1.2fr 1fr;gap:24px;align-items:start}
+@media (max-width:900px){.kit{grid-template-columns:1fr}}
+.kit .art{border-radius:26px;overflow:hidden;position:relative}
+.kit .art img{width:100%;aspect-ratio:4/3;object-fit:cover}
+.kit .art span{position:absolute;left:14px;bottom:14px;background:#fff;padding:6px 12px;border-radius:999px}
+.files{list-style:none;margin:0;padding:0;border-top:3px solid var(--ink)}
+.files li{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;padding:16px 0;border-bottom:1px solid var(--rule)}
+.files b{font:800 18px var(--body)}
+.files span{display:block;color:var(--soft);font-size:14px}
+.files em{font:700 11px var(--label);font-style:normal;letter-spacing:.14em;text-transform:uppercase;padding:6px 10px;border-radius:999px;background:#EEF4FB}
+.files em.ready{background:var(--lime)}
+
+/* contact */
+.contact{background:var(--ink);color:#fff;border-radius:34px;padding:clamp(24px,5vw,60px);display:grid;grid-template-columns:1fr 1.1fr;gap:clamp(24px,4vw,60px)}
+@media (max-width:900px){.contact{grid-template-columns:1fr}}
+.contact h2{font-size:clamp(40px,5.6vw,70px)}
+.contact h2 span{color:var(--lime)}
+.contact p{color:#BFD0EA;margin-top:16px}
+.contact .mail{margin-top:18px;font:800 18px var(--body);user-select:all}
+form{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+form .full{grid-column:1/-1}
+@media (max-width:520px){form{grid-template-columns:1fr}}
+.f{display:grid;gap:6px}
+.f label{font:800 11px var(--label);letter-spacing:.16em;text-transform:uppercase;color:#9FB4D6}
+.f input,.f select,.f textarea{font:600 16px var(--body);padding:13px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06);color:#fff;width:100%}
+.f select option{color:var(--ink)}
+.f textarea{min-height:110px;resize:vertical}
+.pills{display:flex;gap:8px;flex-wrap:wrap}
+.pills label{font:800 14px var(--body);letter-spacing:0;text-transform:none;color:#fff;padding:9px 14px;border-radius:999px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.3);cursor:pointer}
+.pills input{position:absolute;opacity:0;width:1px;height:1px}
+.pills input:checked+label{background:var(--lime);color:var(--ink);box-shadow:none}
+.pills input:focus-visible+label{outline:3px solid var(--heelo);outline-offset:2px}
+.ok{grid-column:1/-1;font:400 30px var(--display);color:var(--lime)}
+
+footer{padding-block:40px calc(40px + env(safe-area-inset-bottom,0px))}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;align-items:baseline}
+footer b{font:400 30px var(--display)}
+footer small{color:var(--soft)}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <a href="#top"><img src="../img/logo-current.jpg" alt="The Qoogies"></a>
+  <span class="who">XBX Entertainment · Partners</span>
+  <nav aria-label="Main"><a href="#glance">The show</a><a href="#license">Licensing</a><a href="#kit">Press kit</a><a class="btn dark" href="#contact" style="padding:12px 18px">Talk to us</a></nav>
+</div></header>
+
+<main id="top">
+<div class="wrap">
+  <div class="hero">
+    <div class="title">
+      <span class="lab" style="color:var(--nonni)">Animated series · Season One · Available now</span>
+      <h1>Five heroes. <span class="a">One planet</span> at a time. <span class="b">Rain.</span></h1>
+      <div style="display:grid;gap:20px"><p>The Qoogies is a 3D animated adventure about bubble-bodied hydro-formers who bring water to dry worlds, and the grumpy scientist who wants them gone.</p>
+      <div class="ctas"><a class="btn lime" href="#contact">Request the pitch deck</a><a class="btn" href="#glance" style="box-shadow:inset 0 0 0 2px #fff;color:#fff">▶ Watch the pilot</a></div></div>
+    </div>
+    <div class="blk b-wisp" style="--c:var(--wisp)"><img src="../img/front-wisp.jpg" alt="Wisp"><span class="nm">Wisp</span></div>
+    <div class="blk b-heelo" style="--c:var(--heelo)"><img src="../img/front-heelo.jpg" alt="Heelo"><span class="nm">Heelo</span></div>
+    <div class="blk b-nonni" style="--c:var(--nonni)"><img src="../img/front-nonni.jpg" alt="Dr. Nonni Nunu"><span class="nm">Nonni</span></div>
+    <div class="blk b-hydro" style="--c:var(--hydro)"><img src="../img/pilot-29.jpg" alt="Launch Bay 01 from the pilot" style="object-position:center"><span class="nm">The glass ship</span></div>
+    <div class="blk b-buoy" style="--c:var(--buoy)"><img src="../img/front-buoy.jpg" alt="Buoy"><span class="nm">Buoy</span></div>
+    <div class="blk b-neon" style="--c:var(--neon)"><img src="../img/front-docneon.jpg" alt="Doc Neon"><span class="nm">Doc Neon</span></div>
+    <div class="blk b-tag"><span class="lab">Tagline</span><b>Waves Connect Worlds.</b></div>
+  </div>
+</div>
+
+<section id="glance"><div class="wrap">
+  <div class="sh"><span class="lab">The property at a glance</span><h2>A bright, simple idea kids can explain in one breath.</h2></div>
+  <div class="facts">
+    <div class="fact"><b>14</b><span>Episodes in Season One</span></div>
+    <div class="fact"><b>14:28</b><span>Pilot running time, finished in 1080p</span></div>
+    <div class="fact"><b>6–11</b><span>Core audience, plus parents</span><small>To confirm</small></div>
+    <div class="fact"><b>7</b><span>Designed leads with full character sheets</span></div>
+  </div>
+  <div class="stills">
+    <img src="../img/ship-754.jpg" alt="Heelo catches a rocket with a water tether">
+    <img src="../img/pilot-27.jpg" alt="Doc Neon and Wisp on a video link">
+    <img src="../img/neon-lab.jpg" alt="Doc Neon in his lab">
+  </div>
+</div></section>
+
+<section style="padding-top:0"><div class="wrap">
+  <div class="sh"><span class="lab">Why it works</span><h2>Four ideas behind every episode</h2></div>
+  <div class="pillars">
+    <div class="pil" style="--c:#E6F6FF"><span class="lab" style="color:var(--hydro)">Pillar</span><h3>Teamwork makes the weather</h3><p>No Qoogie solves an episode alone. Every role is one part of making rain.</p></div>
+    <div class="pil" style="--c:var(--nonni)"><span class="lab">Pillar</span><h3>Curious science</h3><p>Waves, mixtures, tension and signals are real ideas the show plays with.</p></div>
+    <div class="pil" style="--c:var(--wisp)"><span class="lab">Pillar</span><h3>Optimism with a splash</h3><p>Every character line points to a brighter tomorrow, even a retreat.</p></div>
+    <div class="pil" style="--c:var(--neon)"><span class="lab">Pillar</span><h3>A villain you like to watch</h3><p>Doc Neon is grumpy, vain and often in disguise. He loses with style.</p></div>
+  </div>
+</div></section>
+
+<section id="license" style="padding-top:0"><div class="wrap">
+  <div class="sh"><span class="lab">Licensing</span><h2>Built to be held, worn and played with.</h2></div>
+  <div class="cats">
+    <div class="cat" style="--c:var(--wisp)"><i></i><div><h3>Collectible figures</h3><p>Chibi, 2.5 heads tall, translucent gel look. Five heroes, two villains, four Neonite variants.</p></div></div>
+    <div class="cat" style="--c:var(--heelo)"><i></i><div><h3>Plush</h3><p>Round silhouettes with one signature color each. Easy to tell apart on a shelf.</p></div></div>
+    <div class="cat" style="--c:var(--nonni)"><i></i><div><h3>Bath and water play</h3><p>A show about water. Squirters, bubble kits and Hydro's mixing lab.</p></div></div>
+    <div class="cat" style="--c:var(--red)"><i></i><div><h3>Apparel</h3><p>Team Aero jackets, hard hats and the “We come in peace” cap from the pilot.</p></div></div>
+    <div class="cat" style="--c:var(--buoy)"><i></i><div><h3>Playsets</h3><p>The glass ship opens up: Command Center, Launch Bay 01, Hatch A and Nonni's lab.</p></div></div>
+    <div class="cat" style="--c:var(--neon)"><i></i><div><h3>Publishing and games</h3><p>Coloring books in the 2D line style, story books, and a planet-hopping app.</p></div></div>
+  </div>
+</div></section>
+
+<section id="kit" style="padding-top:0"><div class="wrap">
+  <div class="sh"><span class="lab">Partner kit</span><h2>Everything you need to say yes</h2></div>
+  <div class="kit">
+    <div class="art"><img src="../img/villains-2d-3d.jpg" alt="Doc Neon and the Neonites in 2D and 3D styles"><span class="lab">2D and 3D styles</span></div>
+    <ul class="files">
+      <li><div><b>Pitch deck</b><span>Series overview, characters, episode list</span></div><em class="ready">Ready</em></li>
+      <li><div><b>Brand guide</b><span>Colors, type, logo rules, voice</span></div><em class="ready">Ready</em></li>
+      <li><div><b>Character sheets</b><span>Seven leads with turnarounds and expressions</span></div><em class="ready">Ready</em></li>
+      <li><div><b>Pilot screener</b><span>Episode 1, captioned, on request</span></div><em>On request</em></li>
+      <li><div><b>Logo pack</b><span>Vector logo, transparent PNGs, one-color white</span></div><em>In progress</em></li>
+    </ul>
+  </div>
+</div></section>
+
+<section id="contact" style="padding-top:0"><div class="wrap">
+  <div class="contact">
+    <div>
+      <span class="lab" style="color:var(--nonni)">Partners, buyers and press</span>
+      <h2>Let's make it <span>rain</span> together.</h2>
+      <p>Tell us what you'd like to do with the Qoogies. We'll send the deck and pilot screener within two working days.</p>
+      <p class="mail">partners@example.com</p>
+    </div>
+    <form id="cf">
+      <div class="f"><label for="nm">Your name</label><input id="nm" required></div>
+      <div class="f"><label for="co">Company</label><input id="co" required></div>
+      <div class="f full"><label for="ce">Work email</label><input id="ce" type="email" required></div>
+      <div class="f full"><label>I'm interested in</label>
+        <div class="pills">
+          <input type="checkbox" id="i1" checked><label for="i1">Broadcast or streaming</label>
+          <input type="checkbox" id="i2"><label for="i2">Toys and licensing</label>
+          <input type="checkbox" id="i3"><label for="i3">Publishing</label>
+          <input type="checkbox" id="i4"><label for="i4">Press</label>
+        </div></div>
+      <div class="f full"><label for="ms">Anything else?</label><textarea id="ms" placeholder="Territories, timing, formats"></textarea></div>
+      <div class="full"><button class="btn lime" type="submit">Request the deck</button></div>
+    </form>
+  </div>
+</div></section>
+</main>
+
+<footer><div class="wrap"><b>Waves Connect Worlds.</b><small>The Qoogies © XBX Entertainment · Template 6 · Partner Deck. Contact address is a placeholder.</small></div></footer>
+<script>
+document.getElementById('cf').addEventListener('submit',e=>{e.preventDefault();e.target.innerHTML='<p class="ok">Thanks. The deck is on its way.</p>'});
+</script>
+</body>
+</html>

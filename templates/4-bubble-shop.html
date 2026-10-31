@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Qoogies · Bubble Shop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Exo+2:wght@600;700&family=Lilita+One&family=Nunito:wght@400;700;800;900&display=swap">
+<style>
+/* Layout: sales first. A toy-store home: mystery-bubble hero (tap to pop and reveal a figure) → category shelves with filter chips → Team Aero 5-pack bundle → "watch the show" band → parents strip. Products sit on colored shelves like a toy aisle. */
+:root{
+  --ground:#F3FAFF; --ink:#0B2F66; --soft:#5E7BA6; --hydro:#1F6FD1; --aqua:#4FC3F0; --lime:#9BE22E; --spark:#E6F52F;
+  --pink:#FF5FA2; --violet:#8B6CF6; --coral:#FF8A5C; --cyan:#5CE1E6; --card:#FFFFFF;
+  --iri:linear-gradient(120deg,#5CE1E6,#B6F03C 22%,#FFE14A 40%,#FF8A5C 58%,#FF5FA2 76%,#8B6CF6);
+  --display:"Lilita One","Arial Rounded MT Bold",system-ui,sans-serif;
+  --label:"Exo 2","Trebuchet MS",system-ui,sans-serif;
+  --body:"Nunito","Segoe UI",system-ui,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{margin:0;color:var(--ink);font:400 17px/1.55 var(--body);overflow-x:hidden;background:
+  radial-gradient(40% 30% at 90% 5%,rgba(255,95,162,.18),transparent 70%),
+  radial-gradient(40% 30% at 0% 20%,rgba(92,225,230,.25),transparent 70%),
+  radial-gradient(50% 30% at 60% 60%,rgba(139,108,246,.12),transparent 70%),var(--ground)}
+img{max-width:100%;display:block}
+a{color:inherit}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--pink);outline-offset:3px;border-radius:10px}
+.wrap{max-width:1200px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.lab{font:700 12px/1.2 var(--label);letter-spacing:.18em;text-transform:uppercase;color:var(--hydro)}
+h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;line-height:1;text-wrap:balance}
+p{margin:0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font:900 16px/1 var(--body);padding:15px 22px;border-radius:999px;border:0;text-decoration:none;transition:transform .12s,box-shadow .12s}
+.btn.lime{background:var(--lime);color:var(--ink);box-shadow:0 5px 0 #5E9A16}
+.btn.lime:active{transform:translateY(4px);box-shadow:0 1px 0 #5E9A16}
+.btn.line{box-shadow:inset 0 0 0 2px var(--ink);background:#fff}
+
+/* top */
+.promo{background:var(--ink);color:#fff;text-align:center;font:700 13px var(--label);letter-spacing:.1em;padding-block:8px}
+.promo b{color:var(--spark)}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(243,250,255,.88);backdrop-filter:blur(12px);border-bottom:1px solid rgba(11,47,102,.08)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:21;background:var(--ground)}
+.hd{display:flex;align-items:center;gap:20px;padding-block:10px}
+.hd img{width:130px;border-radius:12px}
+.hd nav{display:flex;gap:18px;font:800 15px var(--body)}
+.hd nav a{text-decoration:none}.hd nav a:hover{color:var(--hydro)}
+.bag{margin-left:auto;display:flex;align-items:center;gap:10px;background:#fff;border:0;border-radius:999px;padding:8px 8px 8px 16px;box-shadow:0 4px 14px rgba(11,47,102,.12);font-weight:800}
+.bag b{display:grid;place-items:center;min-width:30px;height:30px;border-radius:50%;background:var(--pink);color:#fff;font-size:14px;transition:transform .2s}
+.bag b.bump{transform:scale(1.35)}
+@media (max-width:760px){.hd nav{display:none}}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1fr 1fr;gap:clamp(20px,4vw,50px);align-items:center;padding-block:clamp(30px,6vw,70px)}
+@media (max-width:860px){.hero{grid-template-columns:1fr}}
+.hero h1{font-size:clamp(48px,7.4vw,90px)}
+.hero h1 em{font-style:normal;background:var(--iri);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{font-size:19px;color:var(--soft);max-width:40ch;margin-block:18px 26px}
+.hero .ctas{display:flex;gap:12px;flex-wrap:wrap}
+.mystery{position:relative;justify-self:center;width:min(440px,92%);aspect-ratio:1;display:grid;place-items:center}
+.orb{position:absolute;inset:0;border:0;border-radius:50%;padding:0;
+  background:radial-gradient(circle at 30% 25%,rgba(255,255,255,.95) 0 7%,rgba(255,255,255,.2) 20%,transparent 40%),
+  conic-gradient(from 200deg,rgba(92,225,230,.55),rgba(182,240,60,.5),rgba(255,225,74,.5),rgba(255,138,92,.5),rgba(255,95,162,.55),rgba(139,108,246,.55),rgba(92,225,230,.55));
+  box-shadow:inset 0 0 50px rgba(255,255,255,.7),0 30px 60px rgba(139,108,246,.25);animation:wob 4s ease-in-out infinite;transition:transform .25s,opacity .25s}
+.orb::after{content:"?";position:absolute;inset:0;display:grid;place-items:center;font:400 clamp(90px,16vw,160px) var(--display);color:rgba(255,255,255,.9);text-shadow:0 4px 0 rgba(11,47,102,.25)}
+.orb:hover{transform:scale(1.03)}
+@keyframes wob{0%,100%{border-radius:50% 50% 50% 50%/50% 50% 50% 50%}33%{border-radius:52% 48% 50% 50%/48% 52% 48% 52%}66%{border-radius:48% 52% 52% 48%/52% 48% 52% 48%}}
+.mystery.popped .orb{transform:scale(1.4);opacity:0;pointer-events:none}
+.reveal{position:absolute;inset:6%;border-radius:32px;background:#fff;box-shadow:0 20px 50px rgba(11,47,102,.18);display:grid;grid-template-columns:44% 1fr;gap:16px;align-items:center;padding:16px;opacity:0;transform:scale(.8);transition:opacity .3s .1s,transform .35s .1s;pointer-events:none}
+.mystery.popped .reveal{opacity:1;transform:scale(1);pointer-events:auto}
+.reveal .pic{border-radius:22px;overflow:hidden;background:var(--c);aspect-ratio:3/5}
+.reveal .pic img{width:100%;height:100%;object-fit:cover;object-position:top}
+.reveal h3{font-size:clamp(28px,4vw,40px);color:var(--ink)}
+.reveal .rl{font:700 12px var(--label);letter-spacing:.16em;text-transform:uppercase;color:var(--c)}
+.reveal .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.reveal .acts .btn{padding:11px 14px;font-size:14px}
+.hint{position:absolute;bottom:-34px;left:0;right:0;text-align:center;font:700 13px var(--label);letter-spacing:.14em;text-transform:uppercase;color:var(--soft)}
+
+/* trust */
+.trust{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding-block:30px 10px}
+@media (max-width:760px){.trust{grid-template-columns:repeat(2,1fr)}}
+.trust div{background:#fff;border-radius:18px;padding:14px 16px;box-shadow:0 2px 10px rgba(11,47,102,.06)}
+.trust b{display:block;font:400 20px var(--display)}
+.trust span{font-size:14px;color:var(--soft)}
+
+/* shelves */
+section{padding-block:clamp(40px,6vw,70px)}
+.sh{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap;margin-bottom:20px}
+.sh h2{font-size:clamp(34px,5vw,54px)}
+.filters{display:flex;gap:8px;flex-wrap:wrap}
+.chip{border:0;border-radius:999px;padding:10px 16px;background:#fff;font:800 14px var(--body);box-shadow:inset 0 0 0 2px rgba(11,47,102,.12)}
+.chip[aria-pressed="true"]{background:var(--ink);color:#fff;box-shadow:none}
+.shelf{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+@media (max-width:980px){.shelf{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:640px){.shelf{grid-template-columns:repeat(2,1fr);gap:12px}}
+.prod{display:grid;gap:10px;align-content:start}
+.prod[hidden]{display:none}
+.stage{position:relative;border-radius:26px;background:linear-gradient(180deg,#fff 0,#fff 60%,var(--c) 60%);aspect-ratio:4/5;overflow:hidden;box-shadow:0 2px 0 rgba(11,47,102,.06)}
+.stage img{position:absolute;left:50%;bottom:8%;transform:translateX(-50%);height:84%;width:auto;max-width:none;border-radius:18px;transition:transform .3s}
+.prod:hover .stage img{transform:translateX(-50%) translateY(-8px) rotate(-3deg)}
+.stage .badge{position:absolute;left:12px;top:12px;font:700 11px var(--label);letter-spacing:.14em;text-transform:uppercase;background:var(--spark);padding:5px 9px;border-radius:999px}
+.stage .badge.new{background:var(--pink);color:#fff}
+.prod h3{font:800 17px/1.25 var(--body)}
+.prod .row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.prod .pr{font:400 22px var(--display)}
+.add{border:0;border-radius:999px;padding:9px 14px;background:var(--ink);color:#fff;font-weight:800;font-size:14px}
+.add.done{background:var(--lime);color:var(--ink)}
+.note{margin-top:16px;font-size:13px;color:var(--soft)}
+
+/* bundle */
+.bundle{border-radius:36px;overflow:hidden;display:grid;grid-template-columns:1.2fr 1fr;background:var(--ink);color:#fff}
+@media (max-width:860px){.bundle{grid-template-columns:1fr}}
+.bundle .five{display:grid;grid-template-columns:repeat(5,1fr);align-items:end;padding:28px 20px 0;background:linear-gradient(180deg,#123E80,#0B2F66)}
+.bundle .five img{border-radius:16px 16px 0 0;object-fit:cover;object-position:top;aspect-ratio:3/5;width:100%}
+.bundle .five img:nth-child(odd){transform:translateY(-14px)}
+.bundle .txt{padding:clamp(22px,4vw,44px);display:grid;gap:14px;align-content:center}
+.bundle h2{font-size:clamp(34px,4.6vw,52px)}
+.bundle h2 em{font-style:normal;color:var(--lime)}
+.bundle .old{text-decoration:line-through;opacity:.6;font-weight:700}
+.bundle .new{font:400 44px var(--display);color:var(--spark)}
+
+/* watch */
+.watch{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center}
+@media (max-width:860px){.watch{grid-template-columns:1fr}}
+.watch .vid{position:relative;border-radius:28px;overflow:hidden;aspect-ratio:16/9;box-shadow:0 20px 40px rgba(11,47,102,.2)}
+.watch .vid img{width:100%;height:100%;object-fit:cover}
+.watch .vid span{position:absolute;inset:0;margin:auto;width:84px;height:84px;border-radius:50%;background:rgba(255,255,255,.92);display:grid;place-items:center;font-size:30px;color:var(--ink);box-shadow:0 8px 24px rgba(0,0,0,.3)}
+.watch h2{font-size:clamp(32px,4.4vw,48px)}
+.watch p{color:var(--soft);margin-block:12px 20px;max-width:42ch}
+
+.parents{border-radius:28px;background:#fff;padding:clamp(20px,3vw,34px);display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:center;box-shadow:0 2px 14px rgba(11,47,102,.07)}
+@media (max-width:760px){.parents{grid-template-columns:1fr}}
+.parents h3{font-size:30px}
+.parents form{display:flex;gap:8px;flex-wrap:wrap}
+.parents input{flex:1;min-width:0;font:700 16px var(--body);padding:14px 18px;border-radius:999px;border:2px solid rgba(11,47,102,.15);color:var(--ink);background:var(--ground)}
+footer{padding-block:40px calc(40px + env(safe-area-inset-bottom,0px));margin-top:30px;background:#fff}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;align-items:center}
+footer b{font:400 26px var(--display);background:var(--iri);-webkit-background-clip:text;background-clip:text;color:transparent}
+footer small{color:var(--soft)}
+@media (prefers-reduced-motion:reduce){.orb{animation:none}.orb,.reveal,.stage img,.btn{transition:none}}
+</style>
+</head>
+<body>
+<div class="promo">Free shipping on orders over $40 · <b>New:</b> Team Aero 5-pack</div>
+<header><div class="wrap hd">
+  <a href="#top"><img src="../img/logo-current.jpg" alt="The Qoogies"></a>
+  <nav aria-label="Main"><a href="#shop">Shop</a><a href="#bundle">Bundles</a><a href="#watch">Watch</a><a href="#parents">Parents</a></nav>
+  <button class="bag" type="button" aria-label="Bag">Bag <b id="count">0</b></button>
+</div></header>
+
+<main id="top">
+<div class="wrap hero">
+  <div>
+    <span class="lab">The official Qoogies shop</span>
+    <h1>Bring a <em>bubble</em> home.</h1>
+    <p>Figures, plush and gear from the crew who make it rain across the galaxy. Pop the mystery bubble to see who's waiting for you.</p>
+    <div class="ctas"><a class="btn lime" href="#shop">Shop the crew</a><a class="btn line" href="#watch">▶ Watch the show</a></div>
+  </div>
+  <div class="mystery" id="mys">
+    <button class="orb" id="orb" type="button" aria-label="Pop the mystery bubble"></button>
+    <div class="reveal" id="rev" aria-live="polite"></div>
+    <span class="hint" id="hint">Tap to pop</span>
+  </div>
+</div>
+
+<div class="wrap trust">
+  <div><b>Free shipping</b><span>On orders over $40</span></div>
+  <div><b>Kid-safe</b><span>Tested for ages 3 and up</span></div>
+  <div><b>Easy returns</b><span>30 days, no fuss</span></div>
+  <div><b>Watch free</b><span>Episode 1 is online now</span></div>
+</div>
+
+<section id="shop"><div class="wrap">
+  <div class="sh">
+    <div><span class="lab">Shop</span><h2>Pick your favorite</h2></div>
+    <div class="filters" role="group" aria-label="Filter products">
+      <button class="chip" aria-pressed="true" data-f="all">Everything</button>
+      <button class="chip" aria-pressed="false" data-f="fig">Figures</button>
+      <button class="chip" aria-pressed="false" data-f="plush">Plush</button>
+      <button class="chip" aria-pressed="false" data-f="wear">Wear</button>
+      <button class="chip" aria-pressed="false" data-f="villain">Villains</button>
+    </div>
+  </div>
+  <div class="shelf" id="shelf">
+    <div class="prod" data-k="fig" style="--c:#F0C64A"><div class="stage"><span class="badge">Best seller</span><img src="../img/front-wisp.jpg" alt="Wisp bubble figure"></div><h3>Wisp bubble figure</h3><div class="row"><span class="pr">$14</span><button class="add" type="button">Add</button></div></div>
+    <div class="prod" data-k="plush" style="--c:#FF8A1A"><div class="stage"><img src="../img/front-heelo.jpg" alt="Heelo plush"></div><h3>Heelo squishy plush</h3><div class="row"><span class="pr">$22</span><button class="add" type="button">Add</button></div></div>
+    <div class="prod" data-k="fig" style="--c:#46C2DB"><div class="stage"><span class="badge new">New</span><img src="../img/front-nonni.jpg" alt="Dr. Nonni Nunu figure"></div><h3>Dr. Nonni Nunu figure</h3><div class="row"><span class="pr">$14</span><button class="add" type="button">Add</button></div></div>
+    <div class="prod" data-k="plush" style="--c:#36C8F5"><div class="stage"><img src="../img/front-hydro.jpg" alt="Hydro plush"></div><h3>Hydro squishy plush</h3><div class="row"><span class="pr">$22</span><button class="add" type="button">Add</button></div></div>
+    <div class="prod" data-k="fig" style="--c:#8E6FD8"><div class="stage"><img src="../img/front-buoy.jpg" alt="Buoy figure"></div><h3>Buoy bubble figure</h3><div class="row"><span class="pr">$14</span><button class="add" type="button">Add</button></div></div>
+    <div class="prod" data-k="wear" style="--c:#C8161D"><div class="stage"><img src="../img/front-wisp.jpg" alt="Team Aero jacket"></div><h3>Team Aero kids' jacket</h3><div class="row"><span class="pr">$38</span><button class="add" type="button">Add</button></div></div>
+    <div class="prod" data-k="villain" style="--c:#A6D64A"><div class="stage"><span class="badge">Grumpy</span><img src="../img/front-docneon.jpg" alt="Doc Neon figure"></div><h3>Doc Neon figure</h3><div class="row"><span class="pr">$16</span><button class="add" type="button">Add</button></div></div>
+    <div class="prod" data-k="villain" style="--c:#556B2F"><div class="stage"><img src="../img/front-neonites.jpg" alt="Neonite trooper"></div><h3>Neonite trooper</h3><div class="row"><span class="pr">$12</span><button class="add" type="button">Add</button></div></div>
+  </div>
+  <p class="note">Template note: product names, prices and policies are placeholders.</p>
+</div></section>
+
+<section id="bundle"><div class="wrap">
+  <div class="bundle">
+    <div class="five" aria-hidden="true"><img src="../img/front-wisp.jpg" alt=""><img src="../img/front-heelo.jpg" alt=""><img src="../img/front-nonni.jpg" alt=""><img src="../img/front-hydro.jpg" alt=""><img src="../img/front-buoy.jpg" alt=""></div>
+    <div class="txt">
+      <span class="lab" style="color:var(--aqua)">Bundle</span>
+      <h2>The whole of <em>Team Aero</em> in one box.</h2>
+      <p>All five bubble figures with a display stand shaped like the glass ship's launch bay.</p>
+      <div><span class="old">$70</span> <span class="new">$59</span></div>
+      <button class="btn lime add-b" type="button" style="justify-self:start">Add the 5-pack</button>
+    </div>
+  </div>
+</div></section>
+
+<section id="watch"><div class="wrap watch">
+  <a class="vid" href="#watch" aria-label="Play Episode 1"><img src="../img/pilot-29.jpg" alt="Launch Bay 01 with the Qoogie ground crew"><span>▶</span></a>
+  <div><span class="lab">Watch</span><h2>Meet them on screen first.</h2><p>Episode 1, “Heelo Meets Neon”, is free to watch. Fourteen minutes of rain, rockets and one very grumpy scientist.</p><a class="btn line" href="#watch">▶ Play Episode 1</a></div>
+</div></section>
+
+<section id="parents"><div class="wrap">
+  <div class="parents">
+    <div><span class="lab">For parents</span><h3>Drops, restocks and printables</h3><p style="color:var(--soft)">Hear first when new figures land. One email a month, no ads.</p></div>
+    <form id="nf"><label for="em" class="lab" style="position:absolute;left:-9999px">Parent email</label><input id="em" type="email" placeholder="parent@email.com" required><button class="btn lime" type="submit">Sign up</button></form>
+  </div>
+</div></section>
+</main>
+
+<footer><div class="wrap"><b>Waves Connect Worlds.</b><small>The Qoogies © XBX Entertainment · Shipping · Returns · Privacy · Template 4 · Bubble Shop</small></div></footer>
+
+<script>
+const crew=[['Wisp','Team Leader','#F0C64A','wisp','$14'],['Heelo','Tension Specialist','#FF8A1A','heelo','$22'],['Dr. Nonni Nunu','Hyper Wave Specialist','#46C2DB','nonni','$14'],['Hydro','Mixologist','#36C8F5','hydro','$22'],['Buoy','Interface Specialist','#8E6FD8','buoy','$14']];
+const mys=document.getElementById('mys'),rev=document.getElementById('rev'),hint=document.getElementById('hint'),cnt=document.getElementById('count');let n=0;
+function bump(){cnt.textContent=++n;cnt.classList.add('bump');setTimeout(()=>cnt.classList.remove('bump'),200)}
+document.getElementById('orb').onclick=()=>{const [nm,r,c,f,p]=crew[Math.floor(Math.random()*crew.length)];
+  rev.style.setProperty('--c',c);
+  rev.innerHTML=`<div class="pic"><img src="../img/front-${f}.jpg" alt="${nm}"></div><div><span class="rl">${r}</span><h3>You got ${nm}!</h3><p style="color:var(--soft);font-size:15px;margin-top:6px">${nm} bubble figure · ${p}</p><div class="acts"><button class="btn lime" type="button" id="ra">Add to bag</button><button class="btn line" type="button" id="rb">Pop again</button></div></div>`;
+  mys.classList.add('popped');hint.textContent='Your bubble';
+  document.getElementById('ra').onclick=e=>{bump();e.target.textContent='Added ✓'};
+  document.getElementById('rb').onclick=()=>{mys.classList.remove('popped');hint.textContent='Tap to pop'};};
+document.querySelectorAll('.add').forEach(b=>b.onclick=()=>{bump();b.classList.add('done');b.textContent='Added ✓'});
+document.querySelector('.add-b').onclick=e=>{bump();e.target.textContent='5-pack added ✓'};
+document.querySelectorAll('.chip').forEach(c=>c.onclick=()=>{document.querySelectorAll('.chip').forEach(x=>x.setAttribute('aria-pressed',x===c));
+  document.querySelectorAll('#shelf .prod').forEach(p=>p.hidden=!(c.dataset.f==='all'||p.dataset.k===c.dataset.f))});
+document.getElementById('nf').addEventListener('submit',e=>{e.preventDefault();e.target.outerHTML='<p style="font-weight:900">You\'re in. First drop alert coming soon.</p>'});
+</script>
+</body>
+</html>
