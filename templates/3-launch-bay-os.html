@@ -143,13 +143,32 @@ footer{padding-block:30px calc(30px + env(safe-area-inset-bottom,0px));color:var
 footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 footer b{font:400 22px var(--display);color:var(--text);letter-spacing:0}
 @media (prefers-reduced-motion:reduce){body.alert::before{animation:none}body,.frame{transition:none}}
+/* worlds */
+.wd-orb{position:absolute;left:50%;top:50%;width:58%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle at 32% 28%,#fff 0 6%,transparent 22%),radial-gradient(circle,rgba(79,195,240,.45) 0 52%,#5CE1E6 66%,#FF5FA2 80%,#8B6CF6 92%,transparent);box-shadow:0 0 50px rgba(79,195,240,.55)}
+.wd-dots{position:absolute;inset:0;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;align-content:center;gap:8px;padding:12%}
+.wd-dots i{width:30px;height:30px;border-radius:50%;box-shadow:inset -5px -4px 0 rgba(0,0,0,.25)}
+
+#worlds .wd-tabs{display:flex;gap:6px;flex-wrap:wrap}
+#worlds .wd-tabs button{border:1px solid rgba(79,195,240,.4);background:transparent;color:var(--dim);font:700 12px var(--hud);letter-spacing:.14em;text-transform:uppercase;padding:7px 11px;border-radius:8px;cursor:pointer}
+#worlds .wd-tabs button[aria-pressed="true"]{background:var(--edge);color:#06122B;border-color:var(--edge)}
+.wd-locs{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:16px}
+@media (max-width:800px){.wd-locs{grid-template-columns:1fr}}
+.wd-loc{display:grid;grid-template-columns:110px 1fr auto;gap:14px;align-items:center;text-align:left;border:1px solid rgba(79,195,240,.22);background:rgba(255,255,255,.03);border-radius:14px;padding:10px;color:var(--text);cursor:pointer;transition:border-color .2s,background .2s}
+.wd-loc:hover{border-color:var(--c);background:rgba(79,195,240,.08)}
+.wd-loc[hidden]{display:none}
+.wd-th{position:relative;display:block;aspect-ratio:16/10;border-radius:10px;overflow:hidden;background:radial-gradient(circle,var(--c),var(--d))}
+.wd-th img{width:100%;height:100%;object-fit:cover}
+.wd-th .wd-dots i{width:14px;height:14px}
+.wd-loc h3{font:400 22px/1 var(--display);margin:2px 0}
+.wd-loc p{color:var(--dim);font-size:14px;line-height:1.35}
+@media (max-width:500px){.wd-loc{grid-template-columns:84px 1fr}.wd-loc .pill{display:none}}
 </style>
 </head>
 <body>
 <div class="topband"></div>
 <header class="status"><div class="wrap">
   <a href="#top"><img src="../img/hd/logo.webp" alt="The Qoogies"></a>
-  <nav aria-label="Main"><a href="#top">Bridge</a><a href="#targets">Targets</a><a href="#log">Episodes</a><a href="#files">Villains</a></nav>
+  <nav aria-label="Main"><a href="#top">Bridge</a><a href="#targets">Targets</a><a href="#worlds">Worlds</a><a href="#log">Episodes</a><a href="#files">Villains</a></nav>
   <div class="readouts">
     <div class="meter"><span class="hud" id="wlabel">Water tanks 72%</span><div class="bar"><i id="water"></i></div></div>
     <span class="hud" id="clock">Ship time 00:00</span>
@@ -207,6 +226,11 @@ footer b{font:400 22px var(--display);color:var(--text);letter-spacing:0}
   </div>
 </div></section>
 
+<section id="worlds"><div class="frame">
+  <div class="ph"><span class="hud">Nav computer · Known locations</span><div class="wd-tabs" role="group" aria-label="Filter locations"><button type="button" data-wg="all" aria-pressed="true">All</button><button type="button" data-wg="Qoogie side" aria-pressed="false">Onboard</button><button type="button" data-wg="Out there" aria-pressed="false">Out there</button><button type="button" data-wg="Neon side" aria-pressed="false">Hostile</button><button type="button" data-wg="Pilot" aria-pressed="false">Pilot log</button></div></div>
+  <div class="wd-locs"><button class="wd-loc" type="button" data-world="sphere" data-g="Qoogie side" style="--c:#4FC3F0;--d:#1F6FD1"><span class="wd-th"><span class="wd-orb" aria-hidden="true"></span></span><span><span class="hud">Homeworld</span><h3>The Bubble Sphere</h3><p>Where every Qoogie comes from.</p></span><span class="pill wet">Friendly</span></button><button class="wd-loc" type="button" data-world="ship" data-g="Qoogie side" style="--c:#8B6CF6;--d:#4B2FB8"><span class="wd-th"><img src="../img/hd/ship-144.jpg" alt="" loading="lazy"></span><span><span class="hud">Ship · Team Aero</span><h3>The Qoogie Ship</h3><p>Made of water and light.</p></span><span class="pill wet">Friendly</span></button><button class="wd-loc" type="button" data-world="command" data-g="Qoogie side" style="--c:#F0C64A;--d:#A6750A"><span class="wd-th"><img src="../img/hd/pilot-27.jpg" alt="" loading="lazy"></span><span><span class="hud">Ship room</span><h3>Command Center</h3><p>Wisp’s chair and the big screen.</p></span><span class="pill wet">Friendly</span></button><button class="wd-loc" type="button" data-world="launchbay" data-g="Qoogie side" style="--c:#FF8A1A;--d:#C4560A"><span class="wd-th"><img src="../img/hd/pilot-29.jpg" alt="" loading="lazy"></span><span><span class="hud">Ship room</span><h3>Launch Bay 01</h3><p>“Launch crew ready.”</p></span><span class="pill wet">Friendly</span></button><button class="wd-loc" type="button" data-world="hatch" data-g="Qoogie side" style="--c:#46C2DB;--d:#11788C"><span class="wd-th"><img src="../img/hd/pilot-12.jpg" alt="" loading="lazy"></span><span><span class="hud">Ship room</span><h3>Hatch A</h3><p>The big round door.</p></span><span class="pill wet">Friendly</span></button><button class="wd-loc" type="button" data-world="space" data-g="Out there" style="--c:#5CE1E6;--d:#2A1670"><span class="wd-th"><img src="../img/hd/pilot-56.jpg" alt="" loading="lazy"></span><span><span class="hud">Environment</span><h3>Open Space</h3><p>Deep blue with a nebula glow.</p></span><span class="pill go">Explore</span></button><button class="wd-loc" type="button" data-world="arridia" data-g="Out there" style="--c:#E2995E;--d:#914B2F"><span class="wd-th"><img src="../img/hd/pilot-2.jpg" alt="" loading="lazy"></span><span><span class="hud">Planet · dry world</span><h3>Arridia</h3><p>Dust storms on top. Doc Neon underneath.</p></span><span class="pill go">Explore</span></button><button class="wd-loc" type="button" data-world="targets" data-g="Out there" style="--c:#FF8A5C;--d:#B8432A"><span class="wd-th"><span class="wd-dots" aria-hidden="true"><i style="background:#7FC8A9"></i><i style="background:#C98A4B"></i><i style="background:#F5D093"></i><i style="background:#E2995E"></i><i style="background:#B38AD9"></i><i style="background:#8FA3BF"></i></span></span><span><span class="hud">Planets</span><h3>Target Worlds</h3><p>Six dry planets waiting for rain.</p></span><span class="pill go">Explore</span></button><button class="wd-loc" type="button" data-world="cavern" data-g="Neon side" style="--c:#A6D64A;--d:#4F8A2E"><span class="wd-th"><img src="../img/hd/neon-lab.jpg" alt="" loading="lazy"></span><span><span class="hud">Villain base</span><h3>Doc Neon’s Cavern</h3><p>“Clones for a dry galaxy.”</p></span><span class="pill hot">Hostile</span></button><button class="wd-loc" type="button" data-world="aquafy" data-g="Neon side" style="--c:#4FE0F0;--d:#0B2F66"><span class="wd-th"><img src="../img/hd/aquafy.jpg" alt="" loading="lazy"></span><span><span class="hud">Villain control room</span><h3>Project Aquafy</h3><p>“Water ruins everything.”</p></span><span class="pill hot">Hostile</span></button><button class="wd-loc" type="button" data-world="hangar" data-g="Neon side" style="--c:#8CFF3F;--d:#3A4150"><span class="wd-th"><img src="../img/hd/neon-hangar.jpg" alt="" loading="lazy"></span><span><span class="hud">Villain base</span><h3>Rocket Hangar</h3><p>Built in the dark. Launched straight up.</p></span><span class="pill hot">Hostile</span></button><button class="wd-loc" type="button" data-world="rockets" data-g="Neon side" style="--c:#4F8A2E;--d:#2D5418"><span class="wd-th"><img src="../img/hd/ship-700.jpg" alt="" loading="lazy"></span><span><span class="hud">Ship · Neonite fleet</span><h3>Doc Neon’s Rockets</h3><p>Made of metal and smoke.</p></span><span class="pill hot">Hostile</span></button><button class="wd-loc" type="button" data-world="tether" data-g="Pilot" style="--c:#36C8F5;--d:#1F6FD1"><span class="wd-th"><img src="../img/hd/ship-754.jpg" alt="" loading="lazy"></span><span><span class="hud">Pilot moment</span><h3>The Water Tether</h3><p>Water beats metal.</p></span><span class="pill go">Logged</span></button></div>
+</div></section>
+
 <section id="files"><div class="frame">
   <div class="ph"><span class="hud" style="color:#FF8FA2">Threat files · Classified</span><span class="hud" style="color:var(--dim)">Tap to open</span></div>
   <div class="files">
@@ -223,6 +247,10 @@ footer b{font:400 22px var(--display);color:var(--text);letter-spacing:0}
 <footer><div class="wrap"><b>Waves Connect Worlds.</b><span>The Qoogies © XBX Entertainment · Press and partners · Parents · Template 3 · Launch Bay OS</span></div></footer>
 
 <script src="crew.js" data-skin="hud"></script>
+<script src="worlds.js" data-skin="hud"></script>
+<script>
+document.querySelector('#worlds .wd-tabs').addEventListener('click', e => { const b = e.target.closest('[data-wg]'); if (!b) return; e.currentTarget.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b)); document.querySelectorAll('.wd-loc').forEach(l => l.hidden = b.dataset.wg !== 'all' && l.dataset.g !== b.dataset.wg); });
+</script>
 <script>
 const crew=[
  {n:'Wisp',r:'Team Leader',q:'Bigger waves. Brighter worlds.',c:'#F0C64A',img:'front-wisp',t:['Confident','Brave','Optimistic','Inspirational'],sw:['#F0C64A','#E2262B','#C8161D','#3FA9E8'],k:'Blond swoop hair and red goggles.'},

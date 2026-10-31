@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Qoogies · Ship Tour</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Exo+2:wght@600;700;800&family=Lilita+One&family=Nunito:wght@400;700;800;900&display=swap">
+<style>
+/* Layout: a guided tour. A blueprint of the glass Qoogie ship with tour stops you can tap → who works where → then the page drops through Arridia's dust into Doc Neon's underground cavern (Project Aquafy, labs, canteen, hangar and the silo, where you can launch a rocket) → the two fleets side by side. */
+:root{
+  --bp:#1350A8; --bp2:#0D3274; --white:#fff; --pale:#CFE3FF; --sun:#FFE14A; --pink:#FF5FA2; --aqua:#4FC3F0; --cyan:#5CE1E6; --lime:#9BE22E;
+  --dust:#E2995E; --rust:#914B2F; --sand:#F5D093; --slime:#A6D64A; --rock:#2A1810;
+  --foam:#E8F6FF; --ink:#0B2F66;
+  --iri:linear-gradient(100deg,#5CE1E6,#B6F03C 25%,#FFE14A 45%,#FF8A5C 62%,#FF5FA2 78%,#8B6CF6);
+  --display:"Lilita One","Arial Rounded MT Bold",system-ui,sans-serif;
+  --label:"Exo 2","Trebuchet MS",system-ui,sans-serif;
+  --body:"Nunito","Segoe UI",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--white);font:400 17px/1.6 var(--body);background:var(--bp);overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:inherit}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--sun);outline-offset:3px;border-radius:10px}
+.wrap{max-width:1240px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;line-height:.98;text-wrap:balance}
+p{margin:0}
+.lab{font:800 12px/1.2 var(--label);letter-spacing:.22em;text-transform:uppercase;color:var(--sun)}
+.btn{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:14px 22px;font:800 15px/1 var(--label);letter-spacing:.05em;text-decoration:none;border:0;cursor:pointer;transition:transform .15s}
+.btn:hover{transform:translateY(-2px)}
+.btn.lime{background:var(--lime);color:#0D3274}
+.btn.sun{background:var(--sun);color:#0D3274}
+.btn.line{box-shadow:inset 0 0 0 2px currentColor;background:transparent}
+.blue{background-image:linear-gradient(rgba(255,255,255,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.08) 1px,transparent 1px),linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:112px 112px,112px 112px,28px 28px,28px 28px}
+
+header{position:sticky;top:0;z-index:20;background:rgba(13,50,116,.86);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.18)}
+.hd{display:flex;align-items:center;justify-content:space-between;gap:14px;padding-block:10px}
+.hd img{width:124px;height:auto}
+.hd nav{display:flex;gap:2px;align-items:center;flex-wrap:wrap}
+.hd nav a:not(.btn){font:700 14px var(--label);letter-spacing:.05em;text-decoration:none;padding:8px 11px;border-radius:10px;color:var(--pale)}
+.hd nav a:not(.btn):hover{color:#fff;background:rgba(255,255,255,.1)}
+@media (max-width:900px){.hd nav a:not(.btn){display:none}}
+
+/* ship */
+#ship{padding-block:40px 20px;position:relative}
+.intro{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap}
+.intro h1{font-size:clamp(46px,7.4vw,100px)}
+.intro h1 span{background:var(--iri);-webkit-background-clip:text;background-clip:text;color:transparent}
+.intro p{max-width:40ch;color:var(--pale);font-size:18px}
+.stamp{display:inline-block;margin-bottom:12px;border:2px solid var(--sun);color:var(--sun);font:800 12px var(--label);letter-spacing:.2em;text-transform:uppercase;padding:6px 10px;border-radius:6px;transform:rotate(-2deg)}
+.plan{position:relative;margin-top:18px}
+.plan svg{width:100%;height:auto;display:block;overflow:visible}
+.float{animation:bob 6s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-10px)}}
+.thrust{transform-box:fill-box;transform-origin:100% 50%;animation:thrust .35s ease-in-out infinite alternate}
+@keyframes thrust{to{transform:scaleX(.78)}}
+.wave{animation:wave 3s ease-in-out infinite alternate}
+@keyframes wave{to{transform:translateY(8px)}}
+.star{animation:tw 3s ease-in-out infinite}
+@keyframes tw{50%{opacity:.2}}
+.room{cursor:pointer;transition:filter .2s}
+.room:hover,.room.on{filter:brightness(1.35) drop-shadow(0 0 10px rgba(255,255,255,.6))}
+.spot{cursor:pointer}
+.spot circle{fill:var(--sun);stroke:#0D3274;stroke-width:4;transition:r .2s}
+.spot text{font:400 22px var(--display);fill:#0D3274;text-anchor:middle;dominant-baseline:central;pointer-events:none}
+.spot .ping{fill:none;stroke:var(--sun);stroke-width:3;animation:ping 2s ease-out infinite;transform-box:fill-box;transform-origin:center}
+.spot.on circle:not(.ping){fill:var(--pink)}
+@keyframes ping{from{transform:scale(1);opacity:.9}to{transform:scale(2.2);opacity:0}}
+.callout{font:800 15px var(--label);letter-spacing:.12em;fill:var(--pale);text-transform:uppercase}
+.stops{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.stops button{display:inline-flex;align-items:center;gap:8px;border:0;cursor:pointer;border-radius:999px;padding:8px 14px 8px 8px;background:rgba(255,255,255,.1);box-shadow:inset 0 0 0 1px rgba(255,255,255,.25);font:800 14px var(--body)}
+.stops button i{width:26px;height:26px;border-radius:50%;background:var(--sun);color:#0D3274;font:400 15px/26px var(--display);font-style:normal;text-align:center}
+.stops button[aria-pressed="true"]{background:#fff;color:#0D3274}
+.stops button[aria-pressed="true"] i{background:var(--pink);color:#fff}
+.panel{margin-top:18px;display:grid;grid-template-columns:340px 1fr;gap:24px;align-items:center;background:rgba(13,50,116,.75);border:2px solid rgba(255,255,255,.5);border-radius:24px;padding:18px;min-height:230px}
+@media (max-width:760px){.panel{grid-template-columns:1fr}}
+.panel .pic{position:relative;aspect-ratio:16/10;border-radius:16px;overflow:hidden;background:radial-gradient(circle at 50% 40%,var(--c),#0D3274)}
+.panel .pic img{width:100%;height:100%;object-fit:cover}
+.panel .pic img.cut{object-fit:contain;object-position:50% 100%;padding-top:10px}
+.panel .pic .n{position:absolute;left:10px;top:10px;width:40px;height:40px;border-radius:50%;background:var(--sun);color:#0D3274;font:400 22px/40px var(--display);text-align:center}
+.panel h3{font-size:clamp(30px,3.4vw,42px)}
+.panel .k{font:800 12px var(--label);letter-spacing:.18em;text-transform:uppercase;color:var(--c)}
+.panel p{color:var(--pale);margin-top:8px;max-width:58ch}
+.panel .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:14px}
+.face{width:46px;height:46px;border-radius:50%;padding:0;overflow:hidden;cursor:pointer;border:3px solid var(--c);background:#0D3274;transition:transform .15s}
+.face:hover{transform:translateY(-3px)}
+.face img{width:100%;height:100%;object-fit:cover;object-position:50% 8%}
+.swap{animation:swap .45s cubic-bezier(.2,.8,.2,1)}
+@keyframes swap{from{opacity:0;transform:translateY(12px)}}
+
+/* stations */
+#crew{padding-block:60px 80px}
+#crew h2{font-size:clamp(36px,5vw,62px);margin:8px 0 24px}
+.stations{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+@media (max-width:1000px){.stations{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:620px){.stations{grid-template-columns:repeat(2,1fr)}}
+.st{position:relative;border:2px solid rgba(255,255,255,.55);border-radius:20px;padding:0 0 16px;background:rgba(13,50,116,.6);cursor:pointer;text-align:left;overflow:hidden;display:grid;transition:transform .2s,border-color .2s}
+.st:hover{transform:translateY(-5px);border-color:var(--c)}
+.st .fig{height:180px;background:radial-gradient(circle at 50% 70%,var(--c),transparent 70%);display:grid;place-items:end center;overflow:hidden}
+.st .fig img{height:210px;width:auto;max-width:none;margin-bottom:-30px}
+.st b{font:400 24px/1 var(--display);padding:12px 14px 0}
+.st small{display:block;font:800 11px var(--label);letter-spacing:.16em;text-transform:uppercase;color:var(--c);padding:4px 14px 0}
+.st span{display:block;color:var(--pale);font-size:14px;line-height:1.45;padding:6px 14px 0}
+
+/* down */
+#down{position:relative;background:linear-gradient(180deg,var(--bp) 0,#3C3E8F 160px,#C9683A 420px,var(--dust) 520px)}
+.drop{text-align:center;padding-block:40px 30px;display:grid;justify-items:center;gap:10px}
+.drop h2{font-size:clamp(38px,6vw,78px);text-shadow:0 4px 0 rgba(145,75,47,.5)}
+.drop p{max-width:52ch;color:#FFF3E6}
+.surface{position:relative;height:200px;background:url(../img/hd/pilot-2.jpg) 50% 62%/cover;box-shadow:inset 0 -40px 40px -10px var(--rust)}
+.surface::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,var(--dust),transparent 40%)}
+.surface .tag{position:absolute;left:max(16px,env(safe-area-inset-left,0px));bottom:18px;z-index:2;font:800 12px var(--label);letter-spacing:.2em;text-transform:uppercase;background:rgba(42,24,16,.7);padding:7px 11px;border-radius:999px}
+.rock{position:relative;padding-block:50px 70px;background:linear-gradient(180deg,var(--rust),#5c2e1c 30%,#3a1f14 60%,var(--rock)),var(--rust)}
+.rock::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(172deg,rgba(0,0,0,.12) 0 3px,transparent 3px 70px),radial-gradient(circle at 20% 30%,rgba(245,208,147,.12) 0 2px,transparent 3px) 0 0/60px 60px;pointer-events:none}
+.cave{position:relative;display:grid;grid-template-columns:1fr 1fr 120px;grid-template-rows:auto auto;gap:34px 26px}
+@media (max-width:860px){.cave{grid-template-columns:1fr}.silo,.launch{display:none!important}}
+.ch{position:relative;border:0;padding:0;cursor:pointer;text-align:left;background:transparent;display:grid;grid-template-rows:1fr auto;gap:0;transition:transform .25s}
+.ch:hover{transform:translateY(-4px)}
+.ch .blob{display:block;height:100%;border-radius:var(--blob);overflow:hidden;background:#140c08;box-shadow:0 0 0 5px rgba(42,24,16,.9),0 0 0 8px var(--edge,#A6D64A),0 24px 60px rgba(0,0,0,.5)}
+.ch img{width:100%;height:100%;object-fit:cover;aspect-ratio:16/10;transition:transform .6s}
+.ch:hover img{transform:scale(1.06)}
+.ch .lbl{display:block;padding:18px 8px 0}
+.ch .lbl small{font:800 11px var(--label);letter-spacing:.18em;text-transform:uppercase;color:var(--edge,#A6D64A)}
+.ch .lbl b{display:block;font:400 clamp(24px,2.6vw,34px)/1 var(--display)}
+.ch .lbl span{display:block;color:#F1E2CF;font-size:14px;margin-top:4px}
+.ch.a{grid-column:1;grid-row:1;--blob:44% 56% 38% 62% / 52% 44% 56% 48%}
+.ch.b{grid-column:2;grid-row:1;--blob:58% 42% 50% 50% / 46% 58% 42% 54%;--edge:#4FC3F0}
+.ch.c{grid-column:1;grid-row:2;--blob:50% 50% 60% 40% / 40% 54% 46% 60%;--edge:#A7703D}
+.ch.d{grid-column:2 / 4;grid-row:2;--blob:40% 60% 52% 48% / 56% 40% 60% 44%;--edge:#8CFF3F}
+@media (max-width:860px){.ch.a,.ch.b,.ch.c,.ch.d{grid-column:1;grid-row:auto}}
+.canteen{aspect-ratio:16/10;height:100%;display:grid;place-items:center;background:radial-gradient(60% 70% at 50% 55%,#6b4527,#24150c)}
+.cat{display:flex;align-items:flex-end;animation:inch 2.6s ease-in-out infinite}
+.cat b{width:46px;height:46px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#D69A62,#8A5A33);margin-left:-12px;box-shadow:inset -6px -6px 0 rgba(0,0,0,.18)}
+.cat b:first-child{margin-left:0}
+.cat b.h{width:64px;height:64px;position:relative}
+.cat b.h::before,.cat b.h::after{content:"";position:absolute;top:15px;width:18px;height:22px;border-radius:50%;background:radial-gradient(circle at 50% 60%,#111 0 32%,#fff 34%)}
+.cat b.h::before{left:11px}.cat b.h::after{right:11px}
+.cat .tray{position:absolute;top:-18px;left:-30px;width:120px;height:10px;border-radius:6px;background:#C9CED8;box-shadow:0 -18px 0 -3px #FF8A5C,0 -25px 0 -2px #E6F52F}
+@keyframes inch{50%{transform:scaleX(.9) translateY(-6px)}}
+.silo{grid-column:3;grid-row:1;position:relative;margin-top:-50px;margin-bottom:-34px;border-radius:30px 30px 0 0;background:linear-gradient(90deg,#0d0806,#2a1a12 30%,#2a1a12 70%,#0d0806);box-shadow:inset 0 0 0 4px rgba(140,255,63,.25);overflow:visible}
+.silo::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(180deg,transparent 0 40px,rgba(140,255,63,.28) 40px 43px);border-radius:inherit}
+.silo .lbl{position:absolute;left:50%;top:40%;transform:translate(-50%,-50%) rotate(-90deg);font:800 12px var(--label);letter-spacing:.3em;color:rgba(255,255,255,.5);white-space:nowrap}
+.rocket{position:absolute;left:50%;bottom:0;width:46px;margin-left:-23px;z-index:4;pointer-events:none}
+.rocket .flame{position:absolute;left:50%;top:92%;width:22px;height:46px;margin-left:-11px;border-radius:50% 50% 50% 50% / 30% 30% 70% 70%;background:radial-gradient(circle at 50% 20%,#fff,#C6FF7A 40%,#8CFF3F 60%,transparent 72%);opacity:0;transform-origin:50% 0}
+.rocket.go .flame{opacity:1;animation:fl .12s linear infinite alternate}
+@keyframes fl{to{transform:scaleY(1.3)}}
+.launch{grid-column:3;grid-row:2;align-self:start;justify-self:center;margin-top:30px;z-index:3;padding:12px 14px;font-size:13px}
+.toast{position:fixed;left:50%;top:90px;transform:translateX(-50%);z-index:30;display:flex;align-items:center;gap:12px;background:#fff;color:#0D3274;border-radius:999px;padding:8px 18px 8px 8px;font:800 16px var(--body);box-shadow:0 20px 50px rgba(0,0,0,.35)}
+.toast img{width:48px;height:48px;border-radius:50%;object-fit:cover;object-position:50% 8%;background:#FF8A1A}
+.lore{margin-top:40px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media (max-width:860px){.lore{grid-template-columns:1fr}}
+.lore p{background:rgba(0,0,0,.35);border:1px solid rgba(166,214,74,.35);border-radius:18px;padding:16px 18px;color:#F1E2CF;font-size:15px}
+.lore b{display:block;font:400 22px var(--display);color:var(--slime);margin-bottom:4px}
+
+/* fleets */
+#fleets{background:var(--foam);color:var(--ink);padding-block:80px}
+#fleets h2{font-size:clamp(36px,5vw,64px)}
+#fleets .lab{color:#1F6FD1}
+.vs{display:grid;grid-template-columns:1fr auto 1fr;gap:20px;align-items:stretch;margin-top:26px}
+@media (max-width:860px){.vs{grid-template-columns:1fr}.vs .mid{justify-self:center}}
+.fleet{border-radius:28px;padding:24px;display:grid;gap:14px;align-content:start;background:#fff;box-shadow:0 20px 50px rgba(11,47,102,.12)}
+.fleet.q{background:linear-gradient(160deg,#fff,#DDEBFF)}
+.fleet.n{background:linear-gradient(160deg,#fff,#E8F5D6)}
+.fleet .art{height:200px;display:grid;place-items:center;border-radius:20px;background:var(--bg)}
+.fleet .art img{height:80%;width:auto;filter:drop-shadow(0 16px 20px rgba(0,0,0,.25));animation:bob 5s ease-in-out infinite}
+.fleet .art svg{height:86%;width:auto;filter:drop-shadow(0 16px 20px rgba(0,0,0,.25));animation:bob 5s ease-in-out infinite reverse}
+.fleet h3{font-size:34px}
+.fleet dl{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;margin:0}
+.fleet dt{font:800 11px/1.9 var(--label);letter-spacing:.16em;text-transform:uppercase;color:#5E7BA6}
+.fleet dd{margin:0}
+.sw{display:flex;gap:6px}
+.sw i{width:30px;height:30px;border-radius:50%;box-shadow:inset 0 0 0 2px rgba(255,255,255,.6),0 0 0 1px rgba(11,47,102,.15)}
+.mid{align-self:center;display:grid;place-items:center;width:120px;height:120px;border-radius:50%;background:var(--ink);color:#fff;font:400 34px var(--display);box-shadow:0 0 0 10px #fff,0 20px 40px rgba(11,47,102,.25)}
+.verdict{margin-top:30px;display:flex;gap:18px;align-items:center;flex-wrap:wrap;justify-content:space-between;background:var(--ink);color:#fff;border-radius:24px;padding:22px 24px}
+.verdict h3{font-size:clamp(26px,3vw,36px)}
+.verdict p{color:var(--pale)}
+footer{background:var(--bp2);padding-block:36px calc(36px + env(safe-area-inset-bottom,0px))}
+footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
+footer b{font:400 28px var(--display);background:var(--iri);-webkit-background-clip:text;background-clip:text;color:transparent}
+footer small{color:var(--pale)}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.float,.thrust,.wave,.star,.spot .ping,.cat,.fleet .art img,.fleet .art svg{animation:none}.swap{animation:none}}
+</style>
+</head>
+<body>
+<header><div class="wrap hd">
+  <a href="#top"><img src="../img/hd/logo.webp" alt="The Qoogies" width="124" height="50"></a>
+  <nav aria-label="Main"><a href="#ship">The ship</a><a href="#crew">Who works where</a><a href="#down">Doc Neon’s cavern</a><a href="#fleets">Two fleets</a><a class="btn lime" href="#fleets">▶ Watch</a></nav>
+</div></header>
+
+<main id="top">
+<section class="blue" id="ship">
+  <div class="wrap">
+    <div class="intro">
+      <div><span class="stamp">Tour pass · all decks</span><h1>All aboard the <span>Qoogie ship</span></h1></div>
+      <p>A hydro-forming cruiser made of water and light. You can see right through the hull, so tap a yellow stop and look inside.</p>
+    </div>
+    <div class="plan">
+      <svg viewBox="0 0 1200 500" role="group" aria-label="Cutaway plan of the Qoogie ship with tour stops">
+        <defs>
+          <linearGradient id="iri" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#5CE1E6"/><stop offset=".3" stop-color="#B6F03C"/><stop offset=".5" stop-color="#FFE14A"/><stop offset=".7" stop-color="#FF5FA2"/><stop offset="1" stop-color="#8B6CF6"/></linearGradient>
+          <radialGradient id="glass" cx=".35" cy=".3" r=".9"><stop offset="0" stop-color="#fff" stop-opacity=".7"/><stop offset=".35" stop-color="#DDEBFF" stop-opacity=".25"/><stop offset="1" stop-color="#4FC3F0" stop-opacity=".15"/></radialGradient>
+          <radialGradient id="pod" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#fff"/><stop offset=".4" stop-color="#9FE8FF"/><stop offset="1" stop-color="#1F6FD1"/></radialGradient>
+          <linearGradient id="flame" x1="1" x2="0"><stop offset="0" stop-color="#fff"/><stop offset=".3" stop-color="#4FC3F0"/><stop offset="1" stop-color="#4FC3F0" stop-opacity="0"/></linearGradient>
+          <clipPath id="hullclip"><path d="M300,170 H900 C1020,170 1100,230 1100,280 C1100,330 1020,390 900,390 H300 C250,390 220,350 220,280 C220,210 250,170 300,170 Z"/></clipPath>
+        </defs>
+        <g fill="#fff"><circle class="star" cx="80" cy="60" r="2"/><circle class="star" cx="300" cy="40" r="1.5" style="animation-delay:-1s"/><circle class="star" cx="1120" cy="90" r="2.4" style="animation-delay:-2s"/><circle class="star" cx="980" cy="470" r="1.6"/><circle class="star" cx="60" cy="440" r="2" style="animation-delay:-1.5s"/><circle class="star" cx="640" cy="30" r="1.4" style="animation-delay:-.5s"/></g>
+        <g class="float">
+          <!-- thrust -->
+          <ellipse class="thrust" cx="50" cy="215" rx="110" ry="22" fill="url(#flame)"/>
+          <ellipse class="thrust" cx="20" cy="280" rx="130" ry="28" fill="url(#flame)" style="animation-delay:-.15s"/>
+          <ellipse class="thrust" cx="50" cy="345" rx="110" ry="22" fill="url(#flame)" style="animation-delay:-.3s"/>
+          <!-- engines -->
+          <g class="room" data-room="engines"><circle cx="190" cy="215" r="46" fill="url(#pod)" stroke="#fff" stroke-width="4"/><circle cx="160" cy="280" r="56" fill="url(#pod)" stroke="#fff" stroke-width="4"/><circle cx="190" cy="345" r="46" fill="url(#pod)" stroke="#fff" stroke-width="4"/></g>
+          <!-- dome -->
+          <g class="room" data-room="dome"><path d="M560,174 C560,92 770,92 770,174 Z" fill="url(#glass)" stroke="#fff" stroke-width="4"/><path d="M590,150 C600,120 640,108 670,110" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round" opacity=".8"/></g>
+          <!-- hull -->
+          <path d="M300,170 H900 C1020,170 1100,230 1100,280 C1100,330 1020,390 900,390 H300 C250,390 220,350 220,280 C220,210 250,170 300,170 Z" fill="url(#iri)" fill-opacity=".28" stroke="#fff" stroke-width="5"/>
+          <g clip-path="url(#hullclip)">
+            <path d="M220,280 C400,240 700,320 1100,270" stroke="#fff" stroke-opacity=".18" stroke-width="40" fill="none"/>
+            <!-- tanks -->
+            <g class="room" data-room="tanks"><rect x="262" y="192" width="118" height="176" rx="46" fill="#4FC3F0" fill-opacity=".35" stroke="#fff" stroke-width="3"/><path class="wave" d="M262,262 q20,-14 40,0 t40,0 t40,0 v120 h-120z" fill="#4FC3F0" fill-opacity=".75"/></g>
+            <!-- crew pods -->
+            <g class="room" data-room="pods"><circle cx="430" cy="218" r="18" fill="#8B6CF6" fill-opacity=".7" stroke="#fff" stroke-width="3"/><circle cx="474" cy="218" r="18" fill="#8B6CF6" fill-opacity=".7" stroke="#fff" stroke-width="3"/><circle cx="518" cy="218" r="18" fill="#8B6CF6" fill-opacity=".7" stroke="#fff" stroke-width="3"/><circle cx="562" cy="218" r="18" fill="#8B6CF6" fill-opacity=".7" stroke="#fff" stroke-width="3"/><circle cx="606" cy="218" r="18" fill="#8B6CF6" fill-opacity=".7" stroke="#fff" stroke-width="3"/></g>
+            <!-- lab -->
+            <g class="room" data-room="lab"><rect x="640" y="194" width="220" height="84" rx="34" fill="#46C2DB" fill-opacity=".55" stroke="#fff" stroke-width="3"/><circle cx="690" cy="236" r="14" fill="#fff" fill-opacity=".8"/><circle cx="726" cy="236" r="9" fill="#fff" fill-opacity=".6"/><path d="M760,250 q20,-30 40,0 t40,0" stroke="#fff" stroke-width="4" fill="none"/></g>
+            <!-- launch bay -->
+            <g class="room" data-room="launchbay"><rect x="404" y="290" width="330" height="84" rx="32" fill="#FF8A1A" fill-opacity=".55" stroke="#fff" stroke-width="3"/><g fill="#F2B620" stroke="#C8161D" stroke-width="3"><circle cx="450" cy="332" r="9"/><circle cx="485" cy="332" r="9"/><circle cx="520" cy="332" r="9"/><circle cx="555" cy="332" r="9"/><circle cx="590" cy="332" r="9"/><circle cx="625" cy="332" r="9"/></g><text x="700" y="340" font-family="Lilita One" font-size="26" fill="#fff" text-anchor="middle">01</text></g>
+            <!-- hatch -->
+            <g class="room" data-room="hatch"><circle cx="796" cy="334" r="40" fill="#B9C4D6" fill-opacity=".7" stroke="#fff" stroke-width="4"/><text x="796" y="346" font-family="Lilita One" font-size="36" fill="#0D3274" text-anchor="middle">A</text></g>
+            <!-- command -->
+            <g class="room" data-room="command"><path d="M880,210 H950 C1030,210 1080,250 1080,280 C1080,310 1030,350 950,350 H880 Z" fill="#F0C64A" fill-opacity=".55" stroke="#fff" stroke-width="3"/><rect x="960" y="250" width="70" height="44" rx="10" fill="#0D3274" stroke="#fff" stroke-width="3"/><path d="M970,282 l14,-14 12,10 20,-18" stroke="#4FC3F0" stroke-width="4" fill="none"/></g>
+          </g>
+          <!-- labels -->
+          <text class="callout" x="160" y="160" text-anchor="middle">Bubble-pod engines</text>
+          <text class="callout" x="665" y="78" text-anchor="middle">Glass dome</text>
+          <text class="callout" x="1000" y="420" text-anchor="middle">Command Center</text>
+          <!-- stops -->
+          <g id="spots"></g>
+        </g>
+      </svg>
+    </div>
+    <div class="stops" id="stops" role="group" aria-label="Tour stops"></div>
+    <div class="panel" id="panel" aria-live="polite"></div>
+  </div>
+</section>
+
+<section class="blue" id="crew">
+  <div class="wrap">
+    <span class="lab">Who works where</span>
+    <h2>Every job on board</h2>
+    <div class="stations" id="stations"></div>
+  </div>
+</section>
+
+<section id="down">
+  <div class="wrap drop"><span class="lab" style="color:#fff">Next stop</span><h2>Now drop down to Arridia</h2><p>Below the dust storms, cut into dark rock, is Doc Neon’s cavern. Lit by blue holograms and lime tanks. Mind the Neonites.</p><span aria-hidden="true" style="font-size:34px">↓</span></div>
+  <div class="surface"><span class="tag">Surface · dust storms, no rain</span></div>
+  <div class="rock" id="worlds">
+    <div class="wrap">
+      <div class="cave" id="cave">
+        <button class="ch a" type="button" data-world="aquafy"><span class="blob"><img src="../img/hd/aquafy.jpg" alt="" loading="lazy"></span><span class="lbl"><small>Control room</small><b>Project Aquafy</b><span>Clone. Deploy. Convert. Complete.</span></span></button>
+        <button class="ch b" type="button" data-world="cavern"><span class="blob"><img src="../img/hd/neon-lab.jpg" alt="" loading="lazy"></span><span class="lbl"><small>Labs</small><b>The Neon labs</b><span>Neonites in lab coats run the consoles.</span></span></button>
+        <div class="silo" id="silo"><span class="lbl">SILO</span><div class="rocket" id="rocket"><span class="flame"></span><svg viewBox="0 0 40 100" aria-hidden="true"><path d="M20 2C32 18 34 40 32 72H8C6 40 8 18 20 2Z" fill="#4F8A2E"/><path d="M20 2C26 10 29 20 30 30H10C11 20 14 10 20 2Z" fill="#C0262D"/><rect x="8" y="46" width="24" height="7" fill="#C0262D"/><circle cx="20" cy="36" r="5" fill="#D9A93A"/><path d="M8 58L0 86 9 80ZM32 58L40 86 31 80Z" fill="#3A4150"/><path d="M12 72H28L25 80H15Z" fill="#3A4150"/></svg></div></div>
+        <button class="ch c" type="button" data-world="cavern"><span class="blob"><div class="canteen"><div class="cat"><b></b><b></b><b></b><b class="h"><span class="tray"></span></b></div></div></span><span class="lbl"><small>Canteen</small><b>Caterpillar servers</b><span>They carry the food trays. Names still secret.</span></span></button>
+        <button class="ch d" type="button" data-world="hangar"><span class="blob"><img src="../img/hd/neon-hangar.jpg" alt="" loading="lazy"></span><span class="lbl"><small>Hangar</small><b>Rocket hangar</b><span>Built under lime-lit tanks, then fired up the silo.</span></span></button>
+        <button class="btn sun launch" type="button" id="launch">🚀 Launch a rocket</button>
+      </div>
+      <div class="lore">
+        <p><b>The Neometer</b>Doc Neon’s screen for checking how dry a world is.</p>
+        <p><b>The halo pad</b>His other favorite tool. What it does is still top secret.</p>
+        <p><b>The banners</b>“Clones for a dry galaxy.” “Arid worlds. Eternal conflict. No more water.”</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="fleets">
+  <div class="wrap">
+    <span class="lab">Two fleets</span>
+    <h2>Tell them apart in one second</h2>
+    <div class="vs">
+      <article class="fleet q"><div class="art" style="--bg:radial-gradient(circle at 50% 50%,#BFE9FF,#4FC3F0)"><img src="../img/hd/ship-icon.webp" alt="The Qoogie ship"></div><h3>The Qoogie ship</h3>
+        <dl><dt>Shape</dt><dd>Round, long and horizontal</dd><dt>Made of</dt><dd>Water and light. Glass you can see through.</dd><dt>Glow</dt><dd>From inside: aqua engines, tanks and pods</dd><dt>Weapons</dt><dd>None. Never.</dd></dl>
+        <div class="sw"><i style="background:#DDEBFF"></i><i style="background:#4FC3F0"></i><i style="background:#8B6CF6"></i><i style="background:#B9C4D6"></i></div>
+        <button class="btn line" type="button" data-world="ship" style="justify-self:start">Ship file →</button></article>
+      <div class="mid">vs</div>
+      <article class="fleet n"><div class="art" style="--bg:radial-gradient(circle at 50% 50%,#3a4150,#141820)"><svg viewBox="0 0 40 100" aria-label="One of Doc Neon's rockets" role="img"><path d="M20 2C32 18 34 40 32 72H8C6 40 8 18 20 2Z" fill="#4F8A2E"/><path d="M20 2C26 10 29 20 30 30H10C11 20 14 10 20 2Z" fill="#C0262D"/><rect x="8" y="46" width="24" height="7" fill="#C0262D"/><circle cx="20" cy="36" r="5" fill="#D9A93A"/><path d="M8 58L0 86 9 80ZM32 58L40 86 31 80Z" fill="#3A4150"/><path d="M12 72H28L25 80H15Z" fill="#3A4150"/><ellipse cx="20" cy="88" rx="6" ry="9" fill="#8CFF3F"/></svg></div><h3>Doc Neon’s rockets</h3>
+        <dl><dt>Shape</dt><dd>Pointed, tall and vertical. Retro 1950s fins.</dd><dt>Made of</dt><dd>Painted metal, rivets, smoke and dust</dd><dt>Glow</dt><dd>Lime, only from engines and tanks</dd><dt>Variants</dt><dd>Standard rocket, and the heavy launcher with four lime boosters</dd></dl>
+        <div class="sw"><i style="background:#4F8A2E"></i><i style="background:#C0262D"></i><i style="background:#D9A93A"></i><i style="background:#8CFF3F"></i><i style="background:#3A4150"></i></div>
+        <button class="btn line" type="button" data-world="rockets" style="justify-self:start">Rocket file →</button></article>
+    </div>
+    <div class="verdict"><div><h3>Who wins? Water beats metal.</h3><p>In the pilot, Heelo catches a rocket with a tether of water bubbles. Watch it happen at 12:34.</p></div><button class="btn sun" type="button" data-world="tether">See the catch →</button></div>
+  </div>
+</section>
+</main>
+
+<footer><div class="wrap"><b>Waves Connect Worlds.</b><small>The Qoogies © XBX Entertainment · Parents · Privacy · Template 9 · Ship Tour</small></div></footer>
+
+<script src="crew.js" data-skin="blueprint"></script>
+<script src="worlds.js" data-skin="blueprint"></script>
+<script>
+const C = QoogiePopup.crew, W = QoogieWorlds.worlds, IMG = '../img/hd/';
+const reduce = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+// tour stops: [id, x, y, name, kind, text, image, world, crew, color]
+const STOPS = [
+  ['command', 1000, 300, 'Command Center', 'Front of the ship', 'Wisp’s chair and the big screen. This is where the team plans every mission, and where Doc Neon likes to interrupt with a video link.', 'pilot-27.jpg', 'command', ['wisp'], '#F0C64A'],
+  ['hatch', 796, 334, 'Hatch A', 'Lower deck', 'The big round door with a giant letter A. Dr. Nonni Nunu floats out of it in a cloud of cool mist.', 'pilot-12.jpg', 'hatch', ['nonni'], '#46C2DB'],
+  ['launchbay', 560, 300, 'Launch Bay 01', 'Lower deck', 'The ground crew lines up here in red suits and gold hard hats. Spacesuits wait in bubble pods along the walls.', 'pilot-29.jpg', 'launchbay', ['heelo', 'hydro', 'buoy'], '#FF8A1A'],
+  ['lab', 750, 236, 'Nonni’s lab', 'Upper deck', 'Where Dr. Nonni Nunu builds the hyper wave inventions that carry water to arid worlds.', 'nonni.webp', null, ['nonni'], '#46C2DB'],
+  ['pods', 518, 218, 'Crew pods', 'Upper deck', 'Rows of glowing pods for the crew. Through the glass hull, you can see them light up from outside.', 'ship-144.jpg', 'ship', [], '#8B6CF6'],
+  ['tanks', 321, 230, 'Water tanks', 'Back of the ship', 'Glowing tanks full of water, ready to become clouds and rain. They’re the whole reason the ship exists.', 'ship-cutaway.jpg', 'ship', [], '#4FC3F0'],
+  ['dome', 665, 128, 'The glass dome', 'Top deck', 'A bubble of glass on top of the ship for looking out at the stars, and down at the next dry world.', 'pilot-56.jpg', 'space', [], '#DDEBFF'],
+  ['engines', 160, 280, 'Bubble-pod engines', 'Back of the ship', 'Three round engines glowing Thruster Aqua. No smoke, no fire. Just light and water vapor.', 'ship-144.jpg', 'ship', [], '#4FC3F0']
+];
+const spots = document.getElementById('spots'), stopsEl = document.getElementById('stops'), panel = document.getElementById('panel');
+const NS = 'http://www.w3.org/2000/svg';
+STOPS.forEach(([id, x, y, name], i) => {
+  const g = document.createElementNS(NS, 'g');
+  g.setAttribute('class', 'spot'); g.dataset.stop = id; g.setAttribute('tabindex', '0'); g.setAttribute('role', 'button'); g.setAttribute('aria-label', `Stop ${i + 1}: ${name}`);
+  g.innerHTML = `<circle class="ping" cx="${x}" cy="${y}" r="22"/><circle cx="${x}" cy="${y}" r="22"/><text x="${x}" y="${y + 1}">${i + 1}</text>`;
+  spots.appendChild(g);
+});
+stopsEl.innerHTML = STOPS.map(([id, , , name], i) => `<button type="button" data-stop="${id}" aria-pressed="false"><i>${i + 1}</i>${name}</button>`).join('');
+function stop(id) {
+  const i = STOPS.findIndex(s => s[0] === id), [, , , name, kind, text, img, world, crew, col] = STOPS[i];
+  document.querySelectorAll('[data-stop]').forEach(el => { el.classList.toggle('on', el.dataset.stop === id); if (el.tagName === 'BUTTON') el.setAttribute('aria-pressed', el.dataset.stop === id); });
+  document.querySelectorAll('.room').forEach(r => r.classList.toggle('on', r.dataset.room === id));
+  const cut = img.endsWith('.webp');
+  panel.style.setProperty('--c', col);
+  panel.innerHTML = `<div class="pic swap"><img class="${cut ? 'cut' : ''}" src="${IMG}${img}" alt=""><span class="n">${i + 1}</span></div>
+    <div class="swap"><span class="k">${kind}</span><h3>${name}</h3><p>${text}</p>
+    <div class="row">${crew.map(k => `<button class="face" type="button" data-crew="${k}" style="--c:${C[k].color}" aria-label="Open ${C[k].name}'s profile"><img src="${IMG}face-${k}.webp" alt=""></button>`).join('')}
+    ${world ? `<button class="btn line" type="button" data-world="${world}">Open the ${W[world].name} file →</button>` : ''}
+    <button class="btn sun" type="button" data-next>Next stop →</button></div></div>`;
+}
+document.addEventListener('click', e => {
+  const s = e.target.closest('[data-stop]'); if (s) return stop(s.dataset.stop);
+  const r = e.target.closest('.room'); if (r) return stop(r.dataset.room);
+  if (e.target.closest('[data-next]')) { const i = STOPS.findIndex(x => x[0] === document.querySelector('.spot.on').dataset.stop); stop(STOPS[(i + 1) % STOPS.length][0]); }
+});
+spots.addEventListener('keydown', e => { const s = e.target.closest('[data-stop]'); if (s && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); stop(s.dataset.stop); } });
+stop('command');
+
+// stations
+const JOBS = { wisp: ['Command Center', 'Leads every mission from the captain’s chair.'], heelo: ['Launch Bay 01', 'Suits up and goes outside when things get wobbly.'], nonni: ['Her lab, by Hatch A', 'Builds the hyper wave inventions.'], hydro: ['Anywhere with a flask', 'Mixes the elements for the perfect rain.'], buoy: ['Every screen on board', 'Keeps all the ship’s systems talking.'] };
+document.getElementById('stations').innerHTML = Object.keys(JOBS).map(k => `<button class="st" type="button" data-crew="${k}" style="--c:${C[k].color}"><span class="fig"><img src="${IMG}${k}.webp" alt=""></span><b>${C[k].short || C[k].name}</b><small>${JOBS[k][0]}</small><span>${JOBS[k][1]}</span></button>`).join('');
+
+// rocket launch: up the silo, out through the dust, caught with water
+const rocket = document.getElementById('rocket'), btn = document.getElementById('launch');
+btn.addEventListener('click', () => {
+  if (btn.disabled) return;
+  btn.disabled = true;
+  const silo = document.getElementById('silo').getBoundingClientRect(), dist = silo.height + 320;
+  rocket.classList.add('go');
+  const done = () => {
+    rocket.classList.remove('go'); rocket.style.transform = ''; btn.disabled = false;
+    const t = document.createElement('div'); t.className = 'toast'; t.setAttribute('role', 'status');
+    t.innerHTML = `<img src="${IMG}face-heelo.webp" alt="">Caught! Heelo stopped it with water.`;
+    document.body.appendChild(t);
+    if (!reduce()) t.animate([{ transform: 'translateX(-50%) translateY(-30px) scale(.8)', opacity: 0 }, { transform: 'translateX(-50%) translateY(0) scale(1.05)', opacity: 1, offset: .6 }, { transform: 'translateX(-50%) scale(1)', opacity: 1 }], 500);
+    setTimeout(() => t.remove(), 2800);
+  };
+  if (reduce()) return done();
+  rocket.animate([{ transform: 'translateY(0)' }, { transform: 'translateY(6px)', offset: .12 }, { transform: `translateY(-${dist}px)`, opacity: 1, offset: .92 }, { transform: `translateY(-${dist + 60}px)`, opacity: 0 }], { duration: 1800, easing: 'cubic-bezier(.5,0,.7,.4)' }).onfinish = done;
+});
+</script>
+</body>
+</html>

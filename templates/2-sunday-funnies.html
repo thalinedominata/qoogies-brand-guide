@@ -117,13 +117,30 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;
 footer .t{font:400 30px var(--display);color:var(--spark)}
 footer small{color:#9FB2D6}
 @media (prefers-reduced-motion:reduce){.burst .star{animation:none}.sticker,.btn{transition:none}}
+main{overflow-x:clip}
+/* worlds */
+.wd-orb{position:absolute;left:50%;top:50%;width:58%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle at 32% 28%,#fff 0 6%,transparent 22%),radial-gradient(circle,rgba(79,195,240,.45) 0 52%,#5CE1E6 66%,#FF5FA2 80%,#8B6CF6 92%,transparent);box-shadow:0 0 50px rgba(79,195,240,.55)}
+.wd-dots{position:absolute;inset:0;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;align-content:center;gap:8px;padding:12%}
+.wd-dots i{width:30px;height:30px;border-radius:50%;box-shadow:inset -5px -4px 0 rgba(0,0,0,.25)}
+
+#worlds .wd-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;background:var(--ink);padding:16px;border:var(--line);border-radius:6px;box-shadow:10px 10px 0 var(--ink)}
+@media (max-width:900px){#worlds .wd-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:10px}}
+.wd-p{position:relative;aspect-ratio:4/3;border:0;padding:0;cursor:pointer;overflow:hidden;background:radial-gradient(circle,var(--c),#0E1A3A);border-radius:3px;transition:transform .2s}
+.wd-p:nth-child(7){grid-column:span 2;grid-row:span 2;aspect-ratio:auto}
+.wd-p:hover{transform:rotate(var(--r)) scale(1.03);z-index:2}
+.wd-p img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.wd-p::after{content:"";position:absolute;inset:0;background-image:radial-gradient(circle,rgba(14,26,58,.22) 1.4px,transparent 1.6px);background-size:9px 9px;mix-blend-mode:multiply;pointer-events:none}
+.wd-box{position:absolute;left:8px;top:8px;z-index:2;max-width:80%;background:#FFE14A;border:3px solid var(--ink);padding:5px 9px;font:800 11px/1.2 var(--label);letter-spacing:.1em;text-transform:uppercase;color:var(--ink);text-align:left;box-shadow:3px 3px 0 var(--ink)}
+.wd-box b{display:block;font:400 20px/1 var(--display);letter-spacing:0;text-transform:none}
+.wd-say{position:absolute;right:8px;bottom:10px;z-index:2;max-width:78%;background:#fff;border:3px solid var(--ink);border-radius:18px;padding:6px 10px;font:800 13px/1.25 var(--body);color:var(--ink);text-align:left}
+@media (max-width:600px){.wd-say{display:none}.wd-box b{font-size:16px}}
 </style>
 </head>
 <body>
 <header class="wrap mast">
   <div class="bar">
     <a href="#top"><img src="../img/hd/logo.webp" alt="The Qoogies"></a>
-    <nav aria-label="Main"><a href="#story">Episode 1</a><a href="#crew">The crew</a><a href="#neon">Doc Neon</a><a href="#fun">Fun</a></nav>
+    <nav aria-label="Main"><a href="#story">Episode 1</a><a href="#crew">The crew</a><a href="#worlds">Worlds</a><a href="#neon">Doc Neon</a><a href="#fun">Fun</a></nav>
   </div>
   <div class="strip cap"><span>Issue 01 · Season One</span><span>Free to read · Fun for ages 6 to 11</span></div>
 </header>
@@ -162,6 +179,11 @@ footer small{color:#9FB2D6}
   </div>
 </div></section>
 
+<section id="worlds"><div class="wrap">
+  <div class="sh"><h2>Places in the funnies</h2><span class="cap chip">Worlds &amp; ships</span></div>
+  <div class="wd-grid"><button class="wd-p" type="button" data-world="sphere" style="--c:#4FC3F0;--r:-1.5deg"><span class="wd-orb" aria-hidden="true"></span><span class="wd-box">Aboard<b>The Bubble Sphere</b></span><span class="wd-say">Where every Qoogie comes from.</span></button><button class="wd-p" type="button" data-world="ship" style="--c:#8B6CF6;--r:1deg"><img src="../img/hd/ship-144.jpg" alt="" loading="lazy"><span class="wd-box">Aboard<b>The Qoogie Ship</b></span><span class="wd-say">Made of water and light.</span></button><button class="wd-p" type="button" data-world="command" style="--c:#F0C64A;--r:-0.5deg"><img src="../img/hd/pilot-27.jpg" alt="" loading="lazy"><span class="wd-box">Aboard<b>Command Center</b></span><span class="wd-say">Wisp’s chair and the big screen.</span></button><button class="wd-p" type="button" data-world="launchbay" style="--c:#FF8A1A;--r:1.8deg"><img src="../img/hd/pilot-29.jpg" alt="" loading="lazy"><span class="wd-box">Aboard<b>Launch Bay 01</b></span><span class="wd-say">“Launch crew ready.”</span></button><button class="wd-p" type="button" data-world="hatch" style="--c:#46C2DB;--r:-1deg"><img src="../img/hd/pilot-12.jpg" alt="" loading="lazy"><span class="wd-box">Aboard<b>Hatch A</b></span><span class="wd-say">The big round door.</span></button><button class="wd-p" type="button" data-world="space" style="--c:#5CE1E6;--r:0.6deg"><img src="../img/hd/pilot-56.jpg" alt="" loading="lazy"><span class="wd-box">Over at<b>Open Space</b></span><span class="wd-say">Deep blue with a nebula glow.</span></button><button class="wd-p" type="button" data-world="arridia" style="--c:#E2995E;--r:-1.5deg"><img src="../img/hd/pilot-2.jpg" alt="" loading="lazy"><span class="wd-box">Over at<b>Arridia</b></span><span class="wd-say">Dust storms on top. Doc Neon underneath.</span></button><button class="wd-p" type="button" data-world="targets" style="--c:#FF8A5C;--r:1deg"><span class="wd-dots" aria-hidden="true"><i style="background:#7FC8A9"></i><i style="background:#C98A4B"></i><i style="background:#F5D093"></i><i style="background:#E2995E"></i><i style="background:#B38AD9"></i><i style="background:#8FA3BF"></i></span><span class="wd-box">Over at<b>Target Worlds</b></span><span class="wd-say">Six dry planets waiting for rain.</span></button><button class="wd-p" type="button" data-world="cavern" style="--c:#A6D64A;--r:-0.5deg"><img src="../img/hd/neon-lab.jpg" alt="" loading="lazy"><span class="wd-box">Meanwhile, at<b>Doc Neon’s Cavern</b></span><span class="wd-say">“Clones for a dry galaxy.”</span></button><button class="wd-p" type="button" data-world="aquafy" style="--c:#4FE0F0;--r:1.8deg"><img src="../img/hd/aquafy.jpg" alt="" loading="lazy"><span class="wd-box">Meanwhile, at<b>Project Aquafy</b></span><span class="wd-say">“Water ruins everything.”</span></button><button class="wd-p" type="button" data-world="hangar" style="--c:#8CFF3F;--r:-1deg"><img src="../img/hd/neon-hangar.jpg" alt="" loading="lazy"><span class="wd-box">Meanwhile, at<b>Rocket Hangar</b></span><span class="wd-say">Built in the dark. Launched straight up.</span></button><button class="wd-p" type="button" data-world="rockets" style="--c:#4F8A2E;--r:0.6deg"><img src="../img/hd/ship-700.jpg" alt="" loading="lazy"><span class="wd-box">Meanwhile, at<b>Doc Neon’s Rockets</b></span><span class="wd-say">Made of metal and smoke.</span></button><button class="wd-p" type="button" data-world="tether" style="--c:#36C8F5;--r:-1.5deg"><img src="../img/hd/ship-754.jpg" alt="" loading="lazy"><span class="wd-box">Aboard<b>The Water Tether</b></span><span class="wd-say">Water beats metal.</span></button></div>
+</div></section>
+
 <section id="neon"><div class="wrap">
   <div class="splash">
     <div class="txt">
@@ -184,6 +206,7 @@ footer small{color:#9FB2D6}
 
 <footer><div class="wrap"><span class="t">Brighter Worlds. Together.</span><small>The Qoogies © XBX Entertainment · Press and partners · Parents · Template 2 · Sunday Funnies</small></div></footer>
 <script src="crew.js" data-skin="comic"></script>
+<script src="worlds.js" data-skin="comic"></script>
 <script>
 document.getElementById('nf').addEventListener('submit',e=>{e.preventDefault();e.target.outerHTML='<p class="ok">KA-SPLASH! You\'re signed up.</p>'});
 </script>

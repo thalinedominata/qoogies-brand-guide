@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Qoogies · Field Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Exo+2:wght@600;700;800&family=Lilita+One&family=Nunito:ital,wght@0,400;0,700;0,800;0,900;1,700&display=swap">
+<style>
+/* Layout: an explorer's notebook. Cover page with taped photos and a big search box → a searchable index of everything (crew, places, ships, science, marks, creatures) → a two-page spread of places and ships → a size chart → science you can try at home → sticky notes for what's still unknown. */
+:root{
+  --paper:#FFFBEF; --paper2:#FFF5DA; --ink:#1B2A4A; --ink2:#2E3F63; --soft:#5B6B8C; --rule:rgba(63,169,232,.22); --margin:rgba(255,95,162,.45);
+  --aqua:#4FC3F0; --lime:#9BE22E; --sun:#FFE14A; --pink:#FF5FA2; --coral:#FF8A5C; --violet:#8B6CF6;
+  --hl-y:rgba(255,225,74,.7); --hl-p:rgba(255,95,162,.35); --hl-a:rgba(79,195,240,.4); --hl-l:rgba(155,226,46,.45);
+  --display:"Lilita One","Arial Rounded MT Bold",system-ui,sans-serif;
+  --label:"Exo 2","Trebuchet MS",system-ui,sans-serif;
+  --body:"Nunito","Segoe UI",system-ui,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--ink);font:400 17px/1.6 var(--body);background:linear-gradient(90deg,transparent 0 calc(max(16px,env(safe-area-inset-left,0px)) + 30px),var(--margin) 0 calc(max(16px,env(safe-area-inset-left,0px)) + 32px),transparent 0),repeating-linear-gradient(180deg,transparent 0 31px,var(--rule) 31px 32px),var(--paper);overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:inherit}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--pink);outline-offset:3px;border-radius:8px}
+.wrap{max-width:1200px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.page{padding-left:46px}
+@media (max-width:600px){.page{padding-left:30px}}
+h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;line-height:1;text-wrap:balance}
+p{margin:0}
+.lab{font:800 12px/1.2 var(--label);letter-spacing:.2em;text-transform:uppercase;color:var(--soft)}
+.hl{background:linear-gradient(transparent 52%,var(--h,var(--hl-y)) 52% 92%,transparent 92%);padding:0 .12em}
+.hand{font:italic 700 17px/1.35 var(--body);color:var(--ink2)}
+.btn{display:inline-flex;align-items:center;gap:8px;border-radius:12px;padding:13px 20px;font:800 15px/1 var(--label);letter-spacing:.04em;text-decoration:none;border:2px solid var(--ink);cursor:pointer;background:#fff;box-shadow:4px 4px 0 var(--ink);transition:transform .12s,box-shadow .12s}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
+.btn.lime{background:var(--lime)}
+.tape{position:absolute;width:96px;height:26px;background:rgba(255,225,74,.65);box-shadow:0 1px 2px rgba(0,0,0,.08);z-index:2}
+.tape.p{background:rgba(255,95,162,.45)}.tape.a{background:rgba(79,195,240,.5)}.tape.l{background:rgba(155,226,46,.55)}
+
+header{position:sticky;top:0;z-index:20;background:rgba(255,251,239,.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:2px dashed rgba(27,42,74,.2)}
+.hd{display:flex;align-items:center;justify-content:space-between;gap:14px;padding-block:10px}
+.hd img{width:124px;height:auto}
+.hd nav{display:flex;gap:2px;align-items:center;flex-wrap:wrap}
+.hd nav a:not(.btn){font:800 14px var(--label);text-decoration:none;padding:8px 11px;border-radius:8px}
+.hd nav a:not(.btn):hover{background:var(--hl-y)}
+@media (max-width:900px){.hd nav a:not(.btn){display:none}}
+
+/* cover */
+.cover{display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:center;padding-block:50px 40px}
+@media (max-width:900px){.cover{grid-template-columns:1fr}}
+.cover h1{font-size:clamp(50px,7.6vw,104px);line-height:.92}
+.cover h1 small{display:block;font:800 clamp(14px,1.5vw,18px)/1 var(--label);letter-spacing:.24em;text-transform:uppercase;color:var(--pink);margin-bottom:14px}
+.cover .lede{font-size:20px;max-width:34ch;margin-top:18px;color:var(--ink2)}
+.count{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.count span{font:800 14px var(--label);padding:8px 12px;border:2px solid var(--ink);border-radius:999px;background:#fff}
+.count b{font-family:var(--display);font-weight:400;font-size:18px;margin-right:4px}
+.collage{position:relative;height:460px}
+@media (max-width:900px){.collage{height:380px}}
+.pol{position:absolute;background:#fff;padding:10px 10px 38px;box-shadow:0 12px 30px rgba(27,42,74,.2);transform:rotate(var(--r));border:0;cursor:pointer;transition:transform .25s}
+.pol:hover{transform:rotate(0) scale(1.04);z-index:5}
+.pol img{width:100%;aspect-ratio:4/3;object-fit:cover;background:var(--bg,#ddd)}
+.pol .cap{position:absolute;left:12px;right:12px;bottom:9px;font:italic 700 15px/1.2 var(--body);text-align:left}
+.pol .tape{left:50%;top:-12px;margin-left:-48px;transform:rotate(-4deg)}
+
+/* search + index */
+#index{padding-block:30px 60px}
+.search{position:relative;display:flex;align-items:center;gap:12px;background:#fff;border:3px solid var(--ink);border-radius:18px;padding:6px 8px 6px 18px;box-shadow:6px 6px 0 var(--ink);max-width:760px}
+.search svg{flex:none}
+.search input{flex:1;min-width:0;border:0;outline:0;background:transparent;font:800 clamp(17px,2vw,22px) var(--body);padding:12px 0}
+.search input::placeholder{color:#8B97B0;font-weight:700}
+.search kbd{font:800 12px var(--label);border:2px solid #C9D2E3;border-radius:6px;padding:3px 7px;color:var(--soft)}
+@media (max-width:600px){.search kbd{display:none}}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin:22px 0 26px}
+.tabs button{border:2px solid var(--ink);background:#fff;border-radius:10px 10px 4px 4px;padding:9px 14px;font:800 14px var(--label);cursor:pointer;box-shadow:0 3px 0 var(--ink)}
+.tabs button[aria-pressed="true"]{background:var(--t,var(--sun));transform:translateY(-3px);box-shadow:0 6px 0 var(--ink)}
+.tabs button small{font-weight:700;opacity:.7;margin-left:4px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px}
+.card{position:relative;text-align:left;background:#fff;border:2px solid var(--ink);border-radius:6px;padding:0;cursor:pointer;display:grid;grid-template-rows:auto 1fr;box-shadow:4px 5px 0 rgba(27,42,74,.16);transition:transform .2s,box-shadow .2s;overflow:visible}
+.card:hover{transform:translateY(-4px) rotate(-.6deg);box-shadow:6px 9px 0 rgba(27,42,74,.2)}
+.card .top{position:relative;height:130px;background:var(--c);border-bottom:2px solid var(--ink);overflow:hidden;border-radius:4px 4px 0 0}
+.card .top img{width:100%;height:100%;object-fit:cover}
+.card .top img.cut{object-fit:contain;object-position:50% 100%;height:118%;margin-top:4px}
+.card .top .glyph{position:absolute;inset:0;display:grid;place-items:center;font:400 54px var(--display);color:rgba(255,255,255,.95);text-shadow:0 3px 0 rgba(27,42,74,.25)}
+.card .bd{padding:12px 14px 16px;display:grid;gap:6px;align-content:start;background:repeating-linear-gradient(180deg,transparent 0 25px,var(--rule) 25px 26px)}
+.card .kind{font:800 11px var(--label);letter-spacing:.16em;text-transform:uppercase;color:var(--soft)}
+.card h3{font-size:24px}
+.card p{font-size:15px;line-height:1.45;color:var(--ink2)}
+.card .more{display:none;font-size:15px;line-height:1.5;color:var(--ink);border-top:2px dashed rgba(27,42,74,.2);padding-top:8px;margin-top:4px}
+.card[aria-expanded="true"] .more{display:block}
+.card .tab{position:absolute;right:-2px;top:14px;transform:translateX(100%);background:var(--c);border:2px solid var(--ink);border-left:0;border-radius:0 8px 8px 0;width:16px;height:34px}
+@media (max-width:600px){.cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.card .top{height:96px}.card h3{font-size:19px}.card p{font-size:13px}.card .bd{padding:10px 10px 12px}.card .tab{display:none}.card .kind{font-size:9px}}
+.empty{display:none;padding:30px;border:3px dashed rgba(27,42,74,.3);border-radius:16px;text-align:center}
+.empty.on{display:block}
+.empty h3{font-size:30px;margin-bottom:6px}
+
+/* spread */
+#worlds{padding-block:50px 70px}
+.shead{display:grid;gap:10px;margin-bottom:26px;max-width:760px}
+.shead h2{font-size:clamp(38px,5.4vw,66px)}
+.shead p{font-size:19px;color:var(--ink2)}
+.spread{display:grid;grid-template-columns:1fr 1fr;background:#fff;border:3px solid var(--ink);border-radius:14px;box-shadow:8px 10px 0 rgba(27,42,74,.18);position:relative}
+.spread::after{content:"";position:absolute;left:50%;top:0;bottom:0;width:30px;margin-left:-15px;background:linear-gradient(90deg,transparent,rgba(27,42,74,.12),transparent);pointer-events:none}
+@media (max-width:860px){.spread{grid-template-columns:1fr}.spread::after{display:none}}
+.leaf{padding:clamp(18px,3vw,34px);display:grid;gap:18px;align-content:start;background:repeating-linear-gradient(180deg,transparent 0 31px,var(--rule) 31px 32px)}
+.leaf+.leaf{border-left:2px dashed rgba(27,42,74,.15)}
+@media (max-width:860px){.leaf+.leaf{border-left:0;border-top:2px dashed rgba(27,42,74,.15)}}
+.leaf h3{font-size:34px}
+.leaf .note{font:italic 700 16px/1.4 var(--body);color:var(--ink2)}
+.pics{display:grid;grid-template-columns:1fr 1fr;gap:22px 18px}
+.pics .pol{position:relative;--r:0deg}
+.pics .pol:nth-child(odd){--r:-2deg}.pics .pol:nth-child(even){--r:2.4deg}
+.pics .pol:nth-child(3n){--r:-.8deg}
+.pics .pol .k{display:block;font:800 10px var(--label);letter-spacing:.14em;text-transform:uppercase;color:var(--soft);font-style:normal;margin-bottom:2px}
+.pics .pol{padding-bottom:52px}
+.out{margin-top:24px;background:#fff;border:3px solid var(--ink);border-radius:14px;padding:clamp(18px,3vw,30px);display:grid;grid-template-columns:1fr 2fr;gap:24px;align-items:center;box-shadow:8px 10px 0 rgba(27,42,74,.18)}
+@media (max-width:860px){.out{grid-template-columns:1fr}}
+.orbit{display:flex;flex-wrap:wrap;gap:16px 22px;align-items:end}
+.planet{display:grid;justify-items:center;gap:8px;border:0;background:transparent;cursor:pointer;padding:0;font:800 13px var(--label);letter-spacing:.1em;text-transform:uppercase}
+.planet i{display:block;width:var(--s);height:var(--s);border-radius:50%;background:radial-gradient(circle at 34% 30%,rgba(255,255,255,.6),transparent 42%),var(--c);border:2px solid var(--ink);box-shadow:inset -8px -6px 0 rgba(0,0,0,.18)}
+.planet.q i{border-style:dashed;background:repeating-linear-gradient(45deg,rgba(27,42,74,.06) 0 6px,transparent 6px 12px),#fff}
+.planet:hover i{transform:translateY(-4px) rotate(8deg);transition:transform .2s}
+.planet small{font:italic 700 12px var(--body);text-transform:none;letter-spacing:0;color:var(--soft)}
+.space-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:6px}
+
+/* sizes */
+#sizes{padding-block:50px}
+.chart{position:relative;background:#fff;border:3px solid var(--ink);border-radius:14px;padding:30px 20px 0 64px;box-shadow:8px 10px 0 rgba(27,42,74,.18);overflow:hidden}
+.grid{position:relative;height:calc(var(--u) * 8);--u:44px}
+@media (max-width:700px){.grid{--u:32px}}
+.grid .hline{position:absolute;left:-50px;right:0;border-top:1px dashed rgba(27,42,74,.25);font:800 11px var(--label);color:var(--soft)}
+.grid .hline span{position:absolute;left:0;top:-8px;background:#fff;padding-right:6px}
+.figs{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:flex-end;gap:clamp(4px,1.4vw,18px);overflow-x:auto;scrollbar-width:none}
+.fig{flex:none;display:grid;justify-items:center;border:0;background:transparent;padding:0;cursor:pointer}
+.fig img{height:calc(var(--u) * var(--h));width:auto;max-width:none;transition:transform .2s;transform-origin:50% 100%}
+.fig:hover img{transform:scale(1.05) rotate(-2deg)}
+.fig b{position:absolute;bottom:calc(var(--u) * var(--h) + 6px);font:800 11px var(--label);letter-spacing:.06em;white-space:nowrap;background:var(--c);border:2px solid var(--ink);padding:2px 6px;border-radius:6px;opacity:0;transition:opacity .2s}
+.fig{position:relative}
+.fig:hover b,.fig:focus-visible b{opacity:1}
+.human{flex:none;position:relative;width:calc(var(--u) * 1.9);height:calc(var(--u) * 7.5);margin-left:auto;margin-right:8px}
+.human i{position:absolute;left:50%;transform:translateX(-50%);border:3px dashed rgba(27,42,74,.45);background:rgba(27,42,74,.04)}
+.human .hd{top:0;width:var(--u);height:var(--u);border-radius:50%}
+.human .bd{top:calc(var(--u) * 1.05);width:calc(var(--u) * 1.8);height:calc(var(--u) * 3);border-radius:30px 30px 12px 12px}
+.human .lg{top:calc(var(--u) * 4.1);width:calc(var(--u) * 1.2);height:calc(var(--u) * 3.4);border-radius:10px}
+.human span{position:absolute;right:calc(100% + 4px);top:calc(var(--u) * 3.6);font:italic 700 14px/1.2 var(--body);width:110px;text-align:right;color:var(--soft)}
+.facts3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:20px}
+@media (max-width:800px){.facts3{grid-template-columns:1fr}}
+.sticky{background:var(--s,#FFF0A0);padding:16px 18px;box-shadow:3px 5px 0 rgba(27,42,74,.14);transform:rotate(var(--r,-1deg));font-size:16px}
+.sticky b{font-family:var(--display);font-weight:400;font-size:21px;display:block;margin-bottom:4px}
+
+/* science */
+#science{padding-block:50px}
+.sci{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+@media (max-width:960px){.sci{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:600px){.sci{grid-template-columns:1fr}}
+.exp{background:#fff;border:2px solid var(--ink);border-radius:14px;padding:18px;display:grid;gap:10px;align-content:start;box-shadow:4px 5px 0 rgba(27,42,74,.16)}
+.exp .who{display:flex;align-items:center;gap:10px}
+.exp .who button{width:46px;height:46px;border-radius:50%;padding:0;overflow:hidden;border:2px solid var(--ink);background:var(--c);cursor:pointer}
+.exp .who img{width:100%;height:100%;object-fit:cover;object-position:50% 8%}
+.exp h3{font-size:26px}
+.exp .try{background:var(--paper2);border-radius:10px;padding:10px 12px;font-size:15px;line-height:1.45}
+.exp .try b{font:800 11px var(--label);letter-spacing:.16em;text-transform:uppercase;color:var(--pink);display:block;margin-bottom:2px}
+.diagram{height:70px;position:relative;border-radius:10px;background:var(--paper2);overflow:hidden}
+
+/* unknown */
+#unknown{padding-block:50px 80px}
+.notes{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:22px;margin-top:24px}
+.notes .sticky:nth-child(2n){--r:1.4deg;--s:#FFD3E6}
+.notes .sticky:nth-child(3n){--r:-.4deg;--s:#CFF0FF}
+.notes .sticky:nth-child(5n){--s:#E3F8C3;--r:2deg}
+.watchnote{margin-top:40px;display:flex;gap:20px;align-items:center;flex-wrap:wrap;justify-content:space-between;background:#fff;border:3px solid var(--ink);border-radius:14px;padding:22px;box-shadow:8px 10px 0 rgba(27,42,74,.18)}
+.watchnote h3{font-size:32px}
+footer{padding-block:30px calc(30px + env(safe-area-inset-bottom,0px));border-top:2px dashed rgba(27,42,74,.2)}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center}
+footer b{font:400 26px var(--display)}
+footer small{color:var(--soft)}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.card,.pol,.fig img,.planet i{transition:none}}
+</style>
+</head>
+<body>
+<header><div class="wrap hd">
+  <a href="#top"><img src="../img/hd/logo.webp" alt="The Qoogies" width="124" height="50"></a>
+  <nav aria-label="Main"><a href="#index">Look it up</a><a href="#worlds">Places &amp; ships</a><a href="#sizes">Size chart</a><a href="#science">Science</a><a href="#unknown">Still unknown</a><a class="btn lime" href="#watch">▶ Watch the pilot</a></nav>
+</div></header>
+
+<main id="top">
+<section class="wrap page cover">
+  <div>
+    <h1><small>Explorer’s notebook · Season One</small>The Qoogie <span class="hl">Field Guide</span></h1>
+    <p class="lede">Everything we know about the Qoogies universe so far: who’s who, where they go, what they fly and how the science works.</p>
+    <div class="count" id="count"></div>
+  </div>
+  <div class="collage" aria-label="Photos from the pilot">
+    <button class="pol" data-world="ship" style="--r:-6deg;left:2%;top:4%;width:52%"><span class="tape"></span><img src="../img/hd/ship-144.jpg" alt=""><span class="cap">The ship! You can see right through it.</span></button>
+    <button class="pol" data-world="arridia" style="--r:5deg;right:0;top:0;width:44%"><span class="tape p"></span><img src="../img/hd/pilot-2.jpg" alt=""><span class="cap">Arridia. Very dusty.</span></button>
+    <button class="pol" data-crew="heelo" style="--r:-2deg;left:16%;bottom:2%;width:36%;--bg:#FF8A1A"><span class="tape a"></span><img src="../img/hd/heelo.webp" alt="" style="object-fit:contain;object-position:50% 100%;background:#FFD0A0"><span class="cap">Heelo, tension expert</span></button>
+    <button class="pol" data-world="cavern" style="--r:7deg;right:4%;bottom:6%;width:42%"><span class="tape l"></span><img src="../img/hd/neon-lab.jpg" alt=""><span class="cap">Doc Neon’s lab. Shh.</span></button>
+  </div>
+</section>
+
+<section class="wrap page" id="index">
+  <span class="lab">Look it up</span>
+  <div class="search" role="search" style="margin-top:12px">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1B2A4A" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="7"/><path d="m16 16 5 5"/></svg>
+    <label for="q" style="position:absolute;left:-9999px">Search the field guide</label>
+    <input id="q" type="search" placeholder="Try “rockets”, “Heelo” or “slime”" autocomplete="off">
+    <kbd>/</kbd>
+  </div>
+  <div class="tabs" id="tabs" role="group" aria-label="Filter"></div>
+  <div class="cards" id="cards"></div>
+  <div class="empty" id="empty"><h3>Not in the guide yet</h3><p class="hand">Maybe it’s still being discovered. Check the sticky notes at the bottom.</p></div>
+</section>
+
+<section class="wrap page" id="worlds">
+  <div class="shead"><span class="lab">Worlds</span><h2>Places <span class="hl" style="--h:var(--hl-a)">&amp; ships</span></h2><p>Two sides of the same galaxy. On the left, everything made of water and light. On the right, everything made of metal and smoke.</p></div>
+  <div class="spread">
+    <div class="leaf"><h3>Our side <span class="hl" style="--h:var(--hl-a)">(wet)</span></h3><p class="note">Round, soft, glowing from inside. No rivets, no weapons.</p><div class="pics" id="ours"></div></div>
+    <div class="leaf"><h3>Their side <span class="hl" style="--h:var(--hl-l)">(dry)</span></h3><p class="note">Pointed, hard, glowing only from exhaust. Lime is a spice.</p><div class="pics" id="theirs"></div></div>
+  </div>
+  <div class="out">
+    <div><span class="lab">Out there</span><h3 style="font-size:34px;margin-top:6px">The target list</h3><p class="hand" style="margin-top:8px">Six dry planets on the ship’s screen. Only Arridia has been painted so far. Dashed ones are still a mystery!</p>
+      <div class="space-row"><button class="btn" data-world="space" type="button">Open space →</button><button class="btn" data-world="tether" type="button">The water tether →</button></div></div>
+    <div class="orbit" id="orbit"></div>
+  </div>
+</section>
+
+<section class="wrap page" id="sizes">
+  <div class="shead"><span class="lab">Size chart</span><h2>How tall is a <span class="hl" style="--h:var(--hl-p)">Qoogie?</span></h2><p>Measured in heads. A Qoogie is about 2.5 heads tall, so one would reach about up to your hip. Tap anyone to meet them.</p></div>
+  <div class="chart"><div class="grid" id="grid"><div class="figs" id="figs"></div></div></div>
+  <div class="facts3">
+    <p class="sticky"><b>2.5 heads</b>One head for the bubble, one and a half for body and legs. Never count hair or hats.</p>
+    <p class="sticky" style="--s:#E3F8C3;--r:1deg"><b>Doc Neon: 2.7</b>A little taller than the Qoogies, plus antennae, so he can look down his nose at them.</p>
+    <p class="sticky" style="--s:#CFF0FF;--r:-.5deg"><b>You: about 7.5</b>An average grown-up human is about seven and a half heads tall.</p>
+  </div>
+</section>
+
+<section class="wrap page" id="science">
+  <div class="shead"><span class="lab">Science corner</span><h2>Every Qoogie <span class="hl" style="--h:var(--hl-l)">is a scientist</span></h2><p>Each member of Team Aero does one part of making rain. Here’s the real science behind each job, and a way to try it at home with a grown-up.</p></div>
+  <div class="sci" id="sci"></div>
+</section>
+
+<section class="wrap page" id="unknown">
+  <div class="shead"><span class="lab">Still being discovered</span><h2>Blank pages</h2><p>Good explorers write down what they don’t know yet. These are coming in future episodes.</p></div>
+  <div class="notes">
+    <p class="sticky"><b>The Queen</b>The Queen of the Qoogies shows up in two episodes. Nobody has seen what she looks like yet.</p>
+    <p class="sticky"><b>Caterpillar names</b>Doc Neon’s brown, wide-eyed food servers need names. And a better boss.</p>
+    <p class="sticky"><b>Five planets</b>Veldra, Terralis, Solen, Kaelith and Nova-9 are on the list but haven’t been visited.</p>
+    <p class="sticky"><b>Rocket names</b>Doc Neon’s rockets don’t have names yet. He probably named them after himself.</p>
+    <p class="sticky"><b>Episodes 4 to 14</b>Eleven more adventures in Season One. Titles coming soon.</p>
+    <p class="sticky"><b>The bubble sphere</b>The Qoogies’ home hasn’t been painted yet. What do you think it looks like?</p>
+  </div>
+  <div class="watchnote" id="watch"><div><span class="lab">Start here</span><h3>Watch the pilot: Heelo Meets Neon</h3><p class="hand">14 minutes 28 seconds. Bring a towel, things get wet.</p></div><a class="btn" href="#top">▶ Play Episode 1</a></div>
+</section>
+</main>
+
+<footer><div class="wrap"><b>Waves Connect Worlds.</b><small>The Qoogies © XBX Entertainment · Parents · Privacy · Template 8 · Field Guide</small></div></footer>
+
+<script src="crew.js" data-skin="notebook"></script>
+<script src="worlds.js" data-skin="notebook"></script>
+<script>
+const C = QoogiePopup.crew, W = QoogieWorlds.worlds, WO = QoogieWorlds.order, IMG = '../img/hd/';
+const roleSci = { heelo: 'tension', nonni: 'waves', hydro: 'mix', buoy: 'interface', wisp: 'hydro' };
+
+// extra entries that live only in the guide: marks, gear, creatures, science words
+const EXTRA = [
+  { cat: 'marks', name: 'Q monogram', kind: 'Brand mark', c: '#4FC3F0', glyph: 'Q:', text: 'A rounded “Q:” painted on the ship’s floors and screens.', more: 'You can spot it on the floor of Launch Bay 01. It’s the Qoogies’ badge, a bit like a team logo.' },
+  { cat: 'marks', name: 'Neonite crest', kind: 'Villain mark', c: '#C0262D', glyph: '⦶', text: 'A circle split by a spear, on Doc Neon’s banners.', more: 'It hangs on red banners in the cavern next to the words “Clones for a dry galaxy”. Gold on the rockets.' },
+  { cat: 'marks', name: 'Doc Neon’s name plate', kind: 'Villain mark', c: '#A6D64A', glyph: 'DN', text: '“Doc Neon · Chief Scientist”, with an angry antenna face.', more: 'He made sure everyone knows who’s in charge.' },
+  { cat: 'marks', name: '“We come in peace” cap', kind: 'Gear', c: '#F0C64A', glyph: '☮', text: 'Wisp’s cap from the pilot script.', more: 'Even when the Qoogies have to leave, they leave in peace.' },
+  { cat: 'marks', name: 'The Neometer', kind: 'Doc Neon’s gear', c: '#8CFF3F', glyph: '0%', text: 'Doc Neon’s screen for checking how dry a world is.', more: 'One of his two favorite tools, kept in the cavern.' },
+  { cat: 'marks', name: 'The halo pad', kind: 'Doc Neon’s gear', c: '#5F9A2C', glyph: '◯', text: 'Doc Neon’s other tool, also in the cavern.', more: 'What it does exactly is still top secret.' },
+  { cat: 'creatures', name: 'Caterpillar servers', kind: 'Creature', c: '#A7703D', glyph: '●●●', text: 'Brown, wide-eyed caterpillars that carry Doc Neon’s food trays.', more: 'They appear around 9:00 in the pilot. Their names haven’t been decided yet.' },
+  { cat: 'creatures', name: 'The Queen of the Qoogies', kind: 'Character', c: '#FF5FA2', glyph: '♛', text: 'Ruler of the Qoogies. Appears in two episodes.', more: 'No design yet. She’s one of the biggest mysteries in the guide.' },
+  { cat: 'science', name: 'Hydro-forming', kind: 'Science word', c: '#1F6FD1', glyph: '≈', text: 'Turning a dry world into a wet one.', more: 'It’s what the Qoogies do: bring water, clouds and rain to arid planets so life can grow.' },
+  { cat: 'science', name: 'Hyper waves', kind: 'Science word', c: '#46C2DB', glyph: '∿', text: 'Dr. Nonni Nunu’s specialty.', more: 'Waves carry energy from place to place. Nonni’s inventions use them to bring water to arid worlds.' },
+  { cat: 'science', name: 'Surface tension', kind: 'Science word', c: '#FF8A1A', glyph: '◡', text: 'Heelo’s specialty: water holding itself together.', more: 'Water’s surface acts like a stretchy skin. It’s why bubbles are round and why some bugs can walk on ponds.' }
+];
+
+// build the index
+const items = [
+  ...Object.keys(C).map(k => ({ cat: 'crew', key: k, name: C[k].name, kind: C[k].role, c: C[k].color, img: IMG + k + '.webp', cut: 1, text: C[k].quote, words: [C[k].bio, C[k].look, C[k].side, ...C[k].traits].join(' '), attr: `data-crew="${k}"` })),
+  ...WO.map(id => { const w = W[id]; return { cat: /Ship/.test(w.kind) ? 'ships' : 'places', key: id, name: w.name, kind: w.kind, c: w.color, img: w.img ? IMG + w.img + '.jpg' : null, glyph: w.art === 'sphere' ? '◯' : '●●●', text: w.tag, words: [w.blurb, ...w.facts.flat(), w.group].join(' '), attr: `data-world="${id}"` }; }),
+  ...EXTRA.map((e, i) => ({ ...e, key: 'x' + i, words: e.more, attr: 'data-x aria-expanded="false"' }))
+];
+const CATS = [['all', 'Everything', '#FFE14A'], ['crew', 'Crew', '#FF8A1A'], ['places', 'Places', '#E2995E'], ['ships', 'Ships', '#8B6CF6'], ['science', 'Science words', '#4FC3F0'], ['marks', 'Marks & gear', '#9BE22E'], ['creatures', 'Creatures', '#FF5FA2']];
+const tabs = document.getElementById('tabs'), cards = document.getElementById('cards'), q = document.getElementById('q'), empty = document.getElementById('empty');
+let cat = 'all';
+tabs.innerHTML = CATS.map(([k, n, c]) => `<button type="button" data-cat="${k}" aria-pressed="${k === 'all'}" style="--t:${c}">${n}<small>${k === 'all' ? items.length : items.filter(i => i.cat === k).length}</small></button>`).join('');
+cards.innerHTML = items.map(i => `<button class="card" type="button" ${i.attr} data-cat="${i.cat}" data-text="${(i.name + ' ' + i.kind + ' ' + i.text + ' ' + i.words).toLowerCase().replace(/"/g, '')}" style="--c:${i.c}">
+  <span class="tab" aria-hidden="true"></span>
+  <span class="top">${i.img ? `<img class="${i.cut ? 'cut' : ''}" src="${i.img}" alt="" loading="lazy">` : `<span class="glyph">${i.glyph}</span>`}</span>
+  <span class="bd"><span class="kind">${i.kind}</span><h3>${i.name}</h3><p>${i.text}</p>${i.more ? `<span class="more">${i.more}</span>` : ''}</span></button>`).join('');
+function filter() {
+  const t = q.value.trim().toLowerCase();
+  let n = 0;
+  cards.querySelectorAll('.card').forEach(el => { const ok = (cat === 'all' || el.dataset.cat === cat) && (!t || el.dataset.text.includes(t)); el.hidden = !ok; n += ok; });
+  empty.classList.toggle('on', !n);
+}
+tabs.addEventListener('click', e => { const b = e.target.closest('[data-cat]'); if (!b) return; cat = b.dataset.cat; tabs.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b)); filter(); });
+q.addEventListener('input', filter);
+cards.addEventListener('click', e => { const x = e.target.closest('[data-x]'); if (x) x.setAttribute('aria-expanded', x.getAttribute('aria-expanded') !== 'true'); });
+addEventListener('keydown', e => { if (e.key === '/' && document.activeElement !== q && !document.querySelector('dialog[open]')) { e.preventDefault(); q.focus(); } });
+document.getElementById('count').innerHTML = [[7, 'characters'], [WO.length, 'places & ships'], [6, 'target planets'], [1, 'pilot'], [14, 'episodes coming']].map(([n, l]) => `<span><b>${n}</b>${l}</span>`).join('');
+
+// spread
+const pol = id => { const w = W[id]; const pic = w.img ? `<img src="${IMG}${w.img}.jpg" alt="" loading="lazy">` : `<img src="${IMG}ship-icon.webp" alt="" style="object-fit:contain;background:radial-gradient(circle at 50% 50%,#9fe3ff,#1F6FD1);padding:14px">`;
+  return `<button class="pol" type="button" data-world="${id}"><span class="tape ${['', 'p', 'a', 'l'][id.length % 4]}"></span>${pic}<span class="cap"><span class="k">${w.kind}</span>${w.name}</span></button>`; };
+document.getElementById('ours').innerHTML = ['sphere', 'ship', 'command', 'launchbay', 'hatch'].map(pol).join('');
+document.getElementById('theirs').innerHTML = ['cavern', 'aquafy', 'hangar', 'rockets'].map(pol).join('');
+document.getElementById('orbit').innerHTML = [['Veldra', 46], ['Terralis', 58], ['Solen', 40], ['Arridia', 84, '#E2995E'], ['Kaelith', 52], ['Nova-9', 36]].map(([n, s, c]) => c
+  ? `<button class="planet" type="button" data-world="arridia" style="--s:${s}px;--c:${c}"><i></i>${n}<small>visited in Ep 1</small></button>`
+  : `<button class="planet q" type="button" data-world="targets" style="--s:${s}px"><i></i>${n}<small>not painted yet</small></button>`).join('');
+
+// size chart
+const grid = document.getElementById('grid');
+for (let h = 0; h <= 8; h++) grid.insertAdjacentHTML('afterbegin', `<div class="hline" style="bottom:calc(var(--u) * ${h})"><span>${h}H</span></div>`);
+document.getElementById('figs').innerHTML = Object.keys(C).map(k => `<button class="fig" type="button" data-crew="${k}" style="--h:${C[k].heads * (C[k].wide ? .82 : 1.12)};--c:${C[k].color}"><b>${C[k].short || C[k].name} · ${C[k].heads}</b><img src="${IMG}${k}.webp" alt=""></button>`).join('') + '<div class="human" aria-hidden="true"><i class="hd"></i><i class="bd"></i><i class="lg"></i><span>a grown-up, about 7.5 heads</span></div>';
+
+// science
+const SCI = [
+  ['wisp', 'Hydro-forming', 'Making a dry world wet: clouds, rain, then life. It takes the whole team, so Wisp keeps the plan on track.', 'Make a cloud in a jar: a little warm water in a jar, a plate of ice on top, and watch mist form.'],
+  ['heelo', 'Surface tension', 'Water’s surface acts like a stretchy skin. Heelo uses that pull to hold things together, even a runaway rocket.', 'Gently lay a paper clip on a bowl of water. It floats on the “skin” of the water.'],
+  ['nonni', 'Hyper waves', 'Waves move energy across water and space. Nonni builds inventions that ride them to faraway worlds.', 'Drop a pebble in a bowl of water and count the rings as they spread to the edge.'],
+  ['hydro', 'Mixology', 'Some things mix and some don’t. Hydro experiments until he finds the right recipe for rain.', 'Shake oil and colored water in a sealed jar, then watch them separate again.'],
+  ['buoy', 'Interfaces', 'Systems only work when they can talk to each other. Buoy keeps every signal connected.', 'Make a cup telephone with two paper cups and a long, tight string.'],
+  ['docneon', 'Why water wins', 'Doc Neon hates water for a reason: when he gets wet, he melts into lime slime. Water beats metal in every ship fight.', 'Ask a grown-up why rain makes metal rust. Doc Neon won’t tell you.']
+];
+document.getElementById('sci').innerHTML = SCI.map(([k, h, t, tr]) => `<article class="exp"><div class="who"><button type="button" data-crew="${k}" style="--c:${C[k].color}"><img src="${IMG}face-${k}.webp" alt=""></button><span class="lab">${C[k].short || C[k].name}</span></div><h3>${h}</h3><p>${t}</p><p class="try"><b>Try it</b>${tr}</p></article>`).join('');
+</script>
+</body>
+</html>

@@ -132,13 +132,27 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 footer b{font:400 26px var(--display);color:var(--aqua)}
 footer small{color:var(--dim)}
 @media (prefers-reduced-motion:reduce){.ship,.wet .bar i,.hole .glass img,.planet .ball{transition:none}}
+/* worlds */
+.wd-orb{position:absolute;left:50%;top:50%;width:58%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle at 32% 28%,#fff 0 6%,transparent 22%),radial-gradient(circle,rgba(79,195,240,.45) 0 52%,#5CE1E6 66%,#FF5FA2 80%,#8B6CF6 92%,transparent);box-shadow:0 0 50px rgba(79,195,240,.55)}
+.wd-dots{position:absolute;inset:0;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;align-content:center;gap:8px;padding:12%}
+.wd-dots i{width:30px;height:30px;border-radius:50%;box-shadow:inset -5px -4px 0 rgba(0,0,0,.25)}
+
+#worlds .wd-reel{display:flex;gap:22px;overflow-x:auto;scroll-snap-type:x mandatory;padding:20px 4px 30px;scrollbar-width:thin;scrollbar-color:var(--violet) transparent}
+.wd-pc{flex:0 0 clamp(240px,28vw,320px);scroll-snap-align:start;border:0;padding:10px;cursor:pointer;background:var(--star);border-radius:10px;transform:rotate(var(--r));box-shadow:0 18px 40px rgba(0,0,0,.4);text-align:left;color:#140C3E;transition:transform .3s}
+.wd-pc:hover{transform:rotate(0) translateY(-8px)}
+.wd-ph{position:relative;display:block;aspect-ratio:3/2;border-radius:6px;overflow:hidden;background:radial-gradient(circle,var(--c),var(--d))}
+.wd-ph img{width:100%;height:100%;object-fit:cover}
+.wd-greet{position:absolute;left:10px;bottom:8px;font:800 11px var(--label);letter-spacing:.14em;text-transform:uppercase;color:#fff;text-shadow:0 2px 6px rgba(0,0,0,.7)}
+.wd-greet b{display:block;font:400 26px/1 var(--display);letter-spacing:0;text-transform:none;color:var(--gold)}
+.wd-back{display:flex;align-items:center;gap:10px;padding:10px 4px 2px;font:700 14px/1.35 var(--body)}
+.wd-stamp{flex:none;width:58px;height:58px;display:grid;place-items:center;text-align:center;font:800 9px/1.1 var(--label);letter-spacing:.08em;text-transform:uppercase;color:#fff;background:var(--d);border:3px dotted var(--star);outline:2px solid var(--d);padding:3px}
 </style>
 </head>
 <body>
 <canvas id="stars" aria-hidden="true"></canvas>
 <header><div class="wrap">
   <a href="#top"><img src="../img/hd/logo.webp" alt="The Qoogies"></a>
-  <nav aria-label="Main"><a href="#map">Galaxy</a><a href="#crew">Crew</a><a href="#fleets">Ships</a><a href="#episodes">Episodes</a></nav>
+  <nav aria-label="Main"><a href="#map">Galaxy</a><a href="#crew">Crew</a><a href="#fleets">Ships</a><a href="#worlds">Worlds</a><a href="#episodes">Episodes</a></nav>
 </div></header>
 
 <main id="top">
@@ -181,6 +195,11 @@ footer small{color:var(--dim)}
   </div>
 </div></section>
 
+<section id="worlds"><div class="wrap">
+  <div class="sh"><span class="lab">Postcards from the route</span><h2>Every stop on the way</h2></div>
+  <div class="wd-reel"><button class="wd-pc" type="button" data-world="sphere" style="--c:#4FC3F0;--d:#1F6FD1;--r:-2deg"><span class="wd-ph"><span class="wd-orb" aria-hidden="true"></span><span class="wd-greet">Greetings from<b>The Bubble Sphere</b></span></span><span class="wd-back"><span class="wd-stamp">Homeworld</span><span>Where every Qoogie comes from.</span></span></button><button class="wd-pc" type="button" data-world="ship" style="--c:#8B6CF6;--d:#4B2FB8;--r:1.5deg"><span class="wd-ph"><img src="../img/hd/ship-144.jpg" alt="" loading="lazy"><span class="wd-greet">Greetings from<b>The Qoogie Ship</b></span></span><span class="wd-back"><span class="wd-stamp">Ship</span><span>Made of water and light.</span></span></button><button class="wd-pc" type="button" data-world="command" style="--c:#F0C64A;--d:#A6750A;--r:-1deg"><span class="wd-ph"><img src="../img/hd/pilot-27.jpg" alt="" loading="lazy"><span class="wd-greet">Greetings from<b>Command Center</b></span></span><span class="wd-back"><span class="wd-stamp">Ship room</span><span>Wisp’s chair and the big screen.</span></span></button><button class="wd-pc" type="button" data-world="launchbay" style="--c:#FF8A1A;--d:#C4560A;--r:2.2deg"><span class="wd-ph"><img src="../img/hd/pilot-29.jpg" alt="" loading="lazy"><span class="wd-greet">Greetings from<b>Launch Bay 01</b></span></span><span class="wd-back"><span class="wd-stamp">Ship room</span><span>“Launch crew ready.”</span></span></button><button class="wd-pc" type="button" data-world="hatch" style="--c:#46C2DB;--d:#11788C;--r:-1.6deg"><span class="wd-ph"><img src="../img/hd/pilot-12.jpg" alt="" loading="lazy"><span class="wd-greet">Greetings from<b>Hatch A</b></span></span><span class="wd-back"><span class="wd-stamp">Ship room</span><span>The big round door.</span></span></button><button class="wd-pc" type="button" data-world="space" style="--c:#5CE1E6;--d:#2A1670;--r:0.8deg"><span class="wd-ph"><img src="../img/hd/pilot-56.jpg" alt="" loading="lazy"><span class="wd-greet">Greetings from<b>Open Space</b></span></span><span class="wd-back"><span class="wd-stamp">Environment</span><span>Deep blue with a nebula glow.</span></span></button><button class="wd-pc" type="button" data-world="arridia" style="--c:#E2995E;--d:#914B2F;--r:-2deg"><span class="wd-ph"><img src="../img/hd/pilot-2.jpg" alt="" loading="lazy"><span class="wd-greet">Greetings from<b>Arridia</b></span></span><span class="wd-back"><span class="wd-stamp">Planet</span><span>Dust storms on top. Doc Neon underneath.</span></span></button><button class="wd-pc" type="button" data-world="targets" style="--c:#FF8A5C;--d:#B8432A;--r:1.5deg"><span class="wd-ph"><span class="wd-dots" aria-hidden="true"><i style="background:#7FC8A9"></i><i style="background:#C98A4B"></i><i style="background:#F5D093"></i><i style="background:#E2995E"></i><i style="background:#B38AD9"></i><i style="background:#8FA3BF"></i></span><span class="wd-greet">Greetings from<b>Target Worlds</b></span></span><span class="wd-back"><span class="wd-stamp">Planets</span><span>Six dry planets waiting for rain.</span></span></button><button class="wd-pc" type="button" data-world="cavern" style="--c:#A6D64A;--d:#4F8A2E;--r:-1deg"><span class="wd-ph"><img src="../img/hd/neon-lab.jpg" alt="" loading="lazy"><span class="wd-greet">Greetings from<b>Doc Neon’s Cavern</b></span></span><span class="wd-back"><span class="wd-stamp">Villain base</span><span>“Clones for a dry galaxy.”</span></span></button><button class="wd-pc" type="button" data-world="aquafy" style="--c:#4FE0F0;--d:#0B2F66;--r:2.2deg"><span class="wd-ph"><img src="../img/hd/aquafy.jpg" alt="" loading="lazy"><span class="wd-greet">Greetings from<b>Project Aquafy</b></span></span><span class="wd-back"><span class="wd-stamp">Villain control room</span><span>“Water ruins everything.”</span></span></button><button class="wd-pc" type="button" data-world="hangar" style="--c:#8CFF3F;--d:#3A4150;--r:-1.6deg"><span class="wd-ph"><img src="../img/hd/neon-hangar.jpg" alt="" loading="lazy"><span class="wd-greet">Greetings from<b>Rocket Hangar</b></span></span><span class="wd-back"><span class="wd-stamp">Villain base</span><span>Built in the dark. Launched straight up.</span></span></button><button class="wd-pc" type="button" data-world="rockets" style="--c:#4F8A2E;--d:#2D5418;--r:0.8deg"><span class="wd-ph"><img src="../img/hd/ship-700.jpg" alt="" loading="lazy"><span class="wd-greet">Greetings from<b>Doc Neon’s Rockets</b></span></span><span class="wd-back"><span class="wd-stamp">Ship</span><span>Made of metal and smoke.</span></span></button><button class="wd-pc" type="button" data-world="tether" style="--c:#36C8F5;--d:#1F6FD1;--r:-2deg"><span class="wd-ph"><img src="../img/hd/ship-754.jpg" alt="" loading="lazy"><span class="wd-greet">Greetings from<b>The Water Tether</b></span></span><span class="wd-back"><span class="wd-stamp">Pilot moment</span><span>Water beats metal.</span></span></button></div>
+</div></section>
+
 <section id="episodes"><div class="wrap">
   <div class="sh"><span class="lab">Stops along the route</span><h2>Season One</h2></div>
   <div class="stops">
@@ -202,6 +221,7 @@ footer small{color:var(--dim)}
 <footer><div class="wrap"><b>Waves Connect Worlds.</b><small>The Qoogies © XBX Entertainment · Press and partners · Parents · Template 5 · Galaxy Route. Planet details are placeholders.</small></div></footer>
 
 <script src="crew.js" data-skin="space"></script>
+<script src="worlds.js" data-skin="space"></script>
 <script>
 const P=[
  {n:'Bubble Sphere',x:11,y:75,s:74,w:100,g:'radial-gradient(circle at 35% 30%,#E8F6FF,#4FC3F0 40%,#1F6FD1 75%,#0B2F66)',st:'Home',tc:'#4FC3F0',d:"Home of the Qoogies. Every rain mission starts here.",who:['wisp','heelo','nonni','hydro','buoy']},
