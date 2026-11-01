@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Qoogies · Quest Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Exo+2:wght@600;700;800;900&family=Lilita+One&family=Nunito:wght@400;700;800;900&display=swap">
+<style>
+/* Layout: the home page is a level map. Pick a party leader, then follow a winding trail from the ship's launch bay, through space, down to Arridia and into Doc Neon's base, to the final stop: the water tether. Every stop you explore earns XP, unlocks the next one and moves your Qoogie along the trail. Badges and side quests sit underneath. */
+:root{
+  --cream:#FFFDF3; --navy:#16365C; --navy2:#0E2340; --sun:#FFB020; --sky:#4FC3F0; --sky2:#BDEBFF; --violet:#8B6CF6; --dust:#E2995E; --rust:#914B2F; --neon:#8CFF3F; --lime:#9BE22E; --pink:#FF5FA2; --ink:#16365C; --dim:#56708F;
+  --display:"Lilita One","Arial Rounded MT Bold",system-ui,sans-serif;
+  --label:"Exo 2","Trebuchet MS",system-ui,sans-serif;
+  --body:"Nunito","Segoe UI",system-ui,sans-serif;
+  --gut:max(16px,env(safe-area-inset-left,0px));
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--cream);color:var(--ink);font:400 17px/1.6 var(--body);overflow-x:clip}
+main{overflow-x:clip}
+img{display:block;max-width:100%}
+h1,h2,h3{font-family:var(--display);font-weight:400;line-height:1.02;margin:0}
+.wrap{max-width:1120px;margin:0 auto;padding-left:var(--gut);padding-right:max(16px,env(safe-area-inset-right,0px))}
+:focus-visible{outline:3px solid var(--sun);outline-offset:3px;border-radius:8px}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 24px;border:3px solid var(--navy);cursor:pointer;font:900 15px/1 var(--label);letter-spacing:.06em;text-transform:uppercase;text-decoration:none;border-radius:999px;color:var(--navy);background:#fff;box-shadow:0 5px 0 var(--navy);transition:transform .12s,box-shadow .12s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 7px 0 var(--navy)}
+.btn:active{transform:translateY(3px);box-shadow:0 2px 0 var(--navy)}
+.btn.lime{background:var(--lime)}
+.btn.sun{background:var(--sun)}
+.btn.sm{padding:10px 16px;font-size:13px}
+.btn[disabled]{opacity:.5;cursor:not-allowed;transform:none;box-shadow:0 5px 0 var(--navy)}
+.kick{font:900 13px var(--label);letter-spacing:.14em;text-transform:uppercase}
+
+/* header + HUD */
+header{position:sticky;top:0;z-index:30;background:rgba(255,253,243,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:4px solid var(--navy)}
+.hd{display:flex;align-items:center;gap:18px;min-height:70px}
+.hd nav{display:flex;gap:18px;margin-right:auto}
+.hd nav a{font:800 14px var(--label);color:var(--navy);text-decoration:none;letter-spacing:.04em}
+.hd nav a:hover{color:var(--violet)}
+.hud{display:flex;align-items:center;gap:10px;margin-left:auto}
+.hud img{width:40px;height:40px;border-radius:50%;object-fit:cover;object-position:50% 8%;border:3px solid var(--navy);background:var(--c,#4FC3F0)}
+.hud .lv{font:400 22px var(--display);background:var(--sun);border:3px solid var(--navy);border-radius:12px;padding:2px 9px;line-height:1.2}
+.hud .xp{display:block;width:150px}
+.hud .xp small{display:block;font:800 11px var(--label);letter-spacing:.06em;color:var(--dim)}
+.bar{display:block;height:12px;border:3px solid var(--navy);border-radius:999px;background:#fff;overflow:hidden}
+.bar i{display:block;height:100%;width:100%;transform:scaleX(0);transform-origin:left;background:linear-gradient(90deg,var(--sky),var(--lime));transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.hud .bdg{font:900 13px var(--label);border:3px solid var(--navy);border-radius:999px;padding:4px 10px;background:#fff;white-space:nowrap}
+@media (max-width:860px){.hd nav{display:none}.hud .xp{width:110px}}
+@media (max-width:420px){.hud .bdg{display:none}.hud .xp{width:96px}}
+
+/* hero */
+.hero{position:relative;overflow:hidden;background:linear-gradient(180deg,#7FD6FA 0,#BDEBFF 70%,var(--cream) 100%);padding:70px 0 120px;text-align:center}
+.cloud{position:absolute;background:#fff;border-radius:999px;opacity:.9;animation:drift 40s linear infinite}
+.cloud::before,.cloud::after{content:"";position:absolute;background:#fff;border-radius:50%}
+.cloud::before{width:55%;height:160%;left:15%;bottom:20%}
+.cloud::after{width:40%;height:120%;right:12%;bottom:30%}
+.c1{width:180px;height:44px;top:80px;left:6%}.c2{width:240px;height:56px;top:220px;right:4%;animation-duration:55s;animation-direction:reverse}.c3{width:120px;height:30px;top:40px;right:30%;animation-duration:70s}
+@keyframes drift{50%{transform:translateX(60px)}}
+.hero .in{position:relative;z-index:2}
+.hero .logo{width:min(220px,50vw);margin:0 auto 8px}
+.hero h1{font-size:clamp(56px,11vw,128px);color:#fff;-webkit-text-stroke:3px var(--navy);paint-order:stroke fill;text-shadow:0 8px 0 var(--navy)}
+.hero p{max-width:560px;margin:16px auto 26px;font-size:19px;font-weight:700}
+.hero .ship{width:min(300px,62vw);margin:0 auto 6px;animation:bob 4s ease-in-out infinite;filter:drop-shadow(0 18px 18px rgba(22,54,92,.25))}
+@keyframes bob{50%{transform:translateY(-12px) rotate(-2deg)}}
+.facts{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:26px}
+.facts span{font:900 14px var(--label);background:#fff;border:3px solid var(--navy);border-radius:999px;padding:6px 14px}
+.facts b{color:var(--violet)}
+
+/* party */
+.sec{padding:80px 0}
+.title{text-align:center;max-width:660px;margin:0 auto 34px}
+.title h2{font-size:clamp(40px,6vw,64px);margin:6px 0 10px}
+.title p{margin:0;color:var(--dim);font-weight:700}
+.party{display:flex;justify-content:center;gap:16px;flex-wrap:wrap}
+.party button{width:132px;border:4px solid var(--navy);border-radius:24px;background:#fff;padding:10px 8px 12px;cursor:pointer;box-shadow:0 6px 0 var(--navy);transition:transform .15s;font:inherit;color:inherit}
+.party button:hover{transform:translateY(-4px) rotate(-2deg)}
+.party button img{width:96px;height:96px;margin:0 auto;border-radius:50%;object-fit:cover;object-position:50% 8%;background:var(--c)}
+.party button b{display:block;font:400 22px var(--display);margin-top:6px}
+.party button small{display:block;font:800 12px var(--label);color:var(--dim);line-height:1.3}
+.party button[aria-pressed="true"]{background:var(--sun);transform:translateY(-4px)}
+.party button[aria-pressed="true"] small{color:var(--navy)}
+@media (max-width:600px){.party{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.party button{width:auto}.party button img{width:72px;height:72px}.party button b{font-size:18px}}
+
+/* map */
+.map{position:relative;padding-bottom:40px}
+.zone{position:relative;padding:34px 0 10px;background:var(--z)}
+.zone .zh{position:relative;z-index:2;display:flex;align-items:center;gap:12px;margin-bottom:6px}
+.zone .zh span{font:900 12px var(--label);letter-spacing:.14em;text-transform:uppercase;background:var(--navy);color:#fff;border-radius:999px;padding:5px 12px}
+.zone .zh h3{font-size:28px;color:var(--zf,var(--navy))}
+.z-ship{--z:linear-gradient(180deg,var(--cream),#E6DEFF)}
+.z-space{--z:linear-gradient(180deg,#E6DEFF,#2A1670 30%,#14103D);--zf:#fff}
+.z-arridia{--z:linear-gradient(180deg,#14103D,#E2995E 22%,#F5C08A);--zf:#fff}
+.z-neon{--z:linear-gradient(180deg,#F5C08A,#1E3A1A 20%,#0F1F0D);--zf:var(--neon)}
+.z-final{--z:linear-gradient(180deg,#0F1F0D,#36C8F5 30%,#BDEBFF 80%,var(--cream));--zf:#fff}
+.trail{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;overflow:visible}
+.trail path{fill:none;stroke-linecap:round}
+.trail .back{stroke:rgba(255,255,255,.9);stroke-width:18}
+.trail .dash{stroke:var(--navy);stroke-width:5;stroke-dasharray:2 14;opacity:.55}
+.trail .done{stroke:var(--sky);stroke-width:9}
+.stop{position:relative;z-index:2;display:flex;align-items:center;gap:26px;min-height:240px;padding:20px 0}
+.stop.flip{flex-direction:row-reverse}
+.node{flex:none;position:relative;width:136px;height:136px;border-radius:50%;border:6px solid var(--navy);background:var(--c);padding:0;cursor:pointer;box-shadow:0 8px 0 var(--navy);transition:transform .2s;overflow:hidden}
+.node img{width:100%;height:100%;object-fit:cover}
+.node:hover{transform:scale(1.05)}
+.node .num{position:absolute;left:50%;bottom:6px;transform:translateX(-50%);font:400 18px var(--display);background:#fff;border:3px solid var(--navy);border-radius:999px;padding:0 10px;line-height:1.4}
+.node[disabled]{cursor:not-allowed;filter:grayscale(1) brightness(.75)}
+.node[disabled]:hover{transform:none}
+.node[disabled]::after{content:"🔒";position:absolute;inset:0;display:grid;place-items:center;font-size:40px;background:rgba(22,54,92,.45)}
+.stop.done .node{border-color:var(--navy);box-shadow:0 8px 0 var(--navy),0 0 0 10px rgba(155,226,46,.6)}
+.stop.next .node{animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{50%{box-shadow:0 8px 0 var(--navy),0 0 0 14px rgba(255,176,32,.55)}}
+.qcard{flex:1;max-width:460px;background:#fff;border:4px solid var(--navy);border-radius:26px;padding:18px 20px;box-shadow:0 8px 0 var(--navy)}
+.qcard .kick{color:var(--c2,var(--violet))}
+.qcard h4{font:400 28px/1.05 var(--display);margin:4px 0 6px}
+.qcard p{margin:0 0 6px;font-size:16px}
+.qcard .obj{font-weight:800}
+.qcard .obj::before{content:"Objective · ";font:900 12px var(--label);letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.qcard .beat{font-size:14px;color:var(--dim)}
+.qcard .row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:12px}
+.qcard .xp{font:900 13px var(--label);color:var(--navy);background:var(--sky2);border-radius:999px;padding:5px 12px}
+.stop.done .qcard .xp{background:var(--lime)}
+.stop.done .qcard .xp::before{content:"✓ "}
+.stop.locked .qcard{opacity:.75}
+.token{position:absolute;z-index:5;left:0;top:0;width:64px;height:64px;margin:-96px 0 0 -32px;pointer-events:none}
+.token img{width:64px;height:64px;border-radius:50%;object-fit:cover;object-position:50% 8%;border:4px solid var(--navy);background:var(--c);box-shadow:0 6px 0 var(--navy)}
+.token::after{content:"";position:absolute;left:50%;bottom:-14px;margin-left:-10px;border:10px solid transparent;border-top:12px solid var(--navy);border-bottom:0}
+@media (max-width:640px){
+  .stop{gap:14px;min-height:0;padding:26px 0;align-items:flex-start}
+  .node{width:92px;height:92px;border-width:5px}
+  .node .num{font-size:15px;bottom:3px}
+  .node[disabled]::after{font-size:28px}
+  .qcard{padding:14px;border-radius:20px}
+  .qcard h4{font-size:23px}
+  .qcard p{font-size:15px}
+  .token{width:48px;height:48px;margin:-74px 0 0 -24px}
+  .token img{width:48px;height:48px}
+  .zone .zh h3{font-size:22px}
+}
+
+/* finish banner */
+.finish{margin-top:10px;text-align:center;padding:30px 20px;border:4px dashed var(--navy);border-radius:26px;background:rgba(255,255,255,.7)}
+.finish h3{font-size:34px}
+.finish p{margin:6px 0 0;font-weight:700}
+.finish.won{border-style:solid;background:var(--sun)}
+
+/* badges */
+.badges{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
+@media (max-width:900px){.badges{grid-template-columns:repeat(2,1fr)}}
+.badge{background:#fff;border:4px solid var(--navy);border-radius:24px;padding:18px 14px;text-align:center;box-shadow:0 6px 0 var(--navy)}
+.badge .ic{width:84px;height:84px;margin:0 auto 10px;border-radius:50%;border:4px solid var(--navy);display:grid;place-items:center;font-size:38px;background:#E6EAF0;filter:grayscale(1);opacity:.6}
+.badge.on .ic{background:var(--bc);filter:none;opacity:1}
+.badge b{display:block;font:400 22px var(--display)}
+.badge small{display:block;color:var(--dim);font-weight:700;line-height:1.35;margin-top:4px}
+.badge .pg{font:900 12px var(--label);margin-top:8px;color:var(--violet)}
+.badge.on .pg{color:#3E7A0F}
+
+/* side quests + crew */
+.sides{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+@media (max-width:900px){.sides{grid-template-columns:repeat(2,1fr)}}
+.side{border:4px solid var(--navy);border-radius:22px;background:#fff;padding:0;overflow:hidden;cursor:pointer;text-align:left;font:inherit;color:inherit;box-shadow:0 6px 0 var(--navy);transition:transform .15s}
+.side:hover{transform:translateY(-4px)}
+.side .ph{display:block;position:relative;aspect-ratio:4/3;background:radial-gradient(circle,var(--c),var(--d))}
+.side .ph img{width:100%;height:100%;object-fit:cover}
+.side .bd{display:block;padding:12px 14px}
+.side b{display:block;font:400 21px var(--display)}
+.side small{font:800 12px var(--label);color:var(--dim)}
+.side.done small::after{content:" · ✓ +50 XP";color:#3E7A0F}
+.wd-orb{position:absolute;left:50%;top:50%;width:62%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle at 34% 30%,#fff 0 6%,#BDEBFF 14%,#4FC3F0 46%,#1F6FD1 78%);box-shadow:inset -10px -14px 30px rgba(10,40,120,.35),0 0 40px rgba(79,195,240,.6)}
+.wd-dots{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;padding:20px}
+.wd-dots i{width:26px;height:26px;border-radius:50%;box-shadow:inset -4px -5px 0 rgba(0,0,0,.2)}
+.crew{display:grid;grid-template-columns:repeat(7,1fr);gap:12px}
+@media (max-width:900px){.crew{grid-template-columns:repeat(4,1fr)}}
+@media (max-width:520px){.crew{grid-template-columns:repeat(3,1fr)}}
+.crew button{border:4px solid var(--navy);border-radius:20px;background:#fff;padding:8px 6px 10px;cursor:pointer;font:inherit;color:inherit;transition:transform .15s}
+.crew button:hover{transform:translateY(-3px)}
+.crew button img{width:100%;aspect-ratio:1;border-radius:14px;object-fit:cover;object-position:50% 8%;background:var(--c)}
+.crew button b{display:block;font:400 17px/1.1 var(--display);margin-top:6px}
+.crew button small{display:block;font:800 11px var(--label);color:var(--dim)}
+.crew button.seen small{color:#3E7A0F}
+.reset{text-align:center;margin-top:40px}
+.reset button{background:none;border:0;font:800 14px var(--label);color:var(--dim);text-decoration:underline;cursor:pointer}
+
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:60;transform:translate(-50%,160%);background:var(--navy);color:#fff;border-radius:999px;padding:12px 20px;font:800 15px var(--label);box-shadow:0 8px 24px rgba(0,0,0,.25);transition:transform .35s cubic-bezier(.2,.8,.2,1);max-width:calc(100vw - 32px);text-align:center}
+.toast.show{transform:translate(-50%,0)}
+.toast b{color:var(--sun)}
+
+footer{background:var(--navy);color:#fff;padding-block:40px calc(40px + env(safe-area-inset-bottom,0px))}
+footer .wrap{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:center}
+footer b{font:400 28px var(--display);color:var(--sun)}
+footer small{color:#B8C7DB}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.cloud,.hero .ship,.stop.next .node{animation:none}.bar i,.toast{transition:none}}
+</style>
+</head>
+<body>
+<header><div class="wrap hd">
+  <a href="#top"><img src="../img/hd/logo.webp" alt="The Qoogies" width="108" height="44"></a>
+  <nav aria-label="Main"><a href="#party">Party</a><a href="#map">Map</a><a href="#badges">Badges</a><a href="#sides">Side quests</a><a href="#crew">Crew</a></nav>
+  <div class="hud" aria-label="Your progress"><img id="hudFace" src="../img/hd/face-wisp.webp" alt=""><span class="lv" id="lv">1</span><span class="xp"><small id="xpTxt">0 / 300 XP</small><span class="bar"><i id="xpBar"></i></span></span><span class="bdg" id="bdgCount">🏅 0/5</span></div>
+</div></header>
+
+<main id="top">
+<section class="hero">
+  <span class="cloud c1"></span><span class="cloud c2"></span><span class="cloud c3"></span>
+  <div class="wrap in">
+    <img class="ship" src="../img/hd/ship-icon.webp" alt="The Qoogie ship">
+    <h1>Quest Map</h1>
+    <p>Nine stops from the ship’s launch bay to the water tether. Explore each one to earn XP, unlock the next and collect badges along the way.</p>
+    <a class="btn lime" href="#party">Start the quest ↓</a>
+    <div class="facts"><span><b>9</b> stops</span><span><b>5</b> zones</span><span><b>5</b> badges</span><span><b>4</b> side quests</span></div>
+  </div>
+</section>
+
+<section class="wrap sec" id="party">
+  <div class="title"><span class="kick" style="color:var(--violet)">Step 1</span><h2>Pick your party leader</h2><p>Your leader walks the trail. Team Aero works together, so you can swap any time.</p></div>
+  <div class="party" id="partyList" role="group" aria-label="Party leader"></div>
+</section>
+
+<section id="map" aria-label="Quest map">
+  <div class="map" id="mapEl">
+    <svg class="trail" id="trail" aria-hidden="true"><path class="back" id="pBack"/><path class="dash" id="pDash"/><path class="done" id="pDone"/></svg>
+    <div class="token" id="token" aria-hidden="true"><img id="tokenImg" src="../img/hd/face-wisp.webp" alt=""></div>
+    <div id="zones"></div>
+  </div>
+</section>
+
+<section class="wrap sec" id="badges">
+  <div class="title"><span class="kick" style="color:var(--sun)">Rewards</span><h2>Badges</h2><p>Earn them on the trail, in side quests and by meeting the whole crew.</p></div>
+  <div class="badges" id="badgeList"></div>
+</section>
+
+<section class="wrap sec" id="sides" style="padding-top:0">
+  <div class="title"><span class="kick" style="color:var(--pink)">Off the trail</span><h2>Side quests</h2><p>Four more places from the show. Each one is worth 50 XP.</p></div>
+  <div class="sides" id="sideList"></div>
+</section>
+
+<section class="wrap sec" id="crew" style="padding-top:0">
+  <div class="title"><span class="kick" style="color:var(--sky)">Recruit</span><h2>Meet the crew</h2><p>Open every profile, villains too, for the Crew collector badge.</p></div>
+  <div class="crew" id="crewList"></div>
+  <div class="reset"><button type="button" id="reset">Reset my quest</button></div>
+</section>
+</main>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<footer><div class="wrap"><b>Waves Connect Worlds.</b><small>The Qoogies © XBX Entertainment · Parents · Privacy · Template 12 · Quest Map</small></div></footer>
+
+<script src="crew.js" data-skin="quest"></script>
+<script src="worlds.js" data-skin="quest"></script>
+<script>
+const C = QoogiePopup.crew, W = QoogieWorlds.worlds, WO = QoogieWorlds.order, IMG = '../img/hd/';
+const reduce = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+const store = { get(k, d) { try { const v = localStorage.getItem('qq-' + k); return v === null ? d : JSON.parse(v); } catch (e) { return d; } }, set(k, v) { try { localStorage.setItem('qq-' + k, JSON.stringify(v)); } catch (e) {} }, clear() { try { ['leader', 'visited', 'side', 'crew', 'badges'].forEach(k => localStorage.removeItem('qq-' + k)); } catch (e) {} } };
+
+const ZONES = [
+  { id: 'ship', name: 'The Qoogie Ship', n: 'Zone 1', stops: ['launchbay', 'hatch', 'command'] },
+  { id: 'space', name: 'Open Space', n: 'Zone 2', stops: ['space'] },
+  { id: 'arridia', name: 'Arridia', n: 'Zone 3', stops: ['arridia'] },
+  { id: 'neon', name: 'Neon Underground', n: 'Zone 4', stops: ['cavern', 'aquafy', 'hangar'] },
+  { id: 'final', name: 'The Finale', n: 'Zone 5', stops: ['tether'] }
+];
+const OBJ = {
+  launchbay: 'Suit up with Heelo for the drop. Launch crew ready.',
+  hatch: 'Open the big round door and look out at Arridia.',
+  command: 'Take Wisp’s seat and answer Doc Neon on the big screen.',
+  space: 'Fly the ship of water and light past the nebula.',
+  arridia: 'Land in the dust storms and find out why it’s so dry.',
+  cavern: 'Sneak into Doc Neon’s base. Watch the Neonite rally.',
+  aquafy: 'Read his plan. He thinks water ruins everything.',
+  hangar: 'Spot the rockets being built in the dark.',
+  tether: 'Catch the rocket with water. Water beats metal.'
+};
+const STOPS = ZONES.flatMap(z => z.stops);
+const SIDES = WO.filter(id => !STOPS.includes(id));
+const HEROES = Object.keys(C).filter(k => !C[k].villain);
+const BADGES = [
+  { id: 'first', ic: '👣', name: 'First steps', txt: 'Explore your first stop.', bc: '#BDEBFF', need: s => [Math.min(s.visited.length, 1), 1] },
+  { id: 'doc', ic: '🧪', name: 'Met Doc Neon', txt: 'Reach his cavern or open his profile.', bc: '#C9F28A', need: s => [s.visited.includes('cavern') || s.crew.includes('docneon') ? 1 : 0, 1] },
+  { id: 'explorer', ic: '🧭', name: 'Explorer', txt: 'Explore all nine stops on the trail.', bc: '#FFD37A', need: s => [s.visited.length, STOPS.length] },
+  { id: 'side', ic: '🪐', name: 'Side quester', txt: 'Finish every side quest.', bc: '#E6DEFF', need: s => [s.side.length, SIDES.length] },
+  { id: 'crew', ic: '🫧', name: 'Crew collector', txt: 'Open all seven crew profiles.', bc: '#FFC2DC', need: s => [s.crew.length, Object.keys(C).length] }
+];
+
+const S = {
+  leader: HEROES.includes(store.get('leader', 'wisp')) ? store.get('leader', 'wisp') : 'wisp',
+  visited: store.get('visited', []).filter(id => STOPS.includes(id)),
+  side: store.get('side', []).filter(id => SIDES.includes(id)),
+  crew: store.get('crew', []).filter(id => C[id]),
+  badges: store.get('badges', [])
+};
+const save = () => ['leader', 'visited', 'side', 'crew', 'badges'].forEach(k => store.set(k, S[k]));
+const art = w => w.img ? `<img src="${IMG}${w.img}.jpg" alt="" loading="lazy">` : w.art === 'sphere' ? '<span class="wd-orb"></span>' : `<span class="wd-dots">${['#7FC8A9', '#C98A4B', '#F5D093', '#E2995E', '#B38AD9', '#8FA3BF'].map(c => `<i style="background:${c}"></i>`).join('')}</span>`;
+
+// toast
+const toastEl = document.getElementById('toast'); let toastT;
+function toast(html) { toastEl.innerHTML = html; toastEl.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => toastEl.classList.remove('show'), 2600); }
+
+// XP + HUD
+const xp = () => S.visited.length * 100 + S.side.length * 50 + S.crew.length * 25 + S.badges.length * 150;
+function hud() {
+  const x = xp(), lv = Math.floor(x / 300) + 1, inLv = x % 300;
+  document.getElementById('lv').textContent = lv;
+  document.getElementById('lv').setAttribute('aria-label', 'Level ' + lv);
+  document.getElementById('xpTxt').textContent = `${inLv} / 300 XP`;
+  document.getElementById('xpBar').style.transform = `scaleX(${inLv / 300})`;
+  document.getElementById('bdgCount').textContent = `🏅 ${S.badges.length}/${BADGES.length}`;
+  const f = document.getElementById('hudFace'); f.src = `${IMG}face-${S.leader}.webp`; f.style.setProperty('--c', C[S.leader].color);
+}
+
+// party
+const partyEl = document.getElementById('partyList');
+partyEl.innerHTML = HEROES.map(k => `<button type="button" data-lead="${k}" style="--c:${C[k].color}" aria-pressed="false"><img src="${IMG}face-${k}.webp" alt=""><b>${C[k].short || C[k].name}</b><small>${C[k].role}</small></button>`).join('');
+function setLeader(k) {
+  S.leader = k; save();
+  partyEl.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', b.dataset.lead === k));
+  const t = document.getElementById('tokenImg'); t.src = `${IMG}face-${k}.webp`; t.style.setProperty('--c', C[k].color);
+  hud();
+}
+partyEl.addEventListener('click', e => { const b = e.target.closest('[data-lead]'); if (!b) return; setLeader(b.dataset.lead); toast(`<b>${C[b.dataset.lead].short || C[b.dataset.lead].name}</b> leads the party.`); });
+
+// map
+let n = 0;
+document.getElementById('zones').innerHTML = ZONES.map(z => `<div class="zone z-${z.id}"><div class="wrap"><div class="zh"><span>${z.n}</span><h3>${z.name}</h3></div>${z.stops.map(id => {
+  const w = W[id], i = n++;
+  return `<div class="stop${i % 2 ? ' flip' : ''}" data-stop="${id}" style="--c:${w.deep}"><button class="node" type="button" data-world="${id}" aria-label="Stop ${i + 1}: ${w.name}">${art(w)}<span class="num">${i + 1}</span></button><div class="qcard" style="--c2:${w.deep}"><span class="kick">${w.kind}</span><h4>${w.name}</h4><p class="obj">${OBJ[id]}</p>${w.beat ? `<p class="beat">In the pilot at ${w.beat[0]}: ${w.beat[1]}</p>` : `<p class="beat">${w.tag}</p>`}<div class="row"><button class="btn sun sm" type="button" data-world="${id}">Explore</button><span class="xp">+100 XP</span></div></div></div>`;
+}).join('')}</div>${z.id === 'final' ? '<div class="wrap"><div class="finish" id="finish"><h3>Trail complete?</h3><p>Reach the water tether to finish the quest.</p></div></div>' : ''}</div>`).join('');
+
+const mapEl = document.getElementById('mapEl'), token = document.getElementById('token');
+const stopEls = STOPS.map(id => mapEl.querySelector(`[data-stop="${id}"]`));
+const center = el => { const r = el.querySelector('.node').getBoundingClientRect(), m = mapEl.getBoundingClientRect(); return [r.left - m.left + r.width / 2, r.top - m.top + r.height / 2]; };
+function pathThrough(pts) {
+  if (!pts.length) return '';
+  let d = `M${pts[0][0]},${pts[0][1]}`;
+  for (let i = 1; i < pts.length; i++) { const [x0, y0] = pts[i - 1], [x1, y1] = pts[i], my = (y0 + y1) / 2; d += ` C${x0},${my} ${x1},${my} ${x1},${y1}`; }
+  return d;
+}
+function drawTrail() {
+  const pts = stopEls.map(center);
+  const all = pathThrough(pts);
+  document.getElementById('pBack').setAttribute('d', all);
+  document.getElementById('pDash').setAttribute('d', all);
+  document.getElementById('pDone').setAttribute('d', pathThrough(pts.slice(0, Math.max(S.visited.length, 1))));
+  const at = pts[Math.min(Math.max(S.visited.length - 1, 0), pts.length - 1)];
+  token.style.transform = `translate(${at[0]}px,${at[1]}px)`;
+}
+function hop(fromIdx, toIdx) {
+  const pts = stopEls.map(center), a = pts[fromIdx], b = pts[toIdx];
+  if (reduce() || !a || !b) return drawTrail();
+  const mid = [(a[0] + b[0]) / 2, Math.min(a[1], b[1]) - 60];
+  token.animate([{ transform: `translate(${a[0]}px,${a[1]}px)` }, { transform: `translate(${mid[0]}px,${mid[1]}px) scale(1.15)`, offset: .5 }, { transform: `translate(${b[0]}px,${b[1]}px)` }], { duration: 700, easing: 'cubic-bezier(.3,.7,.4,1)' }).onfinish = drawTrail;
+  token.style.transform = `translate(${b[0]}px,${b[1]}px)`;
+}
+function paintMap() {
+  stopEls.forEach((el, i) => {
+    const id = STOPS[i], done = S.visited.includes(id), open = i <= S.visited.length;
+    el.classList.toggle('done', done); el.classList.toggle('locked', !open); el.classList.toggle('next', open && !done);
+    el.querySelectorAll('[data-world]').forEach(b => { b.disabled = !open; });
+    const lbl = el.querySelector('.btn'); lbl.textContent = !open ? 'Locked' : done ? 'Explore again' : 'Explore';
+  });
+  const fin = document.getElementById('finish'), won = S.visited.length === STOPS.length;
+  fin.classList.toggle('won', won);
+  fin.innerHTML = won ? `<h3>Quest complete! 🎉</h3><p>${C[S.leader].short || C[S.leader].name} made it to the water tether. Water connects worlds.</p>` : `<h3>${STOPS.length - S.visited.length} stops to go</h3><p>Reach the water tether to finish the quest.</p>`;
+  drawTrail();
+}
+new ResizeObserver(drawTrail).observe(mapEl);
+addEventListener('load', drawTrail);
+
+// badges
+function paintBadges() {
+  document.getElementById('badgeList').innerHTML = BADGES.map(b => { const [h, t] = b.need(S), on = S.badges.includes(b.id); return `<div class="badge${on ? ' on' : ''}" style="--bc:${b.bc}"><div class="ic" aria-hidden="true">${b.ic}</div><b>${b.name}</b><small>${b.txt}</small><div class="pg">${on ? 'Earned · +150 XP' : `${h} / ${t}`}</div></div>`; }).join('');
+}
+function checkBadges() {
+  BADGES.forEach(b => { const [h, t] = b.need(S); if (h >= t && !S.badges.includes(b.id)) { S.badges.push(b.id); setTimeout(() => toast(`🏅 Badge unlocked: <b>${b.name}</b> +150 XP`), 900); } });
+}
+
+// side quests + crew
+function paintSides() {
+  document.getElementById('sideList').innerHTML = SIDES.map(id => { const w = W[id]; return `<button class="side${S.side.includes(id) ? ' done' : ''}" type="button" data-world="${id}" style="--c:${w.color};--d:${w.deep}"><span class="ph">${art(w)}</span><span class="bd"><b>${w.name}</b><small>${w.kind}</small></span></button>`; }).join('');
+  document.getElementById('crewList').innerHTML = Object.keys(C).map(k => `<button type="button" data-crew="${k}" class="${S.crew.includes(k) ? 'seen' : ''}" style="--c:${C[k].color}"><img src="${IMG}face-${k}.webp" alt=""><b>${C[k].short || C[k].name}</b><small>${S.crew.includes(k) ? '✓ Met' : C[k].villain ? 'Villain' : 'Team Aero'}</small></button>`).join('');
+}
+
+function render() { checkBadges(); save(); paintMap(); paintBadges(); paintSides(); hud(); }
+
+// progress hooks (crew.js and worlds.js open the pop-ups; this only counts them)
+document.addEventListener('click', e => {
+  const w = e.target.closest('[data-world]'), c = e.target.closest('[data-crew]');
+  if (w && !w.disabled) {
+    const id = w.dataset.world, i = STOPS.indexOf(id);
+    if (i > -1 && !S.visited.includes(id) && i === S.visited.length) {
+      S.visited.push(id); toast(`<b>${W[id].name}</b> explored · +100 XP${i + 1 < STOPS.length ? ' · next stop unlocked' : ''}`);
+      if (i > 0) hop(i - 1, i);
+      render();
+    } else if (SIDES.includes(id) && !S.side.includes(id)) { S.side.push(id); toast(`Side quest: <b>${W[id].name}</b> · +50 XP`); render(); }
+  }
+  if (c && C[c.dataset.crew] && !S.crew.includes(c.dataset.crew)) { S.crew.push(c.dataset.crew); toast(`Met <b>${C[c.dataset.crew].short || C[c.dataset.crew].name}</b> · +25 XP`); render(); }
+});
+document.getElementById('reset').addEventListener('click', () => { S.visited = []; S.side = []; S.crew = []; S.badges = []; store.clear(); render(); toast('Quest reset. Back to the launch bay!'); });
+
+setLeader(S.leader);
+render();
+</script>
+</body>
+</html>

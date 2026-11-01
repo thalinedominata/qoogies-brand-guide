@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Qoogies · Qoogie Arcade</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Exo+2:wght@600;700;800;900&family=Lilita+One&family=Nunito:wght@400;700;800;900&display=swap">
+<style>
+/* Layout: the home page is an arcade. Neon marquee with PRESS START → a character-select screen with game stats → a playable mini-game (Rain Maker: soak Arridia before Doc Neon dries it) → stage select for every world → boss files → high scores. */
+:root{
+  --night:#0B0420; --night2:#1A0B3B; --grid:#FF5FA2; --cyan:#5CE1E6; --pink:#FF5FA2; --sun:#FFE14A; --lime:#9BE22E; --violet:#8B6CF6; --white:#F6F0FF; --dim:#A99BD6;
+  --dust:#E2995E; --rust:#914B2F; --water:#3FB6E8;
+  --display:"Lilita One","Arial Rounded MT Bold",system-ui,sans-serif;
+  --label:"Exo 2","Trebuchet MS",system-ui,sans-serif;
+  --body:"Nunito","Segoe UI",system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--night);color:var(--white);font:400 17px/1.6 var(--body);overflow-x:clip}
+main{overflow-x:clip}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:100;background:repeating-linear-gradient(0deg,rgba(0,0,0,.18) 0 1px,transparent 1px 3px);mix-blend-mode:multiply}
+img{max-width:100%;display:block}
+a{color:inherit}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--sun);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1200px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;line-height:.95;text-wrap:balance}
+p{margin:0}
+.px{font:900 13px/1.2 var(--label);letter-spacing:.22em;text-transform:uppercase}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 22px;border:0;cursor:pointer;font:900 15px/1 var(--label);letter-spacing:.14em;text-transform:uppercase;text-decoration:none;border-radius:6px;box-shadow:0 6px 0 rgba(0,0,0,.45);transition:transform .1s,box-shadow .1s}
+.btn:active{transform:translateY(4px);box-shadow:0 2px 0 rgba(0,0,0,.45)}
+.btn.lime{background:var(--lime);color:var(--night)}
+.btn.pink{background:var(--pink);color:#fff}
+.btn.ghost{background:transparent;box-shadow:inset 0 0 0 3px var(--cyan);color:var(--cyan)}
+.neon{text-shadow:0 0 6px currentColor,0 0 24px currentColor}
+
+header{position:sticky;top:0;z-index:30;background:rgba(11,4,32,.85);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:2px solid rgba(255,95,162,.4)}
+.hd{display:flex;align-items:center;justify-content:space-between;gap:14px;padding-block:10px}
+.hd img{width:118px;height:auto}
+.hd nav{display:flex;gap:4px;align-items:center;flex-wrap:wrap}
+.hd nav a:not(.btn){font:800 13px var(--label);letter-spacing:.14em;text-transform:uppercase;text-decoration:none;padding:8px 10px;color:var(--dim)}
+.hd nav a:not(.btn):hover{color:var(--cyan)}
+.p1{font:900 12px var(--label);letter-spacing:.16em;color:var(--sun);display:flex;align-items:center;gap:8px}
+.p1 img{width:30px;height:30px;border-radius:50%;object-fit:cover;object-position:50% 8%;box-shadow:0 0 0 2px var(--sun)}
+@media (max-width:900px){.hd nav a:not(.btn){display:none}}
+
+/* marquee */
+.marquee{position:relative;overflow:hidden;min-height:min(760px,92vh);display:grid;place-items:center;text-align:center;padding-block:60px 140px}
+.sky{position:absolute;inset:0;background:radial-gradient(60% 50% at 50% 30%,rgba(139,108,246,.5),transparent 70%),linear-gradient(180deg,#0B0420,#2A0F5C 60%,#4A1670)}
+.sun{position:absolute;left:50%;top:38%;width:min(440px,70vw);aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:linear-gradient(180deg,#FFE14A,#FF8A5C 50%,#FF5FA2);-webkit-mask:repeating-linear-gradient(180deg,#000 0 22px,transparent 22px 30px);mask:repeating-linear-gradient(180deg,#000 0 22px,transparent 22px 30px);opacity:.9}
+.floor{position:absolute;left:-50%;right:-50%;bottom:0;height:42%;background:linear-gradient(transparent 0,rgba(11,4,32,.2)),repeating-linear-gradient(90deg,var(--grid) 0 2px,transparent 2px 80px),repeating-linear-gradient(0deg,var(--grid) 0 2px,transparent 2px 60px);transform:perspective(320px) rotateX(62deg);transform-origin:50% 0;opacity:.55;animation:roll 1.6s linear infinite}
+@keyframes roll{to{background-position:0 0,0 0,0 60px}}
+.marquee .in{position:relative;z-index:2;display:grid;justify-items:center;gap:18px}
+.marquee img.logo{width:min(360px,70vw);filter:drop-shadow(0 0 30px rgba(92,225,230,.6))}
+.marquee h1{font-size:clamp(54px,10vw,130px);color:#fff;-webkit-text-stroke:3px var(--night);paint-order:stroke fill;text-shadow:0 6px 0 var(--pink),0 12px 0 var(--violet),0 0 50px rgba(255,95,162,.6)}
+.marquee .sub{max-width:44ch;font-weight:700;color:#E8DFFF}
+.blink{animation:blink 1s steps(2) infinite}
+@keyframes blink{50%{opacity:0}}
+.coins{display:flex;gap:28px;justify-content:center;font:900 13px var(--label);letter-spacing:.16em;color:var(--dim)}
+.coins b{color:var(--sun)}
+.riders{position:absolute;bottom:4%;left:0;right:0;display:flex;justify-content:center;gap:clamp(4px,2vw,30px);z-index:1;pointer-events:none}
+.riders img{height:clamp(90px,16vw,170px);width:auto;filter:drop-shadow(0 0 16px rgba(92,225,230,.5));animation:hop 1.2s ease-in-out infinite}
+.riders img:nth-child(2){animation-delay:-.2s}.riders img:nth-child(3){animation-delay:-.4s}.riders img:nth-child(4){animation-delay:-.6s}.riders img:nth-child(5){animation-delay:-.8s}
+@keyframes hop{50%{transform:translateY(-10px)}}
+@media (max-width:600px){.riders img:nth-child(n+4){display:none}}
+
+/* select */
+.sec{padding-block:80px}
+.title{display:grid;gap:8px;justify-items:center;text-align:center;margin-bottom:30px}
+.title h2{font-size:clamp(38px,6vw,72px);color:var(--cyan)}
+.title p{color:var(--dim);max-width:52ch}
+.select{display:grid;grid-template-columns:1.1fr 1fr;gap:26px;align-items:stretch}
+@media (max-width:900px){.select{grid-template-columns:1fr}}
+.preview{position:relative;min-height:440px;border-radius:10px;overflow:hidden;background:radial-gradient(circle at 50% 75%,var(--c),transparent 65%),linear-gradient(180deg,#1A0B3B,#0B0420);box-shadow:0 0 0 3px var(--c),0 0 40px color-mix(in srgb,var(--c) 45%,transparent)}
+.preview .fig{position:absolute;left:50%;bottom:0;height:88%;width:auto;max-width:none;transform:translateX(-50%);filter:drop-shadow(0 20px 20px rgba(0,0,0,.5))}
+.preview .nm{position:absolute;left:18px;top:14px;font:400 clamp(44px,6vw,76px)/.9 var(--display);color:#fff;-webkit-text-stroke:2px var(--night);paint-order:stroke fill;text-shadow:4px 4px 0 var(--c)}
+.preview .rl{position:absolute;left:20px;top:calc(14px + clamp(44px,6vw,76px));font:900 12px var(--label);letter-spacing:.18em;text-transform:uppercase;color:var(--c)}
+.preview .ready{position:absolute;right:16px;top:16px;font:900 13px var(--label);letter-spacing:.2em;background:var(--sun);color:var(--night);padding:8px 10px;border-radius:4px;transform:rotate(4deg)}
+.side{display:grid;gap:16px;align-content:start}
+.roster{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.roster button{position:relative;aspect-ratio:1;padding:0;border:0;cursor:pointer;border-radius:8px;overflow:hidden;background:var(--night2);box-shadow:inset 0 0 0 3px rgba(255,255,255,.12);transition:transform .15s}
+.roster button img{width:100%;height:100%;object-fit:cover;object-position:50% 10%}
+.roster button:hover{transform:scale(1.05)}
+.roster button[aria-pressed="true"]{box-shadow:inset 0 0 0 4px var(--c),0 0 18px var(--c)}
+.roster button[aria-pressed="true"]::after{content:"P1";position:absolute;left:4px;top:4px;font:900 11px var(--label);background:var(--sun);color:var(--night);padding:2px 5px;border-radius:3px}
+.roster .boss{filter:saturate(.8)}
+.roster .boss::before{content:"BOSS";position:absolute;right:4px;bottom:4px;z-index:2;font:900 10px var(--label);letter-spacing:.1em;background:var(--pink);color:#fff;padding:2px 5px;border-radius:3px}
+.stats{display:grid;gap:10px;background:rgba(255,255,255,.04);border-radius:10px;padding:16px;box-shadow:inset 0 0 0 2px rgba(92,225,230,.25)}
+.stat{display:grid;grid-template-columns:100px 1fr 26px;gap:12px;align-items:center;font:900 12px var(--label);letter-spacing:.14em;text-transform:uppercase}
+.bar{display:flex;gap:4px}
+.bar i{flex:1;height:14px;border-radius:2px;background:rgba(255,255,255,.1)}
+.bar i.on{background:var(--c);box-shadow:0 0 8px var(--c)}
+.move{font-weight:700;color:#E8DFFF}
+.move b{display:block;font:900 12px var(--label);letter-spacing:.16em;color:var(--sun);text-transform:uppercase}
+.acts{display:flex;gap:10px;flex-wrap:wrap}
+
+/* game */
+.cab{position:relative;max-width:900px;margin:0 auto;border-radius:24px 24px 10px 10px;padding:18px;background:linear-gradient(180deg,#3A1670,#1A0B3B);box-shadow:0 0 0 4px var(--pink),0 0 60px rgba(255,95,162,.35)}
+.hud{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font:900 14px var(--label);letter-spacing:.14em;text-transform:uppercase;padding:4px 6px 14px}
+.hud b{color:var(--sun);font-size:18px}
+.hud .meter{flex:1 1 200px;display:flex;align-items:center;gap:10px}
+.hud .meter span{flex:1;height:14px;border-radius:7px;background:var(--rust);overflow:hidden}
+.hud .meter i{display:block;height:100%;width:100%;transform:scaleX(0);transform-origin:left;background:linear-gradient(90deg,var(--water),var(--cyan));transition:transform .25s}
+.board{position:relative;display:grid;grid-template-columns:repeat(8,1fr);gap:6px;padding:10px;border-radius:12px;background:#2a160c}
+@media (max-width:600px){.board{grid-template-columns:repeat(6,1fr)}}
+.tile{aspect-ratio:1;border:0;padding:0;cursor:pointer;border-radius:8px;background:radial-gradient(circle at 30% 30%,#F5D093,var(--dust) 55%,var(--rust));position:relative;overflow:hidden;transition:transform .1s}
+.tile:active{transform:scale(.92)}
+.tile.wet{background:radial-gradient(circle at 30% 30%,#CFF4FF,var(--water) 55%,#1F6FD1)}
+.tile.wet::after{content:"";position:absolute;left:50%;bottom:10%;width:30%;height:34%;margin-left:-15%;background:radial-gradient(ellipse at 50% 100%,#9BE22E 0 40%,transparent 42%),radial-gradient(ellipse at 20% 40%,#9BE22E 0 30%,transparent 32%),radial-gradient(ellipse at 80% 40%,#9BE22E 0 30%,transparent 32%)}
+.tile.zap{animation:zap .4s}
+@keyframes zap{0%{box-shadow:inset 0 0 0 40px rgba(166,214,74,.9)}100%{box-shadow:inset 0 0 0 0 rgba(166,214,74,0)}}
+.drop{position:fixed;pointer-events:none;width:14px;height:14px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:var(--cyan);z-index:50}
+.overlay{position:absolute;inset:0;display:grid;place-items:center;text-align:center;border-radius:12px;background:rgba(11,4,32,.82);backdrop-filter:blur(3px);z-index:3;padding:20px}
+.overlay[hidden]{display:none}
+.overlay h3{font-size:clamp(34px,5vw,56px);color:var(--sun)}
+.overlay p{color:#E8DFFF;max-width:40ch;margin:10px auto 16px;font-weight:700}
+.doc{position:absolute;right:0;bottom:-14px;height:120px;width:auto;z-index:2;pointer-events:none;transition:transform .2s}
+.doc.laugh{transform:translateY(-10px) rotate(-6deg)}
+.how{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+@media (max-width:700px){.how{grid-template-columns:1fr}}
+.how p{background:rgba(255,255,255,.05);border-radius:10px;padding:12px 14px;font-size:15px}
+.how b{display:block;font:900 12px var(--label);letter-spacing:.16em;color:var(--cyan);text-transform:uppercase}
+
+/* stages */
+.stages{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+@media (max-width:1000px){.stages{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:640px){.stages{grid-template-columns:repeat(2,1fr)}}
+.stage{position:relative;border:0;padding:0;cursor:pointer;border-radius:8px;overflow:hidden;background:var(--night2);text-align:left;box-shadow:0 0 0 3px rgba(255,255,255,.1);transition:transform .2s,box-shadow .2s}
+.stage:hover{transform:translateY(-4px);box-shadow:0 0 0 3px var(--c),0 0 24px var(--c)}
+.stage .ph{display:block;position:relative;aspect-ratio:16/10;background:radial-gradient(circle,var(--c),var(--d))}
+.stage .ph img{width:100%;height:100%;object-fit:cover;filter:saturate(1.15)}
+.stage:last-child{grid-column:1/-1}.stage:last-child .ph{aspect-ratio:16/4}@media (max-width:640px){.stage:last-child .ph{aspect-ratio:16/7}}
+.stage .lv{position:absolute;left:8px;top:8px;font:900 11px var(--label);letter-spacing:.14em;background:var(--night);color:var(--sun);padding:4px 7px;border-radius:3px}
+.stage .bd{display:block;padding:10px 12px 12px}
+.stage b{display:block;font:400 21px/1 var(--display)}
+.stage small{display:flex;justify-content:space-between;font:900 11px var(--label);letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-top:6px}
+.stage small em{font-style:normal;color:var(--sun);letter-spacing:.05em}
+.wd-orb{position:absolute;left:50%;top:50%;width:56%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle at 32% 28%,#fff 0 6%,transparent 22%),radial-gradient(circle,rgba(79,195,240,.45) 0 52%,#5CE1E6 66%,#FF5FA2 80%,#8B6CF6 92%,transparent)}
+.wd-dots{position:absolute;inset:0;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;align-content:center;gap:6px;padding:14%}
+.wd-dots i{width:22px;height:22px;border-radius:50%}
+
+/* bosses + scores */
+.bosses{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media (max-width:800px){.bosses{grid-template-columns:1fr}}
+.boss-card{display:grid;grid-template-columns:150px 1fr;gap:16px;align-items:center;text-align:left;border:0;cursor:pointer;padding:14px;border-radius:10px;background:linear-gradient(90deg,rgba(166,214,74,.18),rgba(255,255,255,.03));box-shadow:inset 0 0 0 2px rgba(166,214,74,.5)}
+.boss-card img{height:160px;width:auto;margin:0 auto}
+.boss-card h3{font-size:34px;color:#A6D64A}
+.boss-card .hp{display:flex;align-items:center;gap:8px;font:900 11px var(--label);letter-spacing:.16em;margin:8px 0}
+.boss-card .hp span{flex:1;height:10px;border-radius:5px;background:linear-gradient(90deg,#FF2A4D 70%,rgba(255,255,255,.1) 70%)}
+.boss-card p{font-size:15px;color:#E8DFFF}
+.boss-card .weak{display:inline-block;margin-top:8px;font:900 11px var(--label);letter-spacing:.14em;color:var(--night);background:var(--cyan);padding:4px 8px;border-radius:3px}
+.scores{max-width:560px;margin:0 auto;border-radius:10px;padding:20px 24px;background:#000;box-shadow:0 0 0 3px var(--cyan),0 0 30px rgba(92,225,230,.3);font:900 18px/2 var(--label);letter-spacing:.16em}
+.scores li{display:grid;grid-template-columns:40px 1fr auto;gap:10px}
+.scores ol{list-style:none;margin:0;padding:0}
+.scores li:nth-child(1){color:var(--sun)}.scores li:nth-child(2){color:var(--cyan)}.scores li:nth-child(3){color:var(--pink)}
+.scores li.you{color:var(--lime)}
+footer{padding-block:40px calc(40px + env(safe-area-inset-bottom,0px));border-top:2px solid rgba(255,95,162,.3)}
+footer .wrap{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:center}
+footer b{font:400 28px var(--display);color:var(--cyan)}
+footer small{color:var(--dim)}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.floor,.blink,.riders img{animation:none}}
+</style>
+</head>
+<body>
+<header><div class="wrap hd">
+  <a href="#top"><img src="../img/hd/logo.webp" alt="The Qoogies" width="118" height="48"></a>
+  <nav aria-label="Main"><a href="#select">Players</a><a href="#game">Rain Maker</a><a href="#stages">Stages</a><a href="#bosses">Bosses</a><a href="#scores">High scores</a><span class="p1" id="p1"></span></nav>
+</div></header>
+
+<main id="top">
+<section class="marquee">
+  <div class="sky"></div><div class="sun"></div><div class="floor"></div>
+  <div class="in">
+    <img class="logo" src="../img/hd/logo.webp" alt="The Qoogies">
+    <h1>Qoogie Arcade</h1>
+    <p class="sub">Pick a Qoogie, make it rain on Arridia, and beat Doc Neon’s high score. Free to play, forever.</p>
+    <a class="btn lime" href="#select"><span class="blink">▶</span> Press start</a>
+    <div class="coins"><span>CREDITS <b>∞</b></span><span>HI-SCORE <b id="hiTop">0</b></span></div>
+  </div>
+  <div class="riders" aria-hidden="true"><img src="../img/hd/wisp.webp" alt=""><img src="../img/hd/heelo.webp" alt=""><img src="../img/hd/nonni.webp" alt=""><img src="../img/hd/hydro.webp" alt=""><img src="../img/hd/buoy.webp" alt=""></div>
+</section>
+
+<section class="wrap sec" id="select">
+  <div class="title"><span class="px neon" style="color:var(--pink)">Player 1</span><h2 class="neon">Choose your Qoogie</h2><p>Every hero has a job on Team Aero. Pick one to play Rain Maker. Bosses can’t be picked. Nice try.</p></div>
+  <div class="select">
+    <div class="preview" id="preview"></div>
+    <div class="side">
+      <div class="roster" id="roster" role="group" aria-label="Choose a character"></div>
+      <div class="stats" id="stats"></div>
+      <div class="acts"><a class="btn pink" href="#game" id="go">Play as Wisp ▸</a><button class="btn ghost" type="button" id="prof" data-crew="wisp">Full profile</button></div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap sec" id="game">
+  <div class="title"><span class="px neon" style="color:var(--sun)">Mini-game</span><h2 class="neon">Rain Maker</h2><p>Soak Arridia before the timer runs out. Tap a dusty tile to make it rain. Doc Neon keeps drying them back. Rude.</p></div>
+  <div class="cab">
+    <div class="hud"><span>Time <b id="time">30</b></span><span>Score <b id="score">0</b></span><span class="meter">Wet <span><i id="wet"></i></span></span><span>Best <b id="best">0</b></span></div>
+    <div class="board" id="board">
+      <div class="overlay" id="ov"><div><h3 id="ovH">Ready?</h3><p id="ovP">You have 30 seconds. Every wet tile is worth points at the end. Soak the whole planet for a bonus.</p><button class="btn lime" type="button" id="start">▶ Start</button></div></div>
+    </div>
+    <img class="doc" id="doc" src="../img/hd/docneon.webp" alt="">
+  </div>
+  <div class="how"><p><b>Tap</b>A dusty tile to make it rain. Plants grow on wet tiles.</p><p><b>Watch out</b>Doc Neon zaps wet tiles back to dust. He gets faster.</p><p><b>Bonus</b>Soak every tile and win 50 extra points. Water connects worlds!</p></div>
+</section>
+
+<section class="wrap sec" id="stages">
+  <div class="title"><span class="px neon" style="color:var(--cyan)">Worlds</span><h2 class="neon">Stage select</h2><p>Every place from the pilot is a stage. Tap one to explore it: who’s there, what happened, and its colors.</p></div>
+  <div class="stages" id="stageGrid"></div>
+</section>
+
+<section class="wrap sec" id="bosses">
+  <div class="title"><span class="px neon" style="color:#A6D64A">Warning</span><h2 class="neon" style="color:#A6D64A">Boss files</h2></div>
+  <div class="bosses">
+    <button class="boss-card" type="button" data-crew="docneon"><img src="../img/hd/docneon.webp" alt=""><span><span class="px" style="color:var(--dim)">Final boss</span><h3>Doc Neon</h3><span class="hp">HP <span></span></span><p>Super-intelligent, irritable, determined. Wants every world bone dry.</p><span class="weak">WEAK TO: WATER</span></span></button>
+    <button class="boss-card" type="button" data-crew="neonites"><img src="../img/hd/neonites.webp" alt=""><span><span class="px" style="color:var(--dim)">Minions</span><h3>Neonites</h3><span class="hp">HP <span></span></span><p>Loyal, ruthless clones in four types: Standard, Scientist, Commander, Heavy.</p><span class="weak">WEAK TO: TEAMWORK</span></span></button>
+  </div>
+</section>
+
+<section class="wrap sec" id="scores">
+  <div class="title"><span class="px neon" style="color:var(--sun)">Rain Maker</span><h2 class="neon">High scores</h2><p>Saved on this device only.</p></div>
+  <div class="scores"><ol id="hs"></ol></div>
+</section>
+</main>
+
+<footer><div class="wrap"><b>Waves Connect Worlds.</b><small>The Qoogies © XBX Entertainment · Parents · Privacy · Template 11 · Qoogie Arcade</small></div></footer>
+
+<script src="crew.js" data-skin="arcade"></script>
+<script src="worlds.js" data-skin="arcade"></script>
+<script>
+const C = QoogiePopup.crew, W = QoogieWorlds.worlds, WO = QoogieWorlds.order, IMG = '../img/hd/';
+const reduce = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+const store = { get(k, d) { try { const v = localStorage.getItem('qa-' + k); return v === null ? d : JSON.parse(v); } catch (e) { return d; } }, set(k, v) { try { localStorage.setItem('qa-' + k, JSON.stringify(v)); } catch (e) {} } };
+
+// game stats are for fun, built from each character's job
+const STATS = {
+  wisp: [['Lead', 5], ['Splash', 3], ['Brains', 3], ['Speed', 4], 'Captain’s Call', 'Rallies the team: every tile you tap counts double for 2 seconds.'],
+  heelo: [['Lead', 3], ['Splash', 4], ['Brains', 3], ['Speed', 5], 'Tension Hold', 'Holds water together so Doc Neon’s zaps miss more often.'],
+  nonni: [['Lead', 3], ['Splash', 4], ['Brains', 5], ['Speed', 3], 'Hyper Wave', 'Sends a wave that soaks a whole row at once.'],
+  hydro: [['Lead', 2], ['Splash', 5], ['Brains', 4], ['Speed', 3], 'Perfect Mix', 'Brews the rain recipe: plants grow twice as fast.'],
+  buoy: [['Lead', 3], ['Splash', 3], ['Brains', 4], ['Speed', 4], 'Link Up', 'Connects wet tiles so they’re harder to dry.'],
+  docneon: [['Lead', 4], ['Splash', 0], ['Brains', 5], ['Speed', 2], 'Dry Spell', 'Turns water to dust. Melts if he gets wet.'],
+  neonites: [['Lead', 1], ['Splash', 0], ['Brains', 2], ['Speed', 4], 'Clone Swarm', 'There are always more of them.']
+};
+const ids = Object.keys(C);
+let player = store.get('player', 'wisp');
+if (C[player] && C[player].villain) player = 'wisp';
+const roster = document.getElementById('roster');
+roster.innerHTML = ids.map(k => `<button type="button" data-pick="${k}" class="${C[k].villain ? 'boss' : ''}" style="--c:${C[k].color}" aria-pressed="false" aria-label="${C[k].name}${C[k].villain ? ' (boss)' : ''}"><img src="${IMG}face-${k}.webp" alt=""></button>`).join('');
+function pick(k, fromClick) {
+  const m = C[k], s = STATS[k];
+  document.getElementById('preview').style.setProperty('--c', m.color);
+  document.getElementById('preview').innerHTML = `<span class="nm">${m.short || m.name}</span><span class="rl">${m.role}</span>${m.villain ? '<span class="ready" style="background:#FF5FA2;color:#fff">Boss · not playable</span>' : '<span class="ready">Ready!</span>'}<img class="fig" src="${IMG}${k}.webp" alt="${m.name}">`;
+  document.getElementById('stats').style.setProperty('--c', m.color);
+  document.getElementById('stats').innerHTML = s.slice(0, 4).map(([n, v]) => `<div class="stat"><span>${n}</span><span class="bar">${[1, 2, 3, 4, 5].map(i => `<i class="${i <= v ? 'on' : ''}"></i>`).join('')}</span><span>${v}</span></div>`).join('') + `<p class="move"><b>Special move · ${s[4]}</b>${s[5]}</p>`;
+  document.getElementById('prof').dataset.crew = k;
+  if (fromClick && !reduce()) document.querySelector('#preview .fig').animate([{ transform: 'translateX(-50%) translateY(40px) scale(.9)', opacity: 0 }, { transform: 'translateX(-50%) translateY(-6px) scale(1.04)', opacity: 1, offset: .6 }, { transform: 'translateX(-50%)' }], { duration: 420, easing: 'cubic-bezier(.2,.8,.2,1)' });
+  if (!m.villain) { player = k; store.set('player', k); }
+  roster.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', b.dataset.pick === player));
+  document.getElementById('go').textContent = `Play as ${C[player].short || C[player].name} ▸`;
+  document.getElementById('p1').innerHTML = `P1 <img src="${IMG}face-${player}.webp" alt="">`;
+}
+roster.addEventListener('click', e => { const b = e.target.closest('[data-pick]'); if (b) pick(b.dataset.pick, true); });
+pick(player);
+
+// Rain Maker
+const board = document.getElementById('board'), ov = document.getElementById('ov'), doc = document.getElementById('doc');
+const cols = () => matchMedia('(max-width:600px)').matches ? 6 : 8, N = () => cols() * 4;
+let tiles = [], timer = 0, zapT = 0, running = false, t = 30, best = store.get('best', 0);
+document.getElementById('best').textContent = best; document.getElementById('hiTop').textContent = best;
+function build() {
+  board.querySelectorAll('.tile').forEach(x => x.remove());
+  tiles = Array.from({ length: N() }, (_, i) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'tile'; b.setAttribute('aria-label', 'Dusty tile ' + (i + 1)); board.appendChild(b); return b; });
+}
+function wetCount() { return tiles.filter(x => x.classList.contains('wet')).length; }
+function update() {
+  const w = wetCount();
+  document.getElementById('wet').style.transform = 'scaleX(' + (w / tiles.length) + ')';
+  document.getElementById('score').textContent = w * 10;
+}
+function rain(b, e) {
+  if (!running || b.classList.contains('wet')) return;
+  b.classList.add('wet'); b.setAttribute('aria-label', 'Wet tile');
+  if (e && !reduce() && e.clientX) {
+    for (let i = 0; i < 4; i++) { const d = document.createElement('span'); d.className = 'drop'; d.style.left = e.clientX - 7 + (Math.random() * 40 - 20) + 'px'; d.style.top = e.clientY - 60 + 'px'; document.body.appendChild(d); d.animate([{ transform: 'translateY(0) rotate(-45deg)', opacity: 1 }, { transform: 'translateY(60px) rotate(-45deg)', opacity: 0 }], { duration: 300 + i * 60, easing: 'ease-in' }).onfinish = () => d.remove(); }
+  }
+  update();
+  if (wetCount() === tiles.length) end(true);
+}
+board.addEventListener('click', e => { const b = e.target.closest('.tile'); if (b) rain(b, e); });
+function zap() {
+  if (!running) return;
+  const wet = tiles.filter(x => x.classList.contains('wet'));
+  if (wet.length) { const b = wet[Math.floor(Math.random() * wet.length)]; b.classList.remove('wet'); b.classList.add('zap'); b.setAttribute('aria-label', 'Dusty tile'); setTimeout(() => b.classList.remove('zap'), 400); doc.classList.add('laugh'); setTimeout(() => doc.classList.remove('laugh'), 200); update(); }
+  zapT = setTimeout(zap, Math.max(260, 900 - (30 - t) * 22));
+}
+function start() {
+  build(); running = true; t = 30; ov.hidden = true; update();
+  document.getElementById('time').textContent = t;
+  clearInterval(timer); clearTimeout(zapT);
+  timer = setInterval(() => { t -= 1; document.getElementById('time').textContent = t; if (t <= 0) end(false); }, 1000);
+  zapT = setTimeout(zap, 1200);
+  tiles[0].focus({ preventScroll: true });
+}
+function end(full) {
+  running = false; clearInterval(timer); clearTimeout(zapT);
+  const score = wetCount() * 10 + (full ? 50 : 0);
+  const name = C[player].short || C[player].name;
+  if (score > best) { best = score; store.set('best', best); document.getElementById('best').textContent = best; document.getElementById('hiTop').textContent = best; }
+  const hs = store.get('hs', []); hs.push([name.toUpperCase(), score]); hs.sort((a, b) => b[1] - a[1]); store.set('hs', hs.slice(0, 5)); scores(name.toUpperCase(), score);
+  document.getElementById('ovH').textContent = full ? 'Planet soaked!' : 'Time!';
+  document.getElementById('ovP').textContent = full ? `${name} soaked all of Arridia. ${score} points, including the 50-point bonus. Waves connect worlds!` : `${name} scored ${score}. Doc Neon dried ${tiles.length - wetCount()} tiles. Try again?`;
+  document.getElementById('start').textContent = '▶ Play again';
+  ov.hidden = false;
+}
+document.getElementById('start').addEventListener('click', start);
+build();
+
+// high scores (seeded with the cast; your scores are saved on this device)
+function scores(you, ys) {
+  const seed = [['DOC NEON', 400], ['WISP', 360], ['NONNI', 330], ['NEONITE', 120]];
+  const all = [...seed.map(s => [...s, 0]), ...store.get('hs', []).map(s => [...s, 1])].sort((a, b) => b[1] - a[1]).slice(0, 6);
+  document.getElementById('hs').innerHTML = all.map(([n, s, m], i) => `<li class="${m && n === you && s === ys ? 'you' : ''}"><span>${i + 1}.</span><span>${n}</span><span>${String(s).padStart(4, '0')}</span></li>`).join('');
+}
+scores();
+
+// stage select
+document.getElementById('stageGrid').innerHTML = WO.map((id, i) => {
+  const w = W[id], stars = w.villain ? 3 : w.group === 'Out there' ? 2 : 1;
+  const ph = w.img ? `<img src="${IMG}${w.img}.jpg" alt="" loading="lazy">` : w.art === 'sphere' ? '<span class="wd-orb"></span>' : `<span class="wd-dots">${['#7FC8A9', '#C98A4B', '#F5D093', '#E2995E', '#B38AD9', '#8FA3BF'].map(c => `<i style="background:${c}"></i>`).join('')}</span>`;
+  return `<button class="stage" type="button" data-world="${id}" style="--c:${w.color};--d:${w.deep}"><span class="ph">${ph}<span class="lv">${i === WO.length - 1 ? 'FINAL STAGE' : 'STAGE ' + (Math.floor(i / 4) + 1) + '-' + (i % 4 + 1)}</span></span><span class="bd"><b>${w.name}</b><small>${w.group}<em>${'★'.repeat(stars)}${'☆'.repeat(3 - stars)}</em></small></span></button>`;
+}).join('');
+</script>
+</body>
+</html>
