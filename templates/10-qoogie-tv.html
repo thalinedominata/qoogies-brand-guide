@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Qoogies · Qoogie TV</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Exo+2:wght@600;700;800&family=Lilita+One&family=Nunito:wght@400;700;800;900&display=swap">
+<style>
+/* Layout: the home page is a TV set. Flip the dial through five channels (Pilot, Crew Cam, Worlds, Doc Neon's weather, Science) → a TV guide for Season One → crew idents → Doc Neon's dry weather report for every world → the Worlds channel, filterable → grown-ups strip. */
+:root{
+  --ink:#2A1458; --ink2:#43307A; --soft:#7462A6; --violet:#8B6CF6; --violet2:#6E4FE0; --sun:#FFE14A; --pink:#FF5FA2; --coral:#FF8A5C; --aqua:#4FC3F0; --cyan:#5CE1E6; --lime:#9BE22E; --cream:#FFF8E8;
+  --iri:linear-gradient(100deg,#5CE1E6,#B6F03C 25%,#FFE14A 45%,#FF8A5C 62%,#FF5FA2 78%,#8B6CF6);
+  --display:"Lilita One","Arial Rounded MT Bold",system-ui,sans-serif;
+  --label:"Exo 2","Trebuchet MS",system-ui,sans-serif;
+  --body:"Nunito","Segoe UI",system-ui,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--ink);font:400 17px/1.6 var(--body);background:radial-gradient(circle,rgba(255,255,255,.16) 3px,transparent 3.5px) 0 0/34px 34px,var(--violet);overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:inherit}
+button{font:inherit;color:inherit}
+:focus-visible{outline:4px solid var(--sun);outline-offset:3px;border-radius:12px}
+.wrap{max-width:1240px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;line-height:.98;text-wrap:balance}
+p{margin:0}
+.lab{font:800 12px/1.2 var(--label);letter-spacing:.2em;text-transform:uppercase;color:var(--pink)}
+.btn{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:13px 22px;font:800 15px/1 var(--label);letter-spacing:.04em;text-decoration:none;border:4px solid var(--ink);cursor:pointer;background:#fff;box-shadow:0 5px 0 var(--ink);transition:transform .12s,box-shadow .12s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 7px 0 var(--ink)}
+.btn:active{transform:translateY(3px);box-shadow:0 2px 0 var(--ink)}
+.btn.lime{background:var(--lime)}
+.btn.sun{background:var(--sun)}
+.box{background:#fff;border:6px solid var(--ink);border-radius:36px;box-shadow:0 12px 0 var(--ink)}
+
+header{position:sticky;top:0;z-index:20;padding-block:10px}
+.hd{display:flex;align-items:center;justify-content:space-between;gap:14px;background:#fff;border:5px solid var(--ink);border-radius:999px;padding:6px 8px 6px 18px;box-shadow:0 6px 0 var(--ink)}
+.hd img{width:116px;height:auto}
+.hd nav{display:flex;gap:2px;align-items:center;flex-wrap:wrap}
+.hd nav a:not(.btn){font:800 14px var(--label);text-decoration:none;padding:9px 12px;border-radius:999px}
+.hd nav a:not(.btn):hover{background:#F1EAFF}
+.hd .btn{padding:10px 18px;box-shadow:0 4px 0 var(--ink)}
+@media (max-width:900px){.hd nav a:not(.btn){display:none}}
+
+/* the TV */
+.stage{padding-block:30px 60px;display:grid;grid-template-columns:1fr 330px;gap:30px;align-items:center}
+@media (max-width:1000px){.stage{grid-template-columns:1fr}}
+.tv{position:relative;margin-top:60px}
+.ant{position:absolute;left:50%;top:-62px;width:220px;height:70px;transform:translateX(-50%);pointer-events:none}
+.ant i{position:absolute;bottom:0;width:6px;height:80px;background:var(--ink);border-radius:3px;transform-origin:50% 100%}
+.ant i::after{content:"";position:absolute;left:50%;top:-16px;width:24px;height:24px;margin-left:-12px;border-radius:50%;border:5px solid var(--ink);background:radial-gradient(circle at 35% 30%,#fff 0 18%,var(--cyan) 30%,var(--violet))}
+.ant i:first-child{left:70px;transform:rotate(-28deg);animation:wig 3s ease-in-out infinite}
+.ant i:last-child{right:70px;transform:rotate(28deg);animation:wig2 3.4s ease-in-out infinite}
+@keyframes wig{50%{transform:rotate(-20deg)}}
+@keyframes wig2{50%{transform:rotate(34deg)}}
+.set{position:relative;display:grid;grid-template-columns:1fr 150px;gap:20px;background:linear-gradient(160deg,#FF9E73,var(--coral) 40%,#F06E44);border:7px solid var(--ink);border-radius:48px;padding:22px;box-shadow:0 16px 0 var(--ink),inset 0 6px 0 rgba(255,255,255,.35)}
+@media (max-width:700px){.set{grid-template-columns:1fr;padding:14px;border-radius:34px}}
+.feet{display:flex;justify-content:space-between;padding:0 70px}
+.feet i{width:60px;height:30px;background:var(--ink);border-radius:0 0 20px 20px;margin-top:10px}
+.screen{position:relative;aspect-ratio:4/3;border-radius:40px/34px;overflow:hidden;background:#111;border:7px solid var(--ink);box-shadow:inset 0 0 50px rgba(0,0,0,.6)}
+@media (max-width:700px){.screen{aspect-ratio:1/1;border-radius:28px}}
+.screen::after{content:"";position:absolute;inset:0;z-index:5;pointer-events:none;background:radial-gradient(120% 80% at 30% 10%,rgba(255,255,255,.22),transparent 40%),repeating-linear-gradient(0deg,rgba(0,0,0,.08) 0 2px,transparent 2px 4px);border-radius:inherit}
+.ch{position:absolute;inset:0;display:none}
+.ch.on{display:block}
+.ch>img.bg{width:100%;height:100%;object-fit:cover}
+.osd{position:absolute;right:18px;top:14px;z-index:6;font:400 34px var(--display);color:#8CFF3F;text-shadow:0 0 8px #8CFF3F,3px 3px 0 #000;letter-spacing:.04em}
+.lower{position:absolute;left:16px;right:16px;bottom:16px;z-index:4;display:flex;align-items:center;gap:12px;background:#fff;border:4px solid var(--ink);border-radius:20px;padding:10px 14px;box-shadow:0 5px 0 var(--ink)}
+.lower .tag{font:800 11px var(--label);letter-spacing:.16em;text-transform:uppercase;background:var(--pink);color:#fff;padding:5px 8px;border-radius:8px;white-space:nowrap}
+.lower b{font:400 clamp(18px,2.4vw,28px)/1.05 var(--display);display:block}
+.lower small{display:block;font-size:14px;color:var(--soft);line-height:1.3}
+.lower .go{margin-left:auto;flex:none}
+@media (max-width:560px){.lower .go{display:none}.lower{left:10px;right:10px;bottom:10px}}
+.noise{position:absolute;inset:0;z-index:7;opacity:0;pointer-events:none;width:100%;height:100%}
+.ch-crew{background:radial-gradient(circle at 50% 60%,var(--c,#F0C64A),var(--d,#A6750A))}
+.ch-crew .fig{position:absolute;left:50%;bottom:0;height:88%;width:auto;max-width:none;transform:translateX(-50%);animation:sway 4s ease-in-out infinite;transform-origin:50% 100%;cursor:pointer}
+@keyframes sway{50%{transform:translateX(-50%) rotate(2deg) translateY(-6px)}}
+.ch-crew .big{position:absolute;left:18px;top:10px;font:400 clamp(60px,11vw,140px)/.85 var(--display);color:rgba(255,255,255,.28);text-transform:uppercase}
+.weather{background:linear-gradient(180deg,#1B2A4A,#2A1458)}
+.weather .doc{position:absolute;left:-2%;bottom:0;height:86%;width:auto;max-width:none}
+.board{position:absolute;right:5%;top:12%;width:52%;background:#0B1E12;border:5px solid #8CFF3F;border-radius:18px;padding:14px 16px;color:#C6FF7A;font:800 clamp(12px,1.6vw,17px)/1.5 var(--label);letter-spacing:.06em;box-shadow:0 0 30px rgba(140,255,63,.3)}
+.board b{display:block;font:400 clamp(18px,2.4vw,30px)/1 var(--display);color:#fff;margin-bottom:6px;letter-spacing:0}
+.board span{display:flex;justify-content:space-between;gap:8px;border-top:1px dashed rgba(140,255,63,.3);padding-top:4px}
+.sci{background:radial-gradient(circle at 70% 40%,#9FE8FF,#1F6FD1)}
+.sci .fig{position:absolute;right:2%;bottom:0;height:84%;width:auto;max-width:none}
+.sci .bubble{position:absolute;left:6%;top:10%;width:56%;background:#fff;border:5px solid var(--ink);border-radius:28px;padding:16px 18px;font:800 clamp(14px,1.8vw,20px)/1.35 var(--body)}
+.sci .bubble small{display:block;font:800 11px var(--label);letter-spacing:.16em;text-transform:uppercase;color:var(--pink);margin-bottom:4px}
+.sci .bubble::after{content:"";position:absolute;right:-18px;bottom:24px;width:30px;height:30px;background:#fff;border-right:5px solid var(--ink);border-bottom:5px solid var(--ink);transform:rotate(-45deg)}
+.panelR{display:grid;gap:16px;align-content:start}
+.dial{position:relative;width:118px;height:118px;margin:4px auto 0;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#E7DEFF 40%,#B9A6F5);border:6px solid var(--ink);box-shadow:0 6px 0 var(--ink);cursor:pointer;transition:transform .45s cubic-bezier(.3,1.6,.5,1)}
+.dial::after{content:"";position:absolute;left:50%;top:6px;width:10px;height:34px;margin-left:-5px;border-radius:5px;background:var(--pink);border:3px solid var(--ink)}
+.chbtns{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+@media (max-width:700px){.chbtns{grid-template-columns:repeat(5,1fr)}.dial{display:none}}
+.chbtns button{aspect-ratio:1;border-radius:14px;border:4px solid var(--ink);background:#fff;font:400 20px var(--display);cursor:pointer;box-shadow:0 4px 0 var(--ink)}
+.chbtns button[aria-pressed="true"]{background:var(--sun);transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
+.grill{height:120px;border-radius:18px;background:radial-gradient(circle,var(--ink) 3.5px,transparent 4px) 0 0/14px 14px;opacity:.55}
+@media (max-width:700px){.grill{display:none}}
+.side{display:grid;gap:14px}
+.side h1{font-size:clamp(46px,6vw,80px);color:#fff;text-shadow:0 6px 0 var(--ink)}
+.side h1 span{color:var(--sun)}
+.side p{color:#fff;font-size:19px;font-weight:700}
+.listing{display:grid;gap:8px;margin-top:6px}
+.listing button{display:flex;align-items:center;gap:12px;text-align:left;background:#fff;border:4px solid var(--ink);border-radius:18px;padding:8px 12px;cursor:pointer;box-shadow:0 4px 0 var(--ink);font:800 15px var(--body)}
+.listing button i{flex:none;width:34px;height:34px;border-radius:10px;background:var(--c);font:400 18px/34px var(--display);font-style:normal;text-align:center;border:3px solid var(--ink)}
+.listing button[aria-pressed="true"]{background:var(--sun)}
+
+/* sections */
+.sec{padding-block:50px}
+.shead{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap;margin-bottom:22px}
+.shead h2{font-size:clamp(38px,5.4vw,68px);color:#fff;text-shadow:0 6px 0 var(--ink)}
+.shead p{color:#fff;font-weight:700;max-width:44ch}
+.shead .lab{color:var(--sun);display:block;margin-bottom:6px}
+/* guide */
+.guide{padding:10px}
+.row{display:grid;grid-template-columns:120px 1fr auto;gap:16px;align-items:center;padding:14px 16px;border-radius:24px}
+.row+.row{border-top:3px dashed #E2D9FF}
+.row .ep{font:400 26px var(--display);background:var(--c);border:4px solid var(--ink);border-radius:16px;text-align:center;padding:6px 0}
+.row h3{font-size:28px}
+.row p{color:var(--soft);font-size:15px}
+.row.tba h3{color:var(--soft)}
+.row .pill{font:800 12px var(--label);letter-spacing:.12em;text-transform:uppercase;border:3px solid var(--ink);border-radius:999px;padding:6px 10px;background:var(--sun);white-space:nowrap}
+@media (max-width:640px){.row{grid-template-columns:72px 1fr}.row .pill{display:none}.row .ep{font-size:20px}}
+.tba-grid{display:flex;flex-wrap:wrap;gap:8px;padding:6px 16px 16px}
+.tba-grid span{width:54px;height:54px;border-radius:16px;border:4px dashed #CBBDF5;display:grid;place-items:center;font:400 20px var(--display);color:#B3A3E8}
+/* idents */
+.idents{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+@media (max-width:1000px){.idents{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:640px){.idents{grid-template-columns:repeat(2,1fr)}}
+.ident{position:relative;border:6px solid var(--ink);border-radius:30px;background:#fff;padding:10px;cursor:pointer;box-shadow:0 8px 0 var(--ink);transition:transform .2s;text-align:left}
+.ident:hover{transform:translateY(-6px) rotate(-1deg)}
+.ident .scr{display:block;position:relative;aspect-ratio:1;border-radius:22px;overflow:hidden;background:radial-gradient(circle at 50% 70%,var(--c),var(--d));border:4px solid var(--ink)}
+.ident .scr img{position:absolute;left:50%;bottom:-6%;height:100%;width:auto;max-width:none;transform:translateX(-50%);transition:transform .3s}
+.ident:hover .scr img{transform:translateX(-50%) scale(1.06)}
+.ident .scr .cn{position:absolute;right:8px;top:6px;font:400 22px var(--display);color:#fff;text-shadow:2px 2px 0 var(--ink)}
+.ident b{display:block;font:400 24px/1 var(--display);margin:10px 6px 0}
+.ident small{display:block;font:800 11px var(--label);letter-spacing:.14em;text-transform:uppercase;color:var(--d);margin:4px 6px 4px}
+.ident.tile{display:grid;place-items:center;text-align:center;background:var(--sun);cursor:default}
+.ident.tile:hover{transform:none}
+.ident.tile h3{font-size:30px}
+/* weather */
+.fc{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media (max-width:1000px){.fc{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:640px){.fc{grid-template-columns:1fr}}
+.cast{position:relative;display:grid;grid-template-columns:110px 1fr;gap:14px;align-items:center;text-align:left;border:6px solid var(--ink);border-radius:28px;padding:14px;background:#0B1E12;color:#E9FFD0;cursor:pointer;box-shadow:0 8px 0 var(--ink);transition:transform .2s}
+.cast:hover{transform:translateY(-5px)}
+.cast .pic{aspect-ratio:1;border-radius:20px;overflow:hidden;border:4px solid #8CFF3F;background:var(--d)}
+.cast .pic img{width:100%;height:100%;object-fit:cover}
+.cast .pic .orb{display:block;width:100%;height:100%;background:radial-gradient(circle at 32% 28%,#fff 0 6%,transparent 22%),radial-gradient(circle,rgba(79,195,240,.5) 0 52%,#5CE1E6 66%,#FF5FA2 80%,#8B6CF6 92%,transparent)}
+.cast small{font:800 11px var(--label);letter-spacing:.16em;text-transform:uppercase;color:#8CFF3F}
+.cast b{display:block;font:400 26px/1 var(--display);color:#fff;margin:2px 0 6px}
+.cast .rate{display:inline-block;font:800 12px var(--label);letter-spacing:.1em;text-transform:uppercase;padding:4px 9px;border-radius:999px;margin-bottom:6px}
+.cast .rate.dry{background:#8CFF3F;color:#0B1E12}
+.cast .rate.wet{background:#FF2A4D;color:#fff}
+.cast .rate.unk{background:#3A4150;color:#fff}
+.cast p{font-size:15px;line-height:1.4;font-style:italic}
+.disc{margin-top:16px;color:#fff;font-weight:700;font-size:14px;opacity:.9}
+/* worlds channel */
+.filters{display:flex;flex-wrap:wrap;gap:8px}
+.filters button{border:4px solid var(--ink);background:#fff;border-radius:999px;padding:8px 16px;font:800 14px var(--label);cursor:pointer;box-shadow:0 4px 0 var(--ink)}
+.filters button[aria-pressed="true"]{background:var(--sun)}
+.wgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:20px}
+@media (max-width:1000px){.wgrid{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:700px){.wgrid{grid-template-columns:repeat(2,1fr)}}
+.wc{border:5px solid var(--ink);border-radius:26px;background:#fff;padding:8px;cursor:pointer;text-align:left;box-shadow:0 7px 0 var(--ink);transition:transform .2s}
+.wc:hover{transform:translateY(-5px)}
+.wc[hidden]{display:none}
+.wc .ph{display:block;position:relative;aspect-ratio:4/3;border-radius:18px;overflow:hidden;background:radial-gradient(circle,var(--c),var(--d));border:3px solid var(--ink)}
+.wc .ph img{width:100%;height:100%;object-fit:cover}
+.wc .ph .orb{position:absolute;left:50%;top:50%;width:64%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle at 32% 28%,#fff 0 6%,transparent 22%),radial-gradient(circle,rgba(79,195,240,.4) 0 52%,#5CE1E6 66%,#FF5FA2 80%,#8B6CF6 92%,transparent)}
+.wc .ph .dots{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;padding:16px}
+.wc .ph .dots i{width:26px;height:26px;border-radius:50%;border:3px solid var(--ink)}
+.wc small{display:block;font:800 10px var(--label);letter-spacing:.14em;text-transform:uppercase;color:var(--d);margin:8px 6px 0}
+.wc b{display:block;font:400 22px/1 var(--display);margin:2px 6px 6px}
+/* grown-ups */
+.grown{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center;padding:clamp(20px,3vw,34px)}
+@media (max-width:860px){.grown{grid-template-columns:1fr}}
+.grown h2{font-size:clamp(32px,4vw,48px)}
+.grown p{color:var(--ink2)}
+.grown form{display:flex;gap:8px;flex-wrap:wrap}
+.grown input{flex:1 1 200px;min-width:0;border:4px solid var(--ink);border-radius:999px;padding:12px 18px;font:700 16px var(--body)}
+.grown .ok{font:800 18px var(--body);color:var(--violet2)}
+footer{padding-block:40px calc(40px + env(safe-area-inset-bottom,0px))}
+footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;color:#fff}
+footer b{font:400 30px var(--display);color:#fff;text-shadow:0 4px 0 var(--ink)}
+footer small{font-weight:700}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.ant i,.ch-crew .fig{animation:none}.dial{transition:none}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><div class="hd">
+  <a href="#top"><img src="../img/hd/logo.webp" alt="The Qoogies" width="116" height="47"></a>
+  <nav aria-label="Main"><a href="#guide">TV guide</a><a href="#crew">Crew Cam</a><a href="#weather">Weather</a><a href="#worlds">Worlds</a><a href="#grownups">Grown-ups</a><a class="btn lime" href="#top" data-tune="1">▶ Watch</a></nav>
+</div></div></header>
+
+<main id="top">
+<section class="wrap stage">
+  <div class="tv">
+    <div class="ant" aria-hidden="true"><i></i><i></i></div>
+    <div class="set">
+      <div class="screen" id="screen" aria-live="polite">
+        <span class="osd" id="osd">CH 1</span>
+        <canvas class="noise" id="noise" width="160" height="120" aria-hidden="true"></canvas>
+
+        <div class="ch on" data-ch="1">
+          <img class="bg" src="../img/hd/ship-754.jpg" alt="Heelo catching a rocket with a stream of water over Arridia">
+          <div class="lower"><span class="tag">Now</span><div><b>Heelo Meets Neon</b><small>The pilot · 14 min 28 s · Watch free</small></div><button class="btn sun go" type="button" data-world="tether">What happens?</button></div>
+        </div>
+        <div class="ch ch-crew" data-ch="2" id="crewcam">
+          <span class="big" id="ccBig"></span>
+          <img class="fig" id="ccFig" src="../img/hd/wisp.webp" alt="" data-crew="wisp">
+          <div class="lower"><span class="tag">Crew Cam</span><div><b id="ccName">Wisp</b><small id="ccRole">Team Leader</small></div><button class="btn go" type="button" id="ccNext">Next ▸</button></div>
+        </div>
+        <div class="ch" data-ch="3" id="worldcam">
+          <img class="bg" id="wcImg" src="../img/hd/pilot-2.jpg" alt="">
+          <div class="lower"><span class="tag" style="background:#E2995E">Worlds</span><div><b id="wcName">Arridia</b><small id="wcTag">Dust storms on top. Doc Neon underneath.</small></div><button class="btn go" type="button" id="wcNext">Next ▸</button></div>
+        </div>
+        <div class="ch weather" data-ch="4">
+          <img class="doc" src="../img/hd/docneon.webp" alt="Doc Neon presenting the weather" data-crew="docneon">
+          <div class="board"><b>Doc Neon’s Dry Report</b><span>Arridia<em>Dry. Perfect.</em></span><span>Bubble Sphere<em>Wet. Ugh.</em></span><span>Qoogie ship<em>Rain risk: HIGH</em></span><span>Nova-9<em>Checking Neometer…</em></span></div>
+          <div class="lower"><span class="tag" style="background:#5F9A2C">Weather</span><div><b>“Water ruins everything.”</b><small>Doc Neon, Chief Scientist</small></div><a class="btn go" href="#weather">Full report</a></div>
+        </div>
+        <div class="ch sci" data-ch="5">
+          <div class="bubble"><small>Science Corner with Heelo</small>Water’s surface acts like a stretchy skin. That’s surface tension, and it’s why bubbles are round!</div>
+          <img class="fig" src="../img/hd/heelo.webp" alt="Heelo" data-crew="heelo">
+          <div class="lower"><span class="tag" style="background:#1F6FD1">Science</span><div><b>Try it: float a paper clip</b><small>Lay it gently on a bowl of water. It floats on the skin.</small></div></div>
+        </div>
+      </div>
+      <div class="panelR">
+        <button class="dial" id="dial" type="button" aria-label="Turn the dial to the next channel"></button>
+        <div class="chbtns" role="group" aria-label="Channels" id="chbtns"></div>
+        <div class="grill" aria-hidden="true"></div>
+      </div>
+    </div>
+    <div class="feet" aria-hidden="true"><i></i><i></i></div>
+  </div>
+
+  <div class="side">
+    <span class="lab" style="color:var(--sun)">You’re watching</span>
+    <h1>Qoogie <span>TV</span></h1>
+    <p>Five channels, all Qoogies. Turn the dial or pick one below.</p>
+    <div class="listing" id="listing"></div>
+  </div>
+</section>
+
+<section class="wrap sec" id="guide">
+  <div class="shead"><div><span class="lab">TV guide</span><h2>Season One</h2></div><p>Fourteen episodes. The pilot is on now. Here’s what’s coming next.</p></div>
+  <div class="box guide">
+    <div class="row" style="--c:#FF8A1A"><span class="ep">EP 1</span><div><h3>Heelo Meets Neon</h3><p>Wisp sends Heelo down to Arridia, where he meets Doc Neon. It does not go well for the rockets.</p></div><span class="pill">On now</span></div>
+    <div class="row" style="--c:#4FC3F0"><span class="ep">EP 2</span><div><h3>Qoogsploration</h3><p>Wisp and Team Aero chart a planet no one has ever rained on.</p></div><span class="pill" style="background:#fff">Coming up</span></div>
+    <div class="row" style="--c:#8B6CF6"><span class="ep">EP 3</span><div><h3>Qoogie And Sons</h3><p>A family business, a leaky ship, and one very nosy Neonite.</p></div><span class="pill" style="background:#fff">Coming up</span></div>
+    <div class="row tba" style="--c:#F1EAFF"><span class="ep">4–14</span><div><h3>To be announced</h3><p>Eleven more episodes. The Queen of the Qoogies appears in two of them.</p></div></div>
+    <div class="tba-grid" aria-hidden="true"><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span><span>11</span><span>12</span><span>13</span><span>14</span></div>
+  </div>
+</section>
+
+<section class="wrap sec" id="crew">
+  <div class="shead"><div><span class="lab">Crew Cam</span><h2>Who’s on tonight</h2></div><p>Every character has their own channel ident. Tap one to see their full profile.</p></div>
+  <div class="idents" id="idents"></div>
+</section>
+
+<section class="wrap sec" id="weather">
+  <div class="shead"><div><span class="lab">Channel 4</span><h2>Doc Neon’s Dry Weather Report</h2></div><p>The galaxy’s grumpiest forecaster rates every world we know. Tap a forecast to visit.</p></div>
+  <div class="fc" id="fc"></div>
+  <p class="disc">This forecast is brought to you by the Neonites. The Qoogies would like you to know it is extremely biased.</p>
+</section>
+
+<section class="wrap sec" id="worlds">
+  <div class="shead"><div><span class="lab">Channel 3</span><h2>Worlds</h2></div><div class="filters" id="filters" role="group" aria-label="Filter worlds"></div></div>
+  <div class="wgrid" id="wgrid"></div>
+</section>
+
+<section class="wrap sec" id="grownups">
+  <div class="box grown">
+    <div><span class="lab">For grown-ups</span><h2>Get a heads-up when new episodes air</h2><p style="margin-top:8px">The pilot is free to watch now. We’ll send one short email when Season One arrives. Nothing else.</p></div>
+    <form id="sign"><label for="em" style="position:absolute;left:-9999px">Email</label><input id="em" type="email" placeholder="grown-up@email.com" required><button class="btn sun" type="submit">Remind me</button></form>
+  </div>
+</section>
+</main>
+
+<footer><div class="wrap"><b>Waves Connect Worlds.</b><small>The Qoogies © XBX Entertainment · Parents · Privacy · Template 10 · Qoogie TV</small></div></footer>
+
+<script src="crew.js" data-skin="tv"></script>
+<script src="worlds.js" data-skin="tv"></script>
+<script>
+const C = QoogiePopup.crew, W = QoogieWorlds.worlds, WO = QoogieWorlds.order, IMG = '../img/hd/';
+const reduce = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+const CH = [['Pilot', '#FF8A1A'], ['Crew Cam', '#F0C64A'], ['Worlds', '#E2995E'], ['Dry Weather', '#A6D64A'], ['Science', '#4FC3F0']];
+let ch = 1, turns = 0;
+document.getElementById('chbtns').innerHTML = CH.map((c, i) => `<button type="button" data-tune="${i + 1}" aria-pressed="${i === 0}" aria-label="Channel ${i + 1}: ${c[0]}">${i + 1}</button>`).join('');
+document.getElementById('listing').innerHTML = CH.map((c, i) => `<button type="button" data-tune="${i + 1}" aria-pressed="${i === 0}" style="--c:${c[1]}"><i>${i + 1}</i>${c[0]}</button>`).join('');
+
+// TV static between channels
+const nz = document.getElementById('noise'), nx = nz.getContext('2d');
+function staticBurst() {
+  if (reduce()) return;
+  const t0 = performance.now();
+  nz.style.opacity = 1;
+  (function f(t) {
+    const d = nx.createImageData(160, 120);
+    for (let i = 0; i < d.data.length; i += 4) { const v = Math.random() * 255; d.data[i] = d.data[i + 1] = d.data[i + 2] = v; d.data[i + 3] = 255; }
+    nx.putImageData(d, 0, 0);
+    if (t - t0 < 260) requestAnimationFrame(f); else nz.style.opacity = 0;
+  })(t0);
+}
+function tune(n) {
+  ch = n;
+  staticBurst();
+  setTimeout(() => {
+    document.querySelectorAll('.ch').forEach(el => el.classList.toggle('on', +el.dataset.ch === n));
+    document.getElementById('osd').textContent = 'CH ' + n;
+  }, reduce() ? 0 : 140);
+  document.querySelectorAll('[data-tune]').forEach(b => b.hasAttribute('aria-pressed') && b.setAttribute('aria-pressed', +b.dataset.tune === n));
+  turns += 1;
+  document.getElementById('dial').style.transform = `rotate(${turns * 72}deg)`;
+}
+document.addEventListener('click', e => {
+  const t = e.target.closest('[data-tune]');
+  if (t) { if (t.tagName === 'A') e.preventDefault(); tune(+t.dataset.tune); if (t.tagName === 'A') document.getElementById('top').scrollIntoView({ behavior: reduce() ? 'auto' : 'smooth' }); }
+});
+document.getElementById('dial').addEventListener('click', () => tune(ch % 5 + 1));
+
+// crew cam channel
+const ids = Object.keys(C); let ci = 0;
+function crewCam() {
+  const k = ids[ci], m = C[k], el = document.getElementById('crewcam'), fig = document.getElementById('ccFig');
+  el.style.setProperty('--c', m.color); el.style.setProperty('--d', m.deep);
+  fig.src = IMG + k + '.webp'; fig.dataset.crew = k; fig.alt = m.name;
+  document.getElementById('ccBig').textContent = m.short || m.name;
+  document.getElementById('ccName').textContent = m.name;
+  document.getElementById('ccRole').textContent = m.role + ' · tap to meet';
+}
+document.getElementById('ccNext').addEventListener('click', () => { ci = (ci + 1) % ids.length; staticBurst(); crewCam(); });
+crewCam();
+
+// worlds channel
+const shows = WO.filter(id => W[id].img); let wi = shows.indexOf('arridia');
+function worldCam() {
+  const w = W[shows[wi]], img = document.getElementById('wcImg');
+  img.src = IMG + w.img + '.jpg'; img.alt = w.name; img.dataset.world = shows[wi];
+  document.getElementById('wcName').textContent = w.name;
+  document.getElementById('wcTag').textContent = w.tag;
+}
+document.getElementById('wcNext').addEventListener('click', () => { wi = (wi + 1) % shows.length; staticBurst(); worldCam(); });
+worldCam();
+
+// idents
+document.getElementById('idents').innerHTML = ids.map((k, i) => `<button class="ident" type="button" data-crew="${k}" style="--c:${C[k].color};--d:${C[k].deep}"><span class="scr"><img src="${IMG}${k}.webp" alt=""><span class="cn">${String(i + 11)}</span></span><b>${C[k].short || C[k].name}</b><small>${C[k].role}</small></button>`).join('') + '<div class="ident tile"><div><h3>More soon!</h3><p>The Queen and the caterpillars are still in makeup.</p></div></div>';
+
+// Doc Neon's forecast
+const FC = [
+  ['arridia', 'dry', 'Dry. Dusty. Perfect.', 'Not a cloud for a thousand miles. Exactly how I like it. Stay away, Qoogies.'],
+  ['cavern', 'dry', 'Indoors. Bone dry.', 'My lovely cavern. Lime tanks bubbling, caterpillars serving snacks. Paradise.'],
+  ['aquafy', 'dry', 'Plan on schedule', 'Clone, deploy, convert, complete. Soon every world on my screen will be dry.'],
+  ['ship', 'wet', 'Rain risk: HIGH', 'A glass ship full of water has been spotted in orbit. Disgusting. Sound the alarm.'],
+  ['sphere', 'wet', 'Wet. Ugh.', 'Bubbles everywhere. I refuse to forecast it any further.'],
+  ['targets', 'unk', 'Checking Neometer…', 'Veldra, Terralis, Solen, Kaelith, Nova-9. Data incoming. Probably dry. Hopefully dry.']
+];
+document.getElementById('fc').innerHTML = FC.map(([id, r, h, t]) => { const w = W[id];
+  const pic = w.img ? `<img src="${IMG}${w.img}.jpg" alt="" loading="lazy">` : '<span class="orb"></span>';
+  return `<button class="cast" type="button" data-world="${id}" style="--d:${w.deep}"><span class="pic">${pic}</span><span><small>${w.kind}</small><b>${w.name}</b><span class="rate ${r}">${h}</span><p>“${t}”</p></span></button>`; }).join('');
+
+// worlds channel grid
+const G = [['all', 'All'], ['Qoogie side', 'Qoogie side'], ['Out there', 'Out there'], ['Neon side', 'Neon side'], ['Pilot', 'Pilot moments']];
+const filters = document.getElementById('filters'), wgrid = document.getElementById('wgrid');
+filters.innerHTML = G.map(([k, n], i) => `<button type="button" data-g="${k}" aria-pressed="${i === 0}">${n}</button>`).join('');
+wgrid.innerHTML = WO.map(id => { const w = W[id];
+  const ph = w.img ? `<img src="${IMG}${w.img}.jpg" alt="" loading="lazy">` : w.art === 'sphere' ? '<span class="orb"></span>' : `<span class="dots">${['#7FC8A9', '#C98A4B', '#F5D093', '#E2995E', '#B38AD9', '#8FA3BF'].map(c => `<i style="background:${c}"></i>`).join('')}</span>`;
+  return `<button class="wc" type="button" data-world="${id}" data-group="${w.group}" style="--c:${w.color};--d:${w.deep}"><span class="ph">${ph}</span><small>${w.kind}</small><b>${w.name}</b></button>`; }).join('');
+filters.addEventListener('click', e => { const b = e.target.closest('[data-g]'); if (!b) return; filters.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b)); wgrid.querySelectorAll('.wc').forEach(c => c.hidden = b.dataset.g !== 'all' && c.dataset.group !== b.dataset.g); });
+
+document.getElementById('sign').addEventListener('submit', e => { e.preventDefault(); e.target.outerHTML = '<p class="ok">You’re on the list. See you at the premiere!</p>'; });
+</script>
+</body>
+</html>

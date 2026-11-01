@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Qoogies · Bubble Sphere</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Exo+2:wght@600;700&family=Lilita+One&family=Nunito:wght@400;700;800;900&display=swap">
+<style>
+/* Layout: one long dive. Surface (hero) → glass crew panels → the page turns dusty lime for Doc Neon → episodes → fun zone. Bubbles rise the whole way and pop when tapped. */
+:root{
+  --deep:#071229; --abyss:#0B2F66; --hydro:#1F6FD1; --aqua:#4FC3F0; --foam:#E8F6FF;
+  --lime:#9BE22E; --spark:#E6F52F; --slime:#A6D64A; --dust:#E2995E; --rust:#914B2F;
+  --iri:linear-gradient(100deg,#5CE1E6,#B6F03C 25%,#FFE14A 45%,#FF8A5C 62%,#FF5FA2 78%,#8B6CF6);
+  --display:"Lilita One","Arial Rounded MT Bold",system-ui,sans-serif;
+  --label:"Exo 2","Trebuchet MS",system-ui,sans-serif;
+  --body:"Nunito","Segoe UI",system-ui,sans-serif;
+  --gut:max(16px,env(safe-area-inset-left,0px));
+  --gutR:max(16px,env(safe-area-inset-right,0px));
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--deep);color:var(--foam);font:400 17px/1.6 var(--body);overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--spark);outline-offset:3px;border-radius:8px}
+.wrap{max-width:1180px;margin:0 auto;padding-left:var(--gut);padding-right:var(--gutR)}
+.label{font:700 13px/1 var(--label);letter-spacing:.2em;text-transform:uppercase;color:var(--aqua)}
+h1,h2,h3{font-family:var(--display);font-weight:400;line-height:1.02;margin:0;text-wrap:balance}
+h2{font-size:clamp(34px,5vw,56px)}
+p{margin:0}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:10px;font:900 17px/1 var(--body);padding:16px 26px;border-radius:999px;text-decoration:none;cursor:pointer;border:0;transition:transform .12s,box-shadow .12s}
+.btn-lime{background:radial-gradient(120% 140% at 30% 20%,#E9FF9A 0,var(--lime) 40%,#6FB31A 100%);color:var(--deep);box-shadow:0 6px 0 #4C8412,0 10px 30px rgba(155,226,46,.35),inset 0 2px 0 rgba(255,255,255,.7)}
+.btn-lime:active{transform:translateY(5px);box-shadow:0 1px 0 #4C8412,inset 0 2px 0 rgba(255,255,255,.7)}
+.btn-ghost{background:transparent;color:var(--foam);box-shadow:inset 0 0 0 2px var(--aqua)}
+.btn-ghost:hover{background:rgba(79,195,240,.12)}
+
+/* header */
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(7,18,41,.72);backdrop-filter:blur(14px);border-bottom:1px solid rgba(79,195,240,.18)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:21;background:var(--deep)}
+.nav{display:flex;align-items:center;gap:24px;padding-block:10px}
+.nav img{width:150px;height:auto}
+.nav nav{display:flex;gap:22px;margin-left:auto;font:700 15px var(--label);letter-spacing:.06em}
+.nav nav a{text-decoration:none;opacity:.85}.nav nav a:hover{opacity:1;color:var(--aqua)}
+.nav .btn{padding:12px 20px;font-size:15px}
+@media (max-width:760px){.nav nav{display:none}.nav img{width:120px}.nav .btn{margin-left:auto}}
+
+/* hero */
+.hero{position:relative;overflow:hidden;isolation:isolate}
+.hero-bg{position:absolute;inset:0;z-index:-2;background:url(../img/hd/ship-144.jpg) center/cover}
+.hero-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,18,41,.25) 0,rgba(7,18,41,.55) 55%,var(--deep) 100%),radial-gradient(60% 70% at 15% 40%,rgba(7,18,41,.85),transparent)}
+.hero .wrap{padding-block:clamp(70px,12vw,150px) clamp(60px,9vw,110px);display:grid;gap:26px;max-width:1180px}
+.hero img.logo{width:min(440px,80vw);border-radius:28px;box-shadow:0 20px 60px rgba(0,0,0,.5),0 0 0 2px rgba(79,195,240,.3)}
+.hero h1{font-size:clamp(46px,8vw,92px);max-width:11ch}
+.hero h1 span{background:var(--iri);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p.lede{max-width:46ch;font-size:19px;color:#CFE6F7}
+.hero .ctas{display:flex;flex-wrap:wrap;gap:14px}
+.now{display:inline-flex;gap:10px;align-items:center;font:700 13px var(--label);letter-spacing:.14em;text-transform:uppercase;background:rgba(11,47,102,.7);padding:8px 14px;border-radius:999px;width:max-content;max-width:100%;box-shadow:inset 0 0 0 1px rgba(79,195,240,.35)}
+.now i{width:8px;height:8px;border-radius:50%;background:var(--lime);box-shadow:0 0 10px var(--lime)}
+
+/* bubbles */
+#bubbles{position:fixed;inset:0;pointer-events:none;z-index:15}
+.bub{position:absolute;bottom:-80px;border-radius:50%;pointer-events:auto;cursor:pointer;border:0;padding:0;
+  background:radial-gradient(circle at 32% 28%,rgba(255,255,255,.95) 0 6%,rgba(255,255,255,.08) 18%,transparent 45%),radial-gradient(circle at 50% 50%,transparent 58%,rgba(92,225,230,.5) 70%,rgba(255,95,162,.45) 82%,rgba(139,108,246,.5) 92%,transparent 100%);
+  box-shadow:inset 0 0 12px rgba(232,246,255,.25);animation:rise linear forwards}
+@keyframes rise{to{transform:translate(var(--dx),calc(-100vh - 160px))}}
+.pop{position:absolute;pointer-events:none;border-radius:50%;border:2px solid var(--foam);animation:pop .35s ease-out forwards}
+@keyframes pop{from{transform:scale(.6);opacity:1}to{transform:scale(1.8);opacity:0}}
+.pops{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:16;font:700 13px var(--label);letter-spacing:.12em;text-transform:uppercase;background:rgba(11,47,102,.85);padding:10px 14px;border-radius:999px;box-shadow:inset 0 0 0 1px rgba(79,195,240,.4)}
+.pops b{color:var(--lime);font-size:16px}
+
+/* logline */
+.logline{background:var(--abyss);border-block:1px solid rgba(79,195,240,.25)}
+.logline .wrap{padding-block:28px;display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.logline p{font:400 clamp(20px,2.4vw,26px)/1.35 var(--display);max-width:60ch;flex:1;min-width:0}
+
+/* crew */
+section{padding-block:clamp(64px,9vw,110px)}
+.sec-head{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap;margin-bottom:36px}
+.sec-head p{max-width:42ch;color:#B9D3EA}
+.crew{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
+@media (max-width:980px){.crew{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:560px){.crew{grid-template-columns:repeat(2,1fr)}}
+.card{position:relative;border-radius:26px;padding:12px 12px 18px;background:linear-gradient(180deg,rgba(79,195,240,.14),rgba(11,47,102,.5));box-shadow:inset 0 0 0 1px rgba(232,246,255,.16);transition:transform .25s cubic-bezier(.3,1.6,.5,1),box-shadow .2s;text-decoration:none;display:grid;gap:10px}
+.card:hover,.card:focus-visible{transform:rotate(-2deg) translateY(-6px);box-shadow:inset 0 0 0 2px var(--aqua),0 18px 40px rgba(79,195,240,.25)}
+.card:nth-child(even):hover{transform:rotate(2deg) translateY(-6px)}
+.card .pic{border-radius:18px;overflow:hidden;aspect-ratio:3/4;background:radial-gradient(90% 70% at 50% 30%,color-mix(in srgb,var(--c) 55%,#fff),var(--c) 60%,color-mix(in srgb,var(--c) 60%,#071229))}
+.card .pic img{width:100%;height:100%;object-fit:cover;object-position:50% 6%;transition:transform .35s}
+.card:hover .pic img{transform:scale(1.06) translateY(-2%)}
+.card h3{font-size:26px;padding-inline:6px}
+.card .role{font:700 12px var(--label);letter-spacing:.14em;text-transform:uppercase;padding-inline:6px;color:var(--c)}
+.card q{font-size:14px;padding-inline:6px;color:#CFE6F7;quotes:"“" "”"}
+.card::after{content:"";position:absolute;top:22px;right:22px;width:14px;height:14px;border-radius:50%;background:var(--c);box-shadow:0 0 0 4px rgba(7,18,41,.6)}
+
+/* villain band */
+.villain{position:relative;color:#1E2A0E;transition:background .6s}
+.villain{background:linear-gradient(180deg,var(--deep) 0,#3A4A1C 12%,#8C9A3C 40%,var(--dust) 100%)}
+.villain .wrap{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(24px,5vw,60px);align-items:center}
+@media (max-width:860px){.villain .wrap{grid-template-columns:1fr}}
+.villain .label{color:#2A3A0A;background:var(--slime);padding:8px 12px;border-radius:6px;display:inline-block}
+.villain h2{color:#16200A;font-size:clamp(40px,6vw,74px);margin-block:16px}
+.villain p{color:#2B2414;font-size:18px;max-width:44ch}
+.villain .duo{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.villain .duo figure{margin:0;border-radius:22px;overflow:hidden;cursor:pointer;box-shadow:0 0 0 4px var(--slime),0 20px 40px rgba(40,30,0,.35);background:#2b3b13}
+.villain .duo figure:nth-child(2){transform:translateY(34px) rotate(2deg);box-shadow:0 0 0 4px #FF2A12,0 20px 40px rgba(40,30,0,.35)}
+.villain .duo img{aspect-ratio:3/4;object-fit:cover;object-position:50% 8%;width:100%;background:radial-gradient(80% 70% at 50% 30%,#C9EC7E,#5F9A2C)}
+.villain .duo figure:nth-child(2) img{background:radial-gradient(80% 70% at 50% 30%,#8a6a3a,#2b2b14)}
+.villain figcaption{font:700 12px var(--label);letter-spacing:.14em;text-transform:uppercase;color:var(--slime);padding:10px 14px}
+.villain .duo figure:nth-child(2) figcaption{color:#FF8A70}
+.creed{margin-top:22px;font:400 28px/1 var(--display);color:#3F1A08}
+
+/* episodes */
+.eps-wrap{background:var(--dust)}
+.eps-sec{background:linear-gradient(180deg,var(--dust) 0,var(--deep) 30%)}
+.rail{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(260px,300px);gap:16px;overflow-x:auto;padding-bottom:16px;scroll-snap-type:x mandatory;scrollbar-color:var(--aqua) transparent}
+.ep{scroll-snap-align:start;border-radius:22px;overflow:hidden;background:var(--abyss);box-shadow:inset 0 0 0 1px rgba(79,195,240,.25);display:grid;grid-template-rows:auto 1fr}
+.ep .th{aspect-ratio:16/9;position:relative;background:#0d2550}
+.ep .th img{width:100%;height:100%;object-fit:cover}
+.ep .num{position:absolute;left:12px;top:12px;font:700 12px var(--label);letter-spacing:.14em;background:rgba(7,18,41,.8);padding:6px 10px;border-radius:999px}
+.ep .bd{padding:16px 18px 20px;display:grid;gap:6px;align-content:start}
+.ep h3{font-size:22px}
+.ep p{font-size:15px;color:#B9D3EA}
+.ep.soon .th{display:grid;place-items:center;background:repeating-linear-gradient(45deg,#0d2550 0 12px,#0B2F66 12px 24px)}
+.ep.soon .th span{font:400 46px var(--display);color:rgba(79,195,240,.5)}
+
+/* fun zone */
+.fun{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media (max-width:860px){.fun{grid-template-columns:1fr}}
+.tile{border-radius:26px;padding:22px;display:grid;gap:12px;align-content:start;background:var(--abyss);box-shadow:inset 0 0 0 1px rgba(79,195,240,.2)}
+.tile img{border-radius:16px;aspect-ratio:4/3;object-fit:cover;width:100%;background:#fff}
+.tile h3{font-size:26px}
+.tile p{color:#B9D3EA;font-size:15px}
+.tile a.more{font:700 14px var(--label);letter-spacing:.1em;text-transform:uppercase;color:var(--aqua);text-decoration:none}
+.news{margin-top:16px;border-radius:30px;padding:clamp(24px,4vw,44px);background:radial-gradient(120% 140% at 0 0,rgba(92,225,230,.35),transparent 50%),radial-gradient(100% 120% at 100% 100%,rgba(255,95,162,.3),transparent 55%),var(--hydro);display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center}
+@media (max-width:760px){.news{grid-template-columns:1fr}}
+.news h3{font-size:clamp(28px,4vw,40px)}
+.news form{display:flex;gap:10px;flex-wrap:wrap}
+.news input{flex:1;min-width:0;font:600 17px var(--body);padding:15px 20px;border-radius:999px;border:0;background:var(--foam);color:var(--deep)}
+.news small{grid-column:1/-1;color:#DCEBFF;font-size:13px}
+.news .ok{font-weight:800;color:var(--spark)}
+
+footer{background:#050C1C;padding-block:44px calc(44px + env(safe-area-inset-bottom,0px))}
+footer .wrap{display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between;align-items:center}
+footer .tag{font:400 30px var(--display);background:var(--iri);-webkit-background-clip:text;background-clip:text;color:transparent}
+footer nav{display:flex;gap:18px;flex-wrap:wrap;font:600 14px var(--label);letter-spacing:.06em;color:#9DB6CF}
+footer small{width:100%;color:#6F87A3;font-size:13px}
+
+@media (prefers-reduced-motion:reduce){#bubbles,.pops{display:none}.card,.btn{transition:none}html{scroll-behavior:auto}}
+/* worlds */
+.wd-orb{position:absolute;left:50%;top:50%;width:58%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle at 32% 28%,#fff 0 6%,transparent 22%),radial-gradient(circle,rgba(79,195,240,.45) 0 52%,#5CE1E6 66%,#FF5FA2 80%,#8B6CF6 92%,transparent);box-shadow:0 0 50px rgba(79,195,240,.55)}
+.wd-dots{position:absolute;inset:0;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;align-content:center;gap:8px;padding:12%}
+.wd-dots i{width:30px;height:30px;border-radius:50%;box-shadow:inset -5px -4px 0 rgba(0,0,0,.25)}
+
+#worlds{padding-block:90px 40px}
+.wd-bento{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:200px;grid-auto-flow:dense;gap:16px;margin-top:28px}
+@media (max-width:900px){.wd-bento{grid-template-columns:repeat(2,1fr);grid-auto-rows:170px}}
+.wd-t{position:relative;border:0;padding:0;cursor:pointer;overflow:hidden;border-radius:28px;background:radial-gradient(circle at 50% 40%,var(--c),var(--d));box-shadow:inset 0 0 0 1px rgba(232,246,255,.25),0 20px 40px rgba(0,0,0,.35);text-align:left;color:#fff;transition:transform .3s}
+.wd-t:hover{transform:translateY(-5px)}
+.wd-t img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.wd-t:hover img{transform:scale(1.07)}
+.wd-t::after{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(120% 60% at 20% 0,rgba(255,255,255,.22),transparent 40%);pointer-events:none}
+.wd-cap{position:absolute;left:0;right:0;bottom:0;padding:40px 18px 16px;background:linear-gradient(transparent,rgba(7,18,41,.88));display:grid;gap:2px}
+.wd-cap small{font:800 11px var(--label);letter-spacing:.16em;text-transform:uppercase;color:var(--c)}
+.wd-cap b{font:400 24px/1 var(--display)}
+.wd-cap span{font-size:14px;color:#CFE3F5;line-height:1.35}
+.wd-big{grid-column:span 2;grid-row:span 2}.wd-big .wd-cap b{font-size:40px}
+.wd-wide{grid-column:span 2}.wd-tall{grid-row:span 2}
+@media (max-width:900px){.wd-cap span{display:none}.wd-big .wd-cap b{font-size:30px}}
+</style>
+</head>
+<body>
+<div id="bubbles" aria-hidden="true"></div>
+<div class="pops" aria-live="polite">Bubbles popped <b id="popn">0</b></div>
+
+<header>
+  <div class="wrap nav">
+    <a href="#top" aria-label="The Qoogies home"><img src="../img/hd/logo.webp" alt="The Qoogies"></a>
+    <nav aria-label="Main"><a href="#crew">Characters</a><a href="#episodes">Episodes</a><a href="#villains">Doc Neon</a><a href="#worlds">Worlds</a><a href="#fun">Fun zone</a></nav>
+    <a class="btn btn-lime" href="#watch">Watch</a>
+  </div>
+</header>
+
+<main id="top">
+<section class="hero" id="watch" style="padding:0">
+  <div class="hero-bg" role="img" aria-label="The glass Qoogie ship flying through space"></div>
+  <div class="wrap">
+    <span class="now"><i></i>Episode 1 is streaming now</span>
+    <h1>Waves <span>Connect</span> Worlds.</h1>
+    <p class="lede">Five tiny hydro-formers sail a glass ship across the galaxy, bringing rain to dry planets. One grumpy scientist wants every world to stay dusty.</p>
+    <div class="ctas">
+      <a class="btn btn-lime" href="#episodes">▶ Watch the pilot</a>
+      <a class="btn btn-ghost" href="#crew">Meet the Qoogies</a>
+    </div>
+  </div>
+</section>
+
+<div class="logline"><div class="wrap">
+  <span class="label">The story</span>
+  <p>The Qoogies make rain. Doc Neon makes deserts. Every episode, the galaxy picks a side.</p>
+</div></div>
+
+<section id="crew"><div class="wrap">
+  <div class="sec-head">
+    <div><span class="label">Team Aero</span><h2>Meet the crew</h2></div>
+    <p>Each Qoogie has one job in making rain, and one color nobody else wears. Tap a card to open their profile.</p>
+  </div>
+  <div class="crew">
+    <a class="card" href="#crew" data-crew="wisp" style="--c:#F0C64A"><div class="pic"><img src="../img/hd/wisp.webp" alt="Wisp"></div><span class="role">Team Leader</span><h3>Wisp</h3><q>Bigger waves. Brighter worlds.</q></a>
+    <a class="card" href="#crew" data-crew="heelo" style="--c:#FF8A1A"><div class="pic"><img src="../img/hd/heelo.webp" alt="Heelo"></div><span class="role">Tension Specialist</span><h3>Heelo</h3><q>Keep it together. That's the power.</q></a>
+    <a class="card" href="#crew" data-crew="nonni" style="--c:#46C2DB"><div class="pic"><img src="../img/hd/nonni.webp" alt="Dr. Nonni Nunu"></div><span class="role">Hyper Wave Specialist</span><h3>Nonni</h3><q>Every wave has a story to tell.</q></a>
+    <a class="card" href="#crew" data-crew="hydro" style="--c:#36C8F5"><div class="pic"><img src="../img/hd/hydro.webp" alt="Hydro"></div><span class="role">Mixologist</span><h3>Hydro</h3><q>A better tomorrow can be brewed.</q></a>
+    <a class="card" href="#crew" data-crew="buoy" style="--c:#8E6FD8"><div class="pic"><img src="../img/hd/buoy.webp" alt="Buoy"></div><span class="role">Interface Specialist</span><h3>Buoy</h3><q>Different worlds. Same connection.</q></a>
+  </div>
+</div></section>
+
+<section class="villain" id="villains"><div class="wrap">
+  <div>
+    <span class="label">Meanwhile, underground</span>
+    <h2>Doc Neon thinks water is rude.</h2>
+    <p>He's brilliant, vain, and very grumpy. From a cavern under Arridia he sends clones and rockets across the galaxy to keep every planet dry. He also melts when he gets wet.</p>
+    <p class="creed">“No more water.”</p>
+  </div>
+  <div class="duo">
+    <figure data-crew="docneon"><img src="../img/hd/docneon.webp" alt="Doc Neon"><figcaption>Doc Neon · Chief Scientist</figcaption></figure>
+    <figure data-crew="neonites"><img src="../img/hd/neonites.webp" alt="The Neonites"><figcaption>Neonites · Clones</figcaption></figure>
+  </div>
+</div></section>
+
+<section id="worlds"><div class="wrap">
+  <div class="sec-head">
+    <div><span class="label">Worlds</span><h2>Where the Qoogies go</h2></div>
+    <p>From the glass ship to the dust storms of Arridia and the cavern underneath. Tap a place to see who lives there and what happened in the pilot.</p>
+  </div>
+  <div class="wd-bento"><button class="wd-t " type="button" data-world="sphere" style="--c:#4FC3F0;--d:#1F6FD1"><span class="wd-orb" aria-hidden="true"></span><span class="wd-cap"><small>Homeworld</small><b>The Bubble Sphere</b><span>Where every Qoogie comes from.</span></span></button><button class="wd-t wd-wide" type="button" data-world="ship" style="--c:#8B6CF6;--d:#4B2FB8"><img src="../img/hd/ship-144.jpg" alt="" loading="lazy"><span class="wd-cap"><small>Ship · Team Aero</small><b>The Qoogie Ship</b><span>Made of water and light.</span></span></button><button class="wd-t " type="button" data-world="command" style="--c:#F0C64A;--d:#A6750A"><img src="../img/hd/pilot-27.jpg" alt="" loading="lazy"><span class="wd-cap"><small>Ship room</small><b>Command Center</b><span>Wisp’s chair and the big screen.</span></span></button><button class="wd-t " type="button" data-world="launchbay" style="--c:#FF8A1A;--d:#C4560A"><img src="../img/hd/pilot-29.jpg" alt="" loading="lazy"><span class="wd-cap"><small>Ship room</small><b>Launch Bay 01</b><span>“Launch crew ready.”</span></span></button><button class="wd-t " type="button" data-world="hatch" style="--c:#46C2DB;--d:#11788C"><img src="../img/hd/pilot-12.jpg" alt="" loading="lazy"><span class="wd-cap"><small>Ship room</small><b>Hatch A</b><span>The big round door.</span></span></button><button class="wd-t " type="button" data-world="space" style="--c:#5CE1E6;--d:#2A1670"><img src="../img/hd/pilot-56.jpg" alt="" loading="lazy"><span class="wd-cap"><small>Environment</small><b>Open Space</b><span>Deep blue with a nebula glow.</span></span></button><button class="wd-t wd-big" type="button" data-world="arridia" style="--c:#E2995E;--d:#914B2F"><img src="../img/hd/pilot-2.jpg" alt="" loading="lazy"><span class="wd-cap"><small>Planet · dry world</small><b>Arridia</b><span>Dust storms on top. Doc Neon underneath.</span></span></button><button class="wd-t " type="button" data-world="targets" style="--c:#FF8A5C;--d:#B8432A"><span class="wd-dots" aria-hidden="true"><i style="background:#7FC8A9"></i><i style="background:#C98A4B"></i><i style="background:#F5D093"></i><i style="background:#E2995E"></i><i style="background:#B38AD9"></i><i style="background:#8FA3BF"></i></span><span class="wd-cap"><small>Planets</small><b>Target Worlds</b><span>Six dry planets waiting for rain.</span></span></button><button class="wd-t wd-wide" type="button" data-world="cavern" style="--c:#A6D64A;--d:#4F8A2E"><img src="../img/hd/neon-lab.jpg" alt="" loading="lazy"><span class="wd-cap"><small>Villain base</small><b>Doc Neon’s Cavern</b><span>“Clones for a dry galaxy.”</span></span></button><button class="wd-t wd-tall" type="button" data-world="aquafy" style="--c:#4FE0F0;--d:#0B2F66"><img src="../img/hd/aquafy.jpg" alt="" loading="lazy"><span class="wd-cap"><small>Villain control room</small><b>Project Aquafy</b><span>“Water ruins everything.”</span></span></button><button class="wd-t " type="button" data-world="hangar" style="--c:#8CFF3F;--d:#3A4150"><img src="../img/hd/neon-hangar.jpg" alt="" loading="lazy"><span class="wd-cap"><small>Villain base</small><b>Rocket Hangar</b><span>Built in the dark. Launched straight up.</span></span></button><button class="wd-t " type="button" data-world="rockets" style="--c:#4F8A2E;--d:#2D5418"><img src="../img/hd/ship-700.jpg" alt="" loading="lazy"><span class="wd-cap"><small>Ship · Neonite fleet</small><b>Doc Neon’s Rockets</b><span>Made of metal and smoke.</span></span></button><button class="wd-t wd-wide" type="button" data-world="tether" style="--c:#36C8F5;--d:#1F6FD1"><img src="../img/hd/ship-754.jpg" alt="" loading="lazy"><span class="wd-cap"><small>Pilot moment</small><b>The Water Tether</b><span>Water beats metal.</span></span></button></div>
+</div></section>
+
+<div class="eps-wrap"><section class="eps-sec" id="episodes"><div class="wrap">
+  <div class="sec-head">
+    <div><span class="label">Season One · 14 episodes</span><h2>Episodes</h2></div>
+    <p>Start with the pilot. New episodes splash down here as they're released.</p>
+  </div>
+  <div class="rail" tabindex="0" aria-label="Season One episodes">
+    <article class="ep"><div class="th"><img src="../img/hd/pilot-27.jpg" alt=""><span class="num">EP 01</span></div><div class="bd"><h3>Heelo Meets Neon</h3><p>Wisp sends Heelo down to Arridia, where he meets Doc Neon. It does not go well for the rockets.</p></div></article>
+    <article class="ep"><div class="th"><img src="../img/hd/pilot-56.jpg" alt=""><span class="num">EP 02</span></div><div class="bd"><h3>Qoogsploration</h3><p>Wisp and Team Aero chart a planet no one has ever rained on.</p></div></article>
+    <article class="ep"><div class="th"><img src="../img/hd/neon-lab.jpg" alt=""><span class="num">EP 03</span></div><div class="bd"><h3>Qoogie And Sons</h3><p>A family business, a leaky ship, and one very nosy Neonite.</p></div></article>
+    <article class="ep soon"><div class="th"><span>04</span></div><div class="bd"><h3>Coming soon</h3><p>Title and synopsis go here.</p></div></article>
+    <article class="ep soon"><div class="th"><span>05</span></div><div class="bd"><h3>Coming soon</h3><p>Title and synopsis go here.</p></div></article>
+  </div>
+</div></section></div>
+
+<section id="fun"><div class="wrap">
+  <div class="sec-head">
+    <div><span class="label">Fun zone</span><h2>Make a splash at home</h2></div>
+  </div>
+  <div class="fun">
+    <div class="tile"><img src="../img/hd/team-2022.jpg" alt="Team Aero line art"><h3>Coloring pages</h3><p>Print Team Aero and color them in. Bonus points for rainbow gel.</p><a class="more" href="#fun">Get the pages →</a></div>
+    <div class="tile"><img src="../img/hd/ship-754.jpg" alt=""><h3>Wallpapers</h3><p>The glass ship and Doc Neon's rockets, sized for phones and desktops.</p><a class="more" href="#fun">Pick a wallpaper →</a></div>
+    <div class="tile"><img src="../img/hd/pilot-29.jpg" alt=""><h3>Which Qoogie are you?</h3><p>Seven questions. One crew member. Doc Neon is a possible answer.</p><a class="more" href="#fun">Take the quiz →</a></div>
+  </div>
+  <div class="news">
+    <div><span class="label" style="color:var(--foam)">For parents</span><h3>Get new episodes and printables by email</h3></div>
+    <form id="nf"><label for="em" class="label" style="position:absolute;left:-9999px">Parent email</label><input id="em" type="email" placeholder="parent@email.com" required><button class="btn btn-lime" type="submit">Sign up</button></form>
+    <small>One email a month. No ads, no tracking, unsubscribe any time.</small>
+  </div>
+</div></section>
+</main>
+
+<footer><div class="wrap">
+  <span class="tag">Waves Connect Worlds.</span>
+  <nav><a href="#top">Watch</a><a href="#crew">Characters</a><a href="#episodes">Episodes</a><a href="#fun">Parents</a><a href="#top">Press and partners</a></nav>
+  <small>The Qoogies © XBX Entertainment. Template 1 · Bubble Sphere.</small>
+</div></footer>
+
+<script src="crew.js" data-skin="glass"></script>
+<script src="worlds.js" data-skin="glass"></script>
+<script>
+(()=>{
+  const box=document.getElementById('bubbles'),n=document.getElementById('popn');let c=0;
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  function make(){
+    if(document.hidden||box.childElementCount>14)return;
+    const b=document.createElement('button');b.className='bub';b.tabIndex=-1;b.setAttribute('aria-hidden','true');
+    const s=16+Math.random()*46;b.style.width=b.style.height=s+'px';b.style.left=(Math.random()*96)+'vw';
+    b.style.setProperty('--dx',(Math.random()*80-40)+'px');b.style.animationDuration=(10+Math.random()*12)+'s';
+    b.addEventListener('animationend',()=>b.remove());
+    b.addEventListener('pointerdown',e=>{const r=b.getBoundingClientRect();const p=document.createElement('span');p.className='pop';
+      Object.assign(p.style,{left:r.left+'px',top:r.top+'px',width:r.width+'px',height:r.height+'px'});box.appendChild(p);
+      p.addEventListener('animationend',()=>p.remove());b.remove();n.textContent=++c;});
+    box.appendChild(b);
+  }
+  for(let i=0;i<6;i++)setTimeout(make,i*500);setInterval(make,1400);
+  document.getElementById('nf').addEventListener('submit',e=>{e.preventDefault();e.target.outerHTML='<p class="ok">You\'re on the list. Watch your inbox for the first splash.</p>'});
+})();
+</script>
+</body>
+</html>

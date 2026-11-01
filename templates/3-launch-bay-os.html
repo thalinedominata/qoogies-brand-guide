@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Qoogies · Launch Bay OS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Exo+2:wght@500;600;700;800&family=Lilita+One&family=Nunito:wght@400;700;800&display=swap">
+<style>
+/* Layout: the whole site is the Qoogie ship's console. Status bar → main viewscreen + crew roster (tabs open a dossier) → target planet list → mission log (episodes) → villain files. A red-alert switch turns the console red and puts Doc Neon on the comm. */
+:root{
+  --bg:#06122B; --panel:#0A2350; --edge:#4FC3F0; --glow:rgba(79,195,240,.35); --text:#E8F6FF; --dim:#8FB3D6;
+  --go:#9BE22E; --warn:#F2B620; --hot:#FF2A4D; --amber:#FFB25C;
+  --display:"Lilita One","Arial Rounded MT Bold",system-ui,sans-serif;
+  --hud:"Exo 2","Trebuchet MS",system-ui,sans-serif;
+  --body:"Nunito","Segoe UI",system-ui,sans-serif;
+  color-scheme:dark;
+}
+body.alert{--bg:#1A0610;--panel:#3A0A18;--edge:#FF2A4D;--glow:rgba(255,42,77,.45);--dim:#E6A0AE}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:400 16px/1.55 var(--body);transition:background .4s;overflow-x:hidden}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:50;background:repeating-linear-gradient(0deg,rgba(255,255,255,.025) 0 1px,transparent 1px 3px)}
+body.alert::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:49;box-shadow:inset 0 0 120px rgba(255,42,77,.5);animation:pulse 1.2s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.25}}
+img{max-width:100%;display:block}
+a{color:inherit}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--warn);outline-offset:3px}
+.wrap{max-width:1280px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.hud{font:700 12px/1.2 var(--hud);letter-spacing:.2em;text-transform:uppercase;color:var(--edge)}
+h1,h2,h3{margin:0;font-weight:400;line-height:1.02;text-wrap:balance}
+h1,h2{font-family:var(--display)}
+p{margin:0}
+.frame{position:relative;background:linear-gradient(180deg,rgba(255,255,255,.04),transparent 40%),var(--panel);border:1px solid color-mix(in srgb,var(--edge) 45%,transparent);border-radius:14px;box-shadow:0 0 0 1px rgba(0,0,0,.4),0 0 30px var(--glow) inset;transition:background .4s,border-color .4s}
+.frame::before,.frame::after{content:"";position:absolute;width:18px;height:18px;border:3px solid var(--edge);pointer-events:none}
+.frame::before{left:-2px;top:-2px;border-right:0;border-bottom:0;border-radius:12px 0 0 0}
+.frame::after{right:-2px;bottom:-2px;border-left:0;border-top:0;border-radius:0 0 12px 0}
+.ph{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid color-mix(in srgb,var(--edge) 30%,transparent)}
+
+/* status bar */
+.status{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid color-mix(in srgb,var(--edge) 35%,transparent)}
+body>.topband{position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:31;background:var(--bg)}
+.status .wrap{display:flex;align-items:center;gap:18px;padding-block:10px;flex-wrap:wrap}
+.status img{width:130px;height:auto}
+.status nav{display:flex;gap:4px;flex-wrap:wrap}
+.status nav a{font:700 12px var(--hud);letter-spacing:.16em;text-transform:uppercase;text-decoration:none;padding:8px 10px;border-radius:6px;color:var(--dim)}
+.status nav a:hover{color:var(--text);background:color-mix(in srgb,var(--edge) 18%,transparent)}
+.readouts{margin-left:auto;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.meter{display:grid;gap:4px;min-width:120px}
+.meter .bar{height:6px;border-radius:3px;background:rgba(255,255,255,.1);overflow:hidden}
+.meter .bar i{display:block;height:100%;width:72%;background:linear-gradient(90deg,var(--edge),var(--go));transition:width .6s}
+.alertbtn{display:flex;align-items:center;gap:10px;border:2px solid var(--hot);background:transparent;border-radius:999px;padding:6px 14px 6px 6px;cursor:pointer;font:800 12px var(--hud);letter-spacing:.14em;text-transform:uppercase;color:#FFC2CC}
+.alertbtn .sw{width:38px;height:22px;border-radius:999px;background:#3a0a18;position:relative;transition:background .2s}
+.alertbtn .sw::after{content:"";position:absolute;left:3px;top:3px;width:16px;height:16px;border-radius:50%;background:#FFC2CC;transition:transform .2s}
+.alertbtn[aria-pressed="true"] .sw{background:var(--hot)}
+.alertbtn[aria-pressed="true"] .sw::after{transform:translateX(16px)}
+@media (max-width:700px){.status nav,.meter{display:none}}
+
+/* bridge */
+.bridge{display:grid;grid-template-columns:1.55fr 1fr;gap:16px;padding-block:20px}
+@media (max-width:980px){.bridge{grid-template-columns:1fr}}
+.view{overflow:hidden}
+.screen{position:relative;aspect-ratio:16/9;overflow:hidden;background:#000}
+.screen img{width:100%;height:100%;object-fit:cover;transition:opacity .4s}
+.screen .over{position:absolute;inset:0;display:grid;align-content:end;gap:14px;padding:clamp(16px,3vw,32px);background:linear-gradient(0deg,rgba(6,18,43,.92) 0,rgba(6,18,43,.2) 55%,transparent)}
+body.alert .screen .over{background:linear-gradient(0deg,rgba(26,6,16,.94),rgba(26,6,16,.2) 60%,transparent)}
+.screen h1{font-size:clamp(38px,6vw,76px)}
+.screen p{max-width:46ch;color:var(--dim);font-size:17px}
+@media (max-width:700px){.screen{aspect-ratio:auto}.screen img{position:absolute;inset:0}.screen .over{position:relative;min-height:440px}.comm{width:44%}}
+.reticle{position:absolute;right:8%;top:14%;width:90px;height:90px;border:2px solid var(--edge);border-radius:50%;opacity:.7}
+.reticle::before,.reticle::after{content:"";position:absolute;background:var(--edge)}
+.reticle::before{left:50%;top:-14px;bottom:-14px;width:2px}
+.reticle::after{top:50%;left:-14px;right:-14px;height:2px}
+.ctas{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-flex;gap:8px;align-items:center;font:800 16px/1 var(--body);padding:14px 22px;border-radius:10px;text-decoration:none;border:0;cursor:pointer}
+.btn.go{background:var(--go);color:#071229;box-shadow:0 0 0 3px rgba(155,226,46,.25),0 0 24px rgba(155,226,46,.35)}
+.btn.out{box-shadow:inset 0 0 0 2px var(--edge);color:var(--text)}
+.comm{display:none;z-index:2;cursor:pointer;position:absolute;left:16px;top:16px;width:min(46%,280px);border:2px solid var(--hot);border-radius:10px;overflow:hidden;background:#000;box-shadow:0 0 30px rgba(255,42,77,.6)}
+.comm img{aspect-ratio:4/3;object-fit:cover;object-position:top;width:100%}
+.comm span{display:block;padding:8px 10px;font:800 12px var(--hud);letter-spacing:.14em;text-transform:uppercase;background:var(--hot);color:#fff}
+body.alert .comm{display:block}
+
+/* roster */
+.roster{display:grid;grid-template-rows:auto auto 1fr}
+.tabs{display:flex;gap:6px;padding:12px 14px;overflow-x:auto}
+.tab{flex:0 0 auto;width:54px;height:54px;border-radius:50%;padding:0;border:2px solid transparent;background:#0d2a5a;cursor:pointer;overflow:hidden}
+.tab img{width:100%;height:100%;object-fit:cover}
+.tab[aria-selected="true"]{border-color:var(--c);box-shadow:0 0 14px var(--c)}
+.dossier{display:grid;grid-template-columns:120px 1fr;gap:16px;padding:6px 16px 18px}
+.dossier .pic{border-radius:10px;overflow:hidden;border:1px solid color-mix(in srgb,var(--edge) 40%,transparent);aspect-ratio:3/5;cursor:pointer;background:radial-gradient(90% 70% at 50% 30%,color-mix(in srgb,var(--c) 55%,#fff),var(--c) 60%,#0A2350)}
+.dossier .pic img{width:100%;height:100%;object-fit:cover;object-position:50% 4%}
+.dossier h2{font-size:34px}
+.dossier .role{font:700 12px var(--hud);letter-spacing:.18em;text-transform:uppercase;color:var(--c)}
+.dossier q{display:block;margin-block:8px;font-weight:800;quotes:"“" "”"}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips span{font:600 12px var(--hud);letter-spacing:.06em;padding:4px 8px;border-radius:6px;background:rgba(255,255,255,.07)}
+.dossier .sw{display:flex;gap:6px;margin-top:10px}
+.dossier .sw i{width:22px;height:22px;border-radius:50%;box-shadow:0 0 0 2px rgba(255,255,255,.2)}
+.dossier .key{margin-top:10px;font-size:14px;color:var(--dim)}
+
+/* targets */
+section{padding-block:16px}
+.grid2{display:grid;grid-template-columns:1fr 1.2fr;gap:16px}
+@media (max-width:980px){.grid2{grid-template-columns:1fr}}
+table{width:100%;border-collapse:collapse;font:600 14px var(--hud);letter-spacing:.04em;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:11px 16px;border-bottom:1px solid rgba(255,255,255,.07)}
+th{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);font-weight:700}
+.pill{display:inline-block;padding:3px 10px;border-radius:999px;font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+.pill.dry{background:rgba(226,153,94,.18);color:var(--amber)}
+.pill.wet{background:rgba(79,195,240,.18);color:#8EDBFF}
+.pill.hot{background:rgba(255,42,77,.2);color:#FF8FA2}
+.pill.go{background:rgba(155,226,46,.18);color:var(--go)}
+.hum{display:inline-block;width:80px;height:6px;border-radius:3px;background:rgba(255,255,255,.1);vertical-align:middle;margin-right:8px;overflow:hidden}
+.hum i{display:block;height:100%;background:var(--edge)}
+
+/* mission log */
+.log{list-style:none;margin:0;padding:6px 0}
+.log li{display:grid;grid-template-columns:96px 1fr auto;gap:14px;align-items:center;padding:10px 16px;border-bottom:1px solid rgba(255,255,255,.06)}
+.log img{border-radius:8px;aspect-ratio:16/10;object-fit:cover;width:96px}
+.log h3{font:400 20px var(--display)}
+.log p{font-size:14px;color:var(--dim)}
+.log .locked{opacity:.5}
+.log .lk{width:96px;aspect-ratio:16/10;border-radius:8px;border:1px dashed color-mix(in srgb,var(--edge) 50%,transparent);display:grid;place-items:center;font:700 11px var(--hud);letter-spacing:.14em;color:var(--dim)}
+@media (max-width:520px){.log li{grid-template-columns:72px 1fr}.log img,.log .lk{width:72px}.log li>.btn,.log li>.pill{grid-column:2;justify-self:start}}
+
+/* villain files */
+.files{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:16px}
+@media (max-width:700px){.files{grid-template-columns:1fr}}
+.vfile{display:grid;grid-template-columns:120px 1fr;gap:14px;align-items:center;text-align:left;border-radius:12px;background:rgba(255,42,77,.06);border:1px solid rgba(255,42,77,.35);padding:12px;color:var(--text);transition:background .2s}
+.vfile:hover{background:rgba(255,42,77,.14)}
+.vfile .pic{border-radius:10px;overflow:hidden;aspect-ratio:1;background:radial-gradient(80% 70% at 50% 30%,#C9EC7E,#3B5A1C)}
+.vfile .pic img{width:100%;height:100%;object-fit:cover;object-position:50% 8%}
+.vfile h3{font:400 26px var(--display)}
+.vfile p{font-size:14px;color:var(--dim)}
+.vfile .hud{color:#FF8FA2}
+.parents{display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center;padding:18px}
+@media (max-width:700px){.parents{grid-template-columns:1fr}}
+.parents form{display:flex;gap:8px;flex-wrap:wrap}
+.parents input{flex:1;min-width:0;font:600 16px var(--body);padding:13px 16px;border-radius:10px;border:1px solid color-mix(in srgb,var(--edge) 50%,transparent);background:rgba(0,0,0,.3);color:var(--text)}
+footer{padding-block:30px calc(30px + env(safe-area-inset-bottom,0px));color:var(--dim);font:600 13px var(--hud);letter-spacing:.08em}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+footer b{font:400 22px var(--display);color:var(--text);letter-spacing:0}
+@media (prefers-reduced-motion:reduce){body.alert::before{animation:none}body,.frame{transition:none}}
+/* worlds */
+.wd-orb{position:absolute;left:50%;top:50%;width:58%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle at 32% 28%,#fff 0 6%,transparent 22%),radial-gradient(circle,rgba(79,195,240,.45) 0 52%,#5CE1E6 66%,#FF5FA2 80%,#8B6CF6 92%,transparent);box-shadow:0 0 50px rgba(79,195,240,.55)}
+.wd-dots{position:absolute;inset:0;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;align-content:center;gap:8px;padding:12%}
+.wd-dots i{width:30px;height:30px;border-radius:50%;box-shadow:inset -5px -4px 0 rgba(0,0,0,.25)}
+
+#worlds .wd-tabs{display:flex;gap:6px;flex-wrap:wrap}
+#worlds .wd-tabs button{border:1px solid rgba(79,195,240,.4);background:transparent;color:var(--dim);font:700 12px var(--hud);letter-spacing:.14em;text-transform:uppercase;padding:7px 11px;border-radius:8px;cursor:pointer}
+#worlds .wd-tabs button[aria-pressed="true"]{background:var(--edge);color:#06122B;border-color:var(--edge)}
+.wd-locs{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:16px}
+@media (max-width:800px){.wd-locs{grid-template-columns:1fr}}
+.wd-loc{display:grid;grid-template-columns:110px 1fr auto;gap:14px;align-items:center;text-align:left;border:1px solid rgba(79,195,240,.22);background:rgba(255,255,255,.03);border-radius:14px;padding:10px;color:var(--text);cursor:pointer;transition:border-color .2s,background .2s}
+.wd-loc:hover{border-color:var(--c);background:rgba(79,195,240,.08)}
+.wd-loc[hidden]{display:none}
+.wd-th{position:relative;display:block;aspect-ratio:16/10;border-radius:10px;overflow:hidden;background:radial-gradient(circle,var(--c),var(--d))}
+.wd-th img{width:100%;height:100%;object-fit:cover}
+.wd-th .wd-dots i{width:14px;height:14px}
+.wd-loc h3{font:400 22px/1 var(--display);margin:2px 0}
+.wd-loc p{color:var(--dim);font-size:14px;line-height:1.35}
+@media (max-width:500px){.wd-loc{grid-template-columns:84px 1fr}.wd-loc .pill{display:none}}
+</style>
+</head>
+<body>
+<div class="topband"></div>
+<header class="status"><div class="wrap">
+  <a href="#top"><img src="../img/hd/logo.webp" alt="The Qoogies"></a>
+  <nav aria-label="Main"><a href="#top">Bridge</a><a href="#targets">Targets</a><a href="#worlds">Worlds</a><a href="#log">Episodes</a><a href="#files">Villains</a></nav>
+  <div class="readouts">
+    <div class="meter"><span class="hud" id="wlabel">Water tanks 72%</span><div class="bar"><i id="water"></i></div></div>
+    <span class="hud" id="clock">Ship time 00:00</span>
+    <button class="alertbtn" id="alert" type="button" aria-pressed="false"><span class="sw"></span>Red alert</button>
+  </div>
+</div></header>
+
+<main id="top" class="wrap">
+<div class="bridge">
+  <div class="frame view">
+    <div class="ph"><span class="hud" id="vslabel">Main viewscreen · Approaching Arridia</span><span class="hud" style="color:var(--go)" id="sys">All systems wet</span></div>
+    <div class="screen">
+      <img id="vsimg" src="../img/hd/ship-144.jpg" alt="The Qoogie ship approaching the dry planet Arridia">
+      <div class="reticle" aria-hidden="true"></div>
+      <div class="comm" data-crew="docneon" aria-label="Open Doc Neon's file"><img src="../img/hd/pilot-53.jpg" alt=""><span>Incoming · Doc Neon</span></div>
+      <div class="over">
+        <span class="hud" id="kicker">Episode 1 · Heelo Meets Neon</span>
+        <h1 id="headline">Waves Connect Worlds.</h1>
+        <p id="sub">Board the Qoogie ship. Five bubble-bodied heroes are about to make it rain on a planet that has never seen a drop.</p>
+        <div class="ctas"><a class="btn go" href="#log">▶ Watch the pilot</a><a class="btn out" href="#crew">Meet the crew</a></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="frame roster" id="crew">
+    <div class="ph"><span class="hud">Crew roster · Team Aero</span><span class="hud" style="color:var(--dim)">5 aboard</span></div>
+    <div class="tabs" role="tablist" aria-label="Choose a crew member" id="tabs"></div>
+    <div class="dossier" id="dossier" role="tabpanel"></div>
+  </div>
+</div>
+
+<section id="targets"><div class="grid2">
+  <div class="frame">
+    <div class="ph"><span class="hud">Target planets</span><span class="hud" style="color:var(--dim)">6 on course</span></div>
+    <div style="overflow-x:auto"><table>
+      <thead><tr><th>Planet</th><th>Humidity</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>Veldra</td><td><span class="hum"><i style="width:64%"></i></span>64%</td><td><span class="pill wet">Raining</span></td></tr>
+        <tr><td>Terralis</td><td><span class="hum"><i style="width:41%"></i></span>41%</td><td><span class="pill go">In progress</span></td></tr>
+        <tr><td>Solen</td><td><span class="hum"><i style="width:22%"></i></span>22%</td><td><span class="pill dry">Dry</span></td></tr>
+        <tr><td>Arridia</td><td><span class="hum"><i style="width:3%"></i></span>3%</td><td><span class="pill hot">Doc Neon's base</span></td></tr>
+        <tr><td>Kaelith</td><td><span class="hum"><i style="width:15%"></i></span>15%</td><td><span class="pill dry">Dry</span></td></tr>
+        <tr><td>Nova-9</td><td><span class="hum"><i style="width:0"></i></span>??</td><td><span class="pill dry">Unexplored</span></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+  <div class="frame" id="log">
+    <div class="ph"><span class="hud">Mission log · Season One</span><span class="hud" style="color:var(--dim)">14 missions</span></div>
+    <ul class="log">
+      <li><img src="../img/hd/pilot-27.jpg" alt=""><div><h3>Heelo Meets Neon</h3><p>Ep 1 · Heelo meets Doc Neon on Arridia and catches a rocket with water.</p></div><a class="btn go" href="#log" style="padding:10px 14px">▶ Play</a></li>
+      <li><img src="../img/hd/pilot-56.jpg" alt=""><div><h3>Qoogsploration</h3><p>Ep 2 · Wisp and Team Aero chart a brand-new world.</p></div><span class="pill wet">Soon</span></li>
+      <li><img src="../img/hd/aquafy.jpg" alt=""><div><h3>Qoogie And Sons</h3><p>Ep 3 · Synopsis to come.</p></div><span class="pill wet">Soon</span></li>
+      <li class="locked"><span class="lk">LOCKED</span><div><h3>Mission 04</h3><p>Classified until launch.</p></div></li>
+    </ul>
+  </div>
+</div></section>
+
+<section id="worlds"><div class="frame">
+  <div class="ph"><span class="hud">Nav computer · Known locations</span><div class="wd-tabs" role="group" aria-label="Filter locations"><button type="button" data-wg="all" aria-pressed="true">All</button><button type="button" data-wg="Qoogie side" aria-pressed="false">Onboard</button><button type="button" data-wg="Out there" aria-pressed="false">Out there</button><button type="button" data-wg="Neon side" aria-pressed="false">Hostile</button><button type="button" data-wg="Pilot" aria-pressed="false">Pilot log</button></div></div>
+  <div class="wd-locs"><button class="wd-loc" type="button" data-world="sphere" data-g="Qoogie side" style="--c:#4FC3F0;--d:#1F6FD1"><span class="wd-th"><span class="wd-orb" aria-hidden="true"></span></span><span><span class="hud">Homeworld</span><h3>The Bubble Sphere</h3><p>Where every Qoogie comes from.</p></span><span class="pill wet">Friendly</span></button><button class="wd-loc" type="button" data-world="ship" data-g="Qoogie side" style="--c:#8B6CF6;--d:#4B2FB8"><span class="wd-th"><img src="../img/hd/ship-144.jpg" alt="" loading="lazy"></span><span><span class="hud">Ship · Team Aero</span><h3>The Qoogie Ship</h3><p>Made of water and light.</p></span><span class="pill wet">Friendly</span></button><button class="wd-loc" type="button" data-world="command" data-g="Qoogie side" style="--c:#F0C64A;--d:#A6750A"><span class="wd-th"><img src="../img/hd/pilot-27.jpg" alt="" loading="lazy"></span><span><span class="hud">Ship room</span><h3>Command Center</h3><p>Wisp’s chair and the big screen.</p></span><span class="pill wet">Friendly</span></button><button class="wd-loc" type="button" data-world="launchbay" data-g="Qoogie side" style="--c:#FF8A1A;--d:#C4560A"><span class="wd-th"><img src="../img/hd/pilot-29.jpg" alt="" loading="lazy"></span><span><span class="hud">Ship room</span><h3>Launch Bay 01</h3><p>“Launch crew ready.”</p></span><span class="pill wet">Friendly</span></button><button class="wd-loc" type="button" data-world="hatch" data-g="Qoogie side" style="--c:#46C2DB;--d:#11788C"><span class="wd-th"><img src="../img/hd/pilot-12.jpg" alt="" loading="lazy"></span><span><span class="hud">Ship room</span><h3>Hatch A</h3><p>The big round door.</p></span><span class="pill wet">Friendly</span></button><button class="wd-loc" type="button" data-world="space" data-g="Out there" style="--c:#5CE1E6;--d:#2A1670"><span class="wd-th"><img src="../img/hd/pilot-56.jpg" alt="" loading="lazy"></span><span><span class="hud">Environment</span><h3>Open Space</h3><p>Deep blue with a nebula glow.</p></span><span class="pill go">Explore</span></button><button class="wd-loc" type="button" data-world="arridia" data-g="Out there" style="--c:#E2995E;--d:#914B2F"><span class="wd-th"><img src="../img/hd/pilot-2.jpg" alt="" loading="lazy"></span><span><span class="hud">Planet · dry world</span><h3>Arridia</h3><p>Dust storms on top. Doc Neon underneath.</p></span><span class="pill go">Explore</span></button><button class="wd-loc" type="button" data-world="targets" data-g="Out there" style="--c:#FF8A5C;--d:#B8432A"><span class="wd-th"><span class="wd-dots" aria-hidden="true"><i style="background:#7FC8A9"></i><i style="background:#C98A4B"></i><i style="background:#F5D093"></i><i style="background:#E2995E"></i><i style="background:#B38AD9"></i><i style="background:#8FA3BF"></i></span></span><span><span class="hud">Planets</span><h3>Target Worlds</h3><p>Six dry planets waiting for rain.</p></span><span class="pill go">Explore</span></button><button class="wd-loc" type="button" data-world="cavern" data-g="Neon side" style="--c:#A6D64A;--d:#4F8A2E"><span class="wd-th"><img src="../img/hd/neon-lab.jpg" alt="" loading="lazy"></span><span><span class="hud">Villain base</span><h3>Doc Neon’s Cavern</h3><p>“Clones for a dry galaxy.”</p></span><span class="pill hot">Hostile</span></button><button class="wd-loc" type="button" data-world="aquafy" data-g="Neon side" style="--c:#4FE0F0;--d:#0B2F66"><span class="wd-th"><img src="../img/hd/aquafy.jpg" alt="" loading="lazy"></span><span><span class="hud">Villain control room</span><h3>Project Aquafy</h3><p>“Water ruins everything.”</p></span><span class="pill hot">Hostile</span></button><button class="wd-loc" type="button" data-world="hangar" data-g="Neon side" style="--c:#8CFF3F;--d:#3A4150"><span class="wd-th"><img src="../img/hd/neon-hangar.jpg" alt="" loading="lazy"></span><span><span class="hud">Villain base</span><h3>Rocket Hangar</h3><p>Built in the dark. Launched straight up.</p></span><span class="pill hot">Hostile</span></button><button class="wd-loc" type="button" data-world="rockets" data-g="Neon side" style="--c:#4F8A2E;--d:#2D5418"><span class="wd-th"><img src="../img/hd/ship-700.jpg" alt="" loading="lazy"></span><span><span class="hud">Ship · Neonite fleet</span><h3>Doc Neon’s Rockets</h3><p>Made of metal and smoke.</p></span><span class="pill hot">Hostile</span></button><button class="wd-loc" type="button" data-world="tether" data-g="Pilot" style="--c:#36C8F5;--d:#1F6FD1"><span class="wd-th"><img src="../img/hd/ship-754.jpg" alt="" loading="lazy"></span><span><span class="hud">Pilot moment</span><h3>The Water Tether</h3><p>Water beats metal.</p></span><span class="pill go">Logged</span></button></div>
+</div></section>
+
+<section id="files"><div class="frame">
+  <div class="ph"><span class="hud" style="color:#FF8FA2">Threat files · Classified</span><span class="hud" style="color:var(--dim)">Tap to open</span></div>
+  <div class="files">
+    <button class="vfile" type="button" data-crew="docneon"><span class="pic"><img src="../img/hd/docneon.webp" alt=""></span><span><span class="hud">Super-Intelligent Nemesis</span><h3>Doc Neon</h3><p>Lives in a cavern under Arridia. Thinks water is rude. Melts when wet.</p></span></button>
+    <button class="vfile" type="button" data-crew="neonites"><span class="pic" style="background:radial-gradient(80% 70% at 50% 30%,#8a6a3a,#2b2b14)"><img src="../img/hd/neonites.webp" alt=""></span><span><span class="hud">Clone troopers</span><h3>Neonites</h3><p>Four variants. One creed: “No more water.”</p></span></button>
+  </div>
+  <div class="parents" style="border-top:1px solid rgba(255,255,255,.08)">
+    <div><span class="hud">Parents' channel</span><p style="font-weight:800;font-size:18px">New missions and printables, once a month. No ads, no tracking.</p></div>
+    <form id="nf"><label for="em" class="hud" style="position:absolute;left:-9999px">Parent email</label><input id="em" type="email" placeholder="parent@email.com" required><button class="btn go" type="submit">Join</button></form>
+  </div>
+</div></section>
+</main>
+
+<footer><div class="wrap"><b>Waves Connect Worlds.</b><span>The Qoogies © XBX Entertainment · Press and partners · Parents · Template 3 · Launch Bay OS</span></div></footer>
+
+<script src="crew.js" data-skin="hud"></script>
+<script src="worlds.js" data-skin="hud"></script>
+<script>
+document.querySelector('#worlds .wd-tabs').addEventListener('click', e => { const b = e.target.closest('[data-wg]'); if (!b) return; e.currentTarget.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b)); document.querySelectorAll('.wd-loc').forEach(l => l.hidden = b.dataset.wg !== 'all' && l.dataset.g !== b.dataset.wg); });
+</script>
+<script>
+const crew=[
+ {n:'Wisp',r:'Team Leader',q:'Bigger waves. Brighter worlds.',c:'#F0C64A',img:'front-wisp',t:['Confident','Brave','Optimistic','Inspirational'],sw:['#F0C64A','#E2262B','#C8161D','#3FA9E8'],k:'Blond swoop hair and red goggles.'},
+ {n:'Heelo',r:'Tension Specialist',q:"Keep it together. That's the power.",c:'#FF8A1A',img:'front-heelo',t:['Energetic','Witty','Dependable'],sw:['#FF8A1A','#F6B92A','#D0262A','#3FB6E8'],k:'Flame-spike hair, hi-vis jacket.'},
+ {n:'Dr. Nonni Nunu',r:'Hyper Wave Specialist',q:'Every wave has a story to tell.',c:'#46C2DB',img:'front-nonni',t:['Kind','Intelligent','Curious'],sw:['#7A3E26','#E8B830','#F4F7FB','#46C2DB'],k:'The scientist in the white lab coat.'},
+ {n:'Hydro',r:'Mixologist',q:'A better tomorrow can be brewed.',c:'#36C8F5',img:'front-hydro',t:['Calm','Resourceful','Friendly'],sw:['#F2B620','#2E7FE0','#C8161D','#36C8F5'],k:'Gold hard hat and a bubbling flask.'},
+ {n:'Buoy',r:'Interface Specialist',q:'Different worlds. Same connection.',c:'#8E6FD8',img:'front-buoy',t:['Smart','Focused','Dependable'],sw:['#8E6FD8','#F2B620','#CFE3F5','#E0457B'],k:'Violet hair under a frosted visor.'}];
+const tabs=document.getElementById('tabs'),dos=document.getElementById('dossier');
+function show(i){const m=crew[i];
+  tabs.querySelectorAll('.tab').forEach((t,j)=>t.setAttribute('aria-selected',j===i));
+  dos.style.setProperty('--c',m.c);
+  const id=m.img.split('-')[1];
+  dos.innerHTML=`<div class="pic" data-crew="${id}"><img src="../img/hd/${id}.webp" alt="${m.n}"></div><div><span class="role">${m.r}</span><h2>${m.n}</h2><q>${m.q}</q><div class="chips">${m.t.map(x=>`<span>${x}</span>`).join('')}</div><div class="sw">${m.sw.map(x=>`<i style="background:${x}"></i>`).join('')}</div><p class="key">${m.k}</p><button class="btn out" type="button" data-crew="${id}" style="margin-top:12px;padding:10px 14px;font-size:14px">Open full file →</button></div>`;}
+crew.forEach((m,i)=>{const b=document.createElement('button');b.className='tab';b.role='tab';b.style.setProperty('--c',m.c);b.setAttribute('aria-label',m.n);b.innerHTML=`<img src="../img/hd/face-${m.img.split('-')[1]}.webp" alt="">`;b.onclick=()=>show(i);tabs.appendChild(b)});
+show(1);
+
+const clock=document.getElementById('clock');
+function tick(){const d=new Date();clock.textContent='Ship time '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')}
+tick();setInterval(tick,30000);
+
+const A=document.getElementById('alert'),S={
+ img:document.getElementById('vsimg'),k:document.getElementById('kicker'),h:document.getElementById('headline'),s:document.getElementById('sub'),l:document.getElementById('vslabel'),y:document.getElementById('sys'),w:document.getElementById('water'),wl:document.getElementById('wlabel')};
+A.onclick=()=>{const on=A.getAttribute('aria-pressed')!=='true';A.setAttribute('aria-pressed',on);document.body.classList.toggle('alert',on);
+ S.img.src=on?'../img/hd/ship-703.jpg':'../img/hd/ship-144.jpg';
+ S.k.textContent=on?'Unknown vessel detected':'Episode 1 · Heelo Meets Neon';
+ S.h.textContent=on?'Arid Worlds. Eternal Conflict.':'Waves Connect Worlds.';
+ S.s.textContent=on?'Doc Neon has launched a rocket from his cavern under Arridia. Heelo, to the launch bay.':'Board the Qoogie ship. Five bubble-bodied heroes are about to make it rain on a planet that has never seen a drop.';
+ S.l.textContent=on?'Main viewscreen · Rocket launch detected':'Main viewscreen · Approaching Arridia';
+ S.y.textContent=on?'Battle stations':'All systems wet';S.y.style.color=on?'var(--hot)':'var(--go)';
+ S.w.style.width=on?'38%':'72%';S.wl.textContent=on?'Water tanks 38%':'Water tanks 72%';};
+document.getElementById('nf').addEventListener('submit',e=>{e.preventDefault();e.target.outerHTML='<p class="hud" style="color:var(--go)">Channel joined. Welcome aboard.</p>'});
+</script>
+</body>
+</html>

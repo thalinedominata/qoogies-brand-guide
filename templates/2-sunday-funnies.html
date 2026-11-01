@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Qoogies · Sunday Funnies</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Exo+2:wght@600;800&family=Lilita+One&family=Nunito:wght@400;700;800;900&display=swap">
+<style>
+/* Layout: the home page is a comic book. Cover masthead → the pilot told in 5 panels with speech balloons → a sticker sheet of the crew → a "Meanwhile..." splash page for Doc Neon → back-page activities. */
+:root{
+  --paper:#E8F6FF; --ink:#0E1A3A; --hydro:#1F6FD1; --aqua:#4FC3F0; --lime:#9BE22E; --spark:#E6F52F;
+  --coral:#FF8A5C; --pink:#FF5FA2; --violet:#8B6CF6; --red:#C8161D; --gold:#F2B620; --slime:#A6D64A;
+  --display:"Lilita One","Arial Rounded MT Bold",system-ui,sans-serif;
+  --label:"Exo 2","Trebuchet MS",system-ui,sans-serif;
+  --body:"Nunito","Segoe UI",system-ui,sans-serif;
+  --line:4px solid var(--ink);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{margin:0;color:var(--ink);font:400 17px/1.55 var(--body);overflow-x:hidden;
+  background:radial-gradient(circle,rgba(31,111,209,.16) 1.4px,transparent 1.6px) 0 0/14px 14px,var(--paper)}
+img{max-width:100%;display:block}
+a{color:inherit}
+:focus-visible{outline:4px solid var(--pink);outline-offset:3px}
+.wrap{max-width:1200px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;line-height:1;text-wrap:balance}
+p{margin:0}
+.cap{font:800 13px/1.2 var(--label);letter-spacing:.14em;text-transform:uppercase}
+.box{border:var(--line);border-radius:6px;box-shadow:6px 6px 0 var(--ink);background:#fff}
+.btn{display:inline-block;font:900 18px/1 var(--body);padding:15px 24px;border:var(--line);border-radius:999px;box-shadow:4px 4px 0 var(--ink);text-decoration:none;background:var(--lime);transition:transform .1s,box-shadow .1s;cursor:pointer}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
+.btn:active{transform:translate(4px,4px);box-shadow:0 0 0 var(--ink)}
+.btn.alt{background:#fff}
+
+/* masthead */
+.mast{padding-block:18px 0}
+.mast .bar{display:flex;align-items:center;gap:16px;flex-wrap:wrap;background:var(--hydro);color:#fff;padding:12px 16px;border:var(--line);border-radius:6px 6px 0 0}
+.mast .bar img{width:150px;height:auto}
+.mast nav{display:flex;gap:6px;flex-wrap:wrap;margin-left:auto}
+.mast nav a{font:800 14px var(--label);letter-spacing:.08em;text-transform:uppercase;text-decoration:none;padding:8px 12px;border-radius:999px;background:rgba(255,255,255,.12)}
+.mast nav a:hover{background:var(--spark);color:var(--ink)}
+.mast .strip{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;border:var(--line);border-top:0;background:var(--spark);padding:8px 16px;border-radius:0 0 6px 6px}
+
+/* hero */
+.cover{display:grid;grid-template-columns:1.1fr .9fr;gap:28px;align-items:center;padding-block:40px 30px}
+@media (max-width:860px){.cover{grid-template-columns:1fr}}
+.cover h1{font-size:clamp(54px,9vw,112px);line-height:.92;-webkit-text-stroke:3px var(--ink);paint-order:stroke fill;color:#fff;text-shadow:6px 6px 0 var(--ink)}
+.cover h1 .w{color:var(--aqua)}.cover h1 .c{color:var(--lime)}.cover h1 .wo{color:var(--spark)}
+.cover p{font-size:20px;max-width:40ch;margin-block:18px 24px}
+.cover .ctas{display:flex;gap:14px;flex-wrap:wrap}
+.burst{position:relative;justify-self:center;width:min(420px,90%);aspect-ratio:1}
+.burst .star{position:absolute;inset:0;background:var(--pink);clip-path:polygon(50% 0,61% 18%,82% 8%,79% 30%,100% 34%,85% 50%,100% 66%,79% 70%,82% 92%,61% 82%,50% 100%,39% 82%,18% 92%,21% 70%,0 66%,15% 50%,0 34%,21% 30%,18% 8%,39% 18%);animation:spin 40s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.burst img{position:absolute;inset:14%;width:72%;height:72%;object-fit:cover;object-position:50% 6%;border:var(--line);border-radius:50%;background:radial-gradient(80% 70% at 50% 30%,#FFD08A,#FF8A1A)}
+.burst .tag{position:absolute;right:0;bottom:6%;background:var(--spark);transform:rotate(-8deg);padding:10px 14px;font:400 22px var(--display)}
+
+/* comic page */
+section{padding-block:clamp(40px,7vw,80px)}
+.sh{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:22px}
+.sh h2{font-size:clamp(36px,5vw,58px)}
+.sh .chip{background:var(--ink);color:var(--paper);padding:6px 10px;border-radius:4px}
+.page{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
+.panel{position:relative;overflow:hidden;grid-column:span 2;min-height:230px;background:var(--hydro)}
+.panel.w3{grid-column:span 3}.panel.w4{grid-column:span 4}
+@media (max-width:760px){.page{grid-template-columns:1fr}.panel,.panel.w3,.panel.w4{grid-column:auto}}
+.panel img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.panel .nar{position:absolute;left:10px;top:10px;max-width:70%;background:var(--spark);border:3px solid var(--ink);padding:6px 10px;font:800 13px/1.25 var(--label);letter-spacing:.06em;text-transform:uppercase}
+.balloon{position:absolute;right:12px;bottom:14px;max-width:60%;background:#fff;border:3px solid var(--ink);border-radius:50% 50% 50% 50%/60% 60% 40% 40%;padding:14px 18px;font:800 15px/1.25 var(--body);text-align:center}
+.balloon::after{content:"";position:absolute;left:22%;bottom:-16px;border:9px solid transparent;border-top:14px solid var(--ink)}
+.balloon.l{right:auto;left:12px}
+.sfx{position:absolute;right:8%;top:12%;font:400 clamp(40px,6vw,64px)/1 var(--display);color:var(--spark);-webkit-text-stroke:3px var(--ink);paint-order:stroke fill;transform:rotate(-12deg)}
+.panel .watch{position:absolute;inset:auto 12px 12px auto}
+
+/* stickers */
+.sheet{background:#fff;border:var(--line);border-radius:18px;padding:clamp(18px,3vw,30px);display:grid;grid-template-columns:repeat(5,1fr);gap:22px;box-shadow:8px 8px 0 var(--ink)}
+@media (max-width:900px){.sheet{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:520px){.sheet{grid-template-columns:repeat(2,1fr)}}
+.sticker{text-align:center;display:grid;gap:8px;justify-items:center;text-decoration:none;transform:rotate(var(--r));transition:transform .2s}
+.sticker:hover,.sticker:focus-visible{transform:rotate(0) scale(1.06)}
+.sticker .die{width:100%;aspect-ratio:1;border-radius:50%;border:6px solid #fff;outline:3px solid var(--ink);overflow:hidden;background:radial-gradient(80% 70% at 50% 30%,color-mix(in srgb,var(--c) 50%,#fff),var(--c));box-shadow:5px 5px 0 var(--ink)}
+.sticker .die img{width:100%;height:100%;object-fit:cover;object-position:50% 4%;transform:scale(1.05);transform-origin:50% 0}
+.sticker h3{font-size:26px}
+.sticker .cap{color:var(--c2,var(--ink))}
+.sticker q{font-size:14px;font-weight:700;quotes:"“" "”"}
+
+/* meanwhile */
+.splash{position:relative;border:var(--line);border-radius:8px;overflow:hidden;box-shadow:8px 8px 0 var(--ink);background:linear-gradient(115deg,var(--slime) 0 52%,#E2995E 52%);display:grid;grid-template-columns:1fr 1fr}
+@media (max-width:820px){.splash{grid-template-columns:1fr}}
+.splash .txt{padding:clamp(22px,4vw,44px);display:grid;gap:16px;align-content:center}
+.splash .mw{display:inline-block;background:var(--ink);color:var(--slime);padding:8px 14px;font:400 26px var(--display);transform:rotate(-2deg);justify-self:start}
+.splash h2{font-size:clamp(40px,6vw,72px);line-height:.95}
+.splash .pics{position:relative;min-height:380px}
+.splash .pics img{position:absolute;border:var(--line);border-radius:8px;box-shadow:6px 6px 0 var(--ink);object-fit:cover;object-position:50% 8%;background:#fff;cursor:pointer;transition:transform .2s}
+.splash .pics img:hover{transform:rotate(0) scale(1.03)}
+.splash .p1{width:52%;height:78%;left:6%;top:8%;transform:rotate(-4deg)}
+.splash .p2{width:46%;height:66%;right:6%;bottom:6%;transform:rotate(5deg)}
+.splash .zap{position:absolute;left:44%;top:40%;font:400 50px var(--display);color:#FF2A12;-webkit-text-stroke:3px var(--ink);paint-order:stroke fill;transform:rotate(-10deg)}
+
+
+/* back page */
+.back{display:grid;grid-template-columns:1.2fr 1fr;gap:20px}
+@media (max-width:820px){.back{grid-template-columns:1fr}}
+.back .act{padding:22px;display:grid;gap:14px;background:var(--aqua)}
+.back .act img{border:3px solid var(--ink);border-radius:4px;background:#fff}
+.back .act h3{font-size:32px}
+.back .sign{padding:22px;display:grid;gap:14px;align-content:start;background:var(--pink);color:#fff}
+.back .sign h3{font-size:32px;-webkit-text-stroke:2px var(--ink);paint-order:stroke fill}
+.back form{display:grid;gap:10px}
+.back input{font:700 17px var(--body);border:3px solid var(--ink);border-radius:999px;padding:14px 18px;color:var(--ink);background:#fff}
+.back .ok{font-weight:900;font-size:20px}
+
+footer{margin-top:20px;background:var(--ink);color:var(--paper);padding-block:36px calc(36px + env(safe-area-inset-bottom,0px))}
+footer .wrap{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center}
+footer .t{font:400 30px var(--display);color:var(--spark)}
+footer small{color:#9FB2D6}
+@media (prefers-reduced-motion:reduce){.burst .star{animation:none}.sticker,.btn{transition:none}}
+main{overflow-x:clip}
+/* worlds */
+.wd-orb{position:absolute;left:50%;top:50%;width:58%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle at 32% 28%,#fff 0 6%,transparent 22%),radial-gradient(circle,rgba(79,195,240,.45) 0 52%,#5CE1E6 66%,#FF5FA2 80%,#8B6CF6 92%,transparent);box-shadow:0 0 50px rgba(79,195,240,.55)}
+.wd-dots{position:absolute;inset:0;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;align-content:center;gap:8px;padding:12%}
+.wd-dots i{width:30px;height:30px;border-radius:50%;box-shadow:inset -5px -4px 0 rgba(0,0,0,.25)}
+
+#worlds .wd-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;background:var(--ink);padding:16px;border:var(--line);border-radius:6px;box-shadow:10px 10px 0 var(--ink)}
+@media (max-width:900px){#worlds .wd-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:10px}}
+.wd-p{position:relative;aspect-ratio:4/3;border:0;padding:0;cursor:pointer;overflow:hidden;background:radial-gradient(circle,var(--c),#0E1A3A);border-radius:3px;transition:transform .2s}
+.wd-p:nth-child(7){grid-column:span 2;grid-row:span 2;aspect-ratio:auto}
+.wd-p:hover{transform:rotate(var(--r)) scale(1.03);z-index:2}
+.wd-p img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.wd-p::after{content:"";position:absolute;inset:0;background-image:radial-gradient(circle,rgba(14,26,58,.22) 1.4px,transparent 1.6px);background-size:9px 9px;mix-blend-mode:multiply;pointer-events:none}
+.wd-box{position:absolute;left:8px;top:8px;z-index:2;max-width:80%;background:#FFE14A;border:3px solid var(--ink);padding:5px 9px;font:800 11px/1.2 var(--label);letter-spacing:.1em;text-transform:uppercase;color:var(--ink);text-align:left;box-shadow:3px 3px 0 var(--ink)}
+.wd-box b{display:block;font:400 20px/1 var(--display);letter-spacing:0;text-transform:none}
+.wd-say{position:absolute;right:8px;bottom:10px;z-index:2;max-width:78%;background:#fff;border:3px solid var(--ink);border-radius:18px;padding:6px 10px;font:800 13px/1.25 var(--body);color:var(--ink);text-align:left}
+@media (max-width:600px){.wd-say{display:none}.wd-box b{font-size:16px}}
+</style>
+</head>
+<body>
+<header class="wrap mast">
+  <div class="bar">
+    <a href="#top"><img src="../img/hd/logo.webp" alt="The Qoogies"></a>
+    <nav aria-label="Main"><a href="#story">Episode 1</a><a href="#crew">The crew</a><a href="#worlds">Worlds</a><a href="#neon">Doc Neon</a><a href="#fun">Fun</a></nav>
+  </div>
+  <div class="strip cap"><span>Issue 01 · Season One</span><span>Free to read · Fun for ages 6 to 11</span></div>
+</header>
+
+<main id="top">
+<div class="wrap cover">
+  <div>
+    <span class="cap">An animated series from XBX Entertainment</span>
+    <h1><span class="w">Waves</span> <span class="c">Connect</span> <span class="wo">Worlds!</span></h1>
+    <p>Meet the Qoogies: bubble-bodied heroes who sail the galaxy making rain. Doc Neon wants them gone.</p>
+    <div class="ctas"><a class="btn" href="#story">▶ Watch Episode 1</a><a class="btn alt" href="#crew">Meet the crew</a></div>
+  </div>
+  <div class="burst" data-crew="heelo"><div class="star"></div><img src="../img/hd/heelo.webp" alt="Heelo"><span class="tag box">Starring Heelo!</span></div>
+</div>
+
+<section id="story"><div class="wrap">
+  <div class="sh"><h2>Heelo Meets Neon</h2><span class="cap chip">Episode 1 · 14 min</span></div>
+  <div class="page">
+    <div class="panel box w4"><img src="../img/hd/ship-144.jpg" alt="The Qoogie ship over Arridia"><span class="nar">Somewhere over a very dry planet called Arridia...</span><span class="balloon">Let's make it rain!</span></div>
+    <div class="panel box"><img src="../img/hd/pilot-27.jpg" alt="Doc Neon on a video screen"><span class="balloon l">Water ruins everything.</span></div>
+    <div class="panel box w3"><img src="../img/hd/pilot-29.jpg" alt="Launch Bay with the ground crew"><span class="nar">Launch Bay 01. Heelo suits up.</span></div>
+    <div class="panel box w3"><img src="../img/hd/ship-700.jpg" alt="Doc Neon's rocket launching"><span class="sfx">FWOOSH!</span><span class="nar">Doc Neon has rockets.</span></div>
+    <div class="panel box w4"><img src="../img/hd/ship-754.jpg" alt="Heelo catches a rocket with water"><span class="sfx">SPLASH!</span><span class="balloon">Keep it together!</span></div>
+    <div class="panel box" style="background:var(--spark);display:grid;place-items:center;padding:18px;text-align:center"><div style="display:grid;gap:12px;justify-items:center"><span style="font:400 30px/1 var(--display)">What happens next?</span><a class="btn" href="#story">▶ Watch now</a></div></div>
+  </div>
+</div></section>
+
+<section id="crew"><div class="wrap">
+  <div class="sh"><h2>The crew sticker sheet</h2><span class="cap chip">Team Aero</span></div>
+  <div class="sheet">
+    <a class="sticker" href="#crew" data-crew="wisp" style="--r:-4deg;--c:#F0C64A;--c2:#A6750A"><div class="die"><img src="../img/hd/wisp.webp" alt=""></div><h3>Wisp</h3><span class="cap">Team Leader</span><q>Bigger waves. Brighter worlds.</q></a>
+    <a class="sticker" href="#crew" data-crew="heelo" style="--r:3deg;--c:#FF8A1A;--c2:#C4560A"><div class="die"><img src="../img/hd/heelo.webp" alt=""></div><h3>Heelo</h3><span class="cap">Tension Specialist</span><q>Keep it together.</q></a>
+    <a class="sticker" href="#crew" data-crew="nonni" style="--r:-2deg;--c:#46C2DB;--c2:#11788C"><div class="die"><img src="../img/hd/nonni.webp" alt=""></div><h3>Dr. Nonni Nunu</h3><span class="cap">Hyper Wave Specialist</span><q>Every wave has a story.</q></a>
+    <a class="sticker" href="#crew" data-crew="hydro" style="--r:5deg;--c:#36C8F5;--c2:#1F6FD1"><div class="die"><img src="../img/hd/hydro.webp" alt=""></div><h3>Hydro</h3><span class="cap">Mixologist</span><q>Tomorrow can be brewed.</q></a>
+    <a class="sticker" href="#crew" data-crew="buoy" style="--r:-5deg;--c:#8E6FD8;--c2:#6440B8"><div class="die"><img src="../img/hd/buoy.webp" alt=""></div><h3>Buoy</h3><span class="cap">Interface Specialist</span><q>Same connection.</q></a>
+  </div>
+</div></section>
+
+<section id="worlds"><div class="wrap">
+  <div class="sh"><h2>Places in the funnies</h2><span class="cap chip">Worlds &amp; ships</span></div>
+  <div class="wd-grid"><button class="wd-p" type="button" data-world="sphere" style="--c:#4FC3F0;--r:-1.5deg"><span class="wd-orb" aria-hidden="true"></span><span class="wd-box">Aboard<b>The Bubble Sphere</b></span><span class="wd-say">Where every Qoogie comes from.</span></button><button class="wd-p" type="button" data-world="ship" style="--c:#8B6CF6;--r:1deg"><img src="../img/hd/ship-144.jpg" alt="" loading="lazy"><span class="wd-box">Aboard<b>The Qoogie Ship</b></span><span class="wd-say">Made of water and light.</span></button><button class="wd-p" type="button" data-world="command" style="--c:#F0C64A;--r:-0.5deg"><img src="../img/hd/pilot-27.jpg" alt="" loading="lazy"><span class="wd-box">Aboard<b>Command Center</b></span><span class="wd-say">Wisp’s chair and the big screen.</span></button><button class="wd-p" type="button" data-world="launchbay" style="--c:#FF8A1A;--r:1.8deg"><img src="../img/hd/pilot-29.jpg" alt="" loading="lazy"><span class="wd-box">Aboard<b>Launch Bay 01</b></span><span class="wd-say">“Launch crew ready.”</span></button><button class="wd-p" type="button" data-world="hatch" style="--c:#46C2DB;--r:-1deg"><img src="../img/hd/pilot-12.jpg" alt="" loading="lazy"><span class="wd-box">Aboard<b>Hatch A</b></span><span class="wd-say">The big round door.</span></button><button class="wd-p" type="button" data-world="space" style="--c:#5CE1E6;--r:0.6deg"><img src="../img/hd/pilot-56.jpg" alt="" loading="lazy"><span class="wd-box">Over at<b>Open Space</b></span><span class="wd-say">Deep blue with a nebula glow.</span></button><button class="wd-p" type="button" data-world="arridia" style="--c:#E2995E;--r:-1.5deg"><img src="../img/hd/pilot-2.jpg" alt="" loading="lazy"><span class="wd-box">Over at<b>Arridia</b></span><span class="wd-say">Dust storms on top. Doc Neon underneath.</span></button><button class="wd-p" type="button" data-world="targets" style="--c:#FF8A5C;--r:1deg"><span class="wd-dots" aria-hidden="true"><i style="background:#7FC8A9"></i><i style="background:#C98A4B"></i><i style="background:#F5D093"></i><i style="background:#E2995E"></i><i style="background:#B38AD9"></i><i style="background:#8FA3BF"></i></span><span class="wd-box">Over at<b>Target Worlds</b></span><span class="wd-say">Six dry planets waiting for rain.</span></button><button class="wd-p" type="button" data-world="cavern" style="--c:#A6D64A;--r:-0.5deg"><img src="../img/hd/neon-lab.jpg" alt="" loading="lazy"><span class="wd-box">Meanwhile, at<b>Doc Neon’s Cavern</b></span><span class="wd-say">“Clones for a dry galaxy.”</span></button><button class="wd-p" type="button" data-world="aquafy" style="--c:#4FE0F0;--r:1.8deg"><img src="../img/hd/aquafy.jpg" alt="" loading="lazy"><span class="wd-box">Meanwhile, at<b>Project Aquafy</b></span><span class="wd-say">“Water ruins everything.”</span></button><button class="wd-p" type="button" data-world="hangar" style="--c:#8CFF3F;--r:-1deg"><img src="../img/hd/neon-hangar.jpg" alt="" loading="lazy"><span class="wd-box">Meanwhile, at<b>Rocket Hangar</b></span><span class="wd-say">Built in the dark. Launched straight up.</span></button><button class="wd-p" type="button" data-world="rockets" style="--c:#4F8A2E;--r:0.6deg"><img src="../img/hd/ship-700.jpg" alt="" loading="lazy"><span class="wd-box">Meanwhile, at<b>Doc Neon’s Rockets</b></span><span class="wd-say">Made of metal and smoke.</span></button><button class="wd-p" type="button" data-world="tether" style="--c:#36C8F5;--r:-1.5deg"><img src="../img/hd/ship-754.jpg" alt="" loading="lazy"><span class="wd-box">Aboard<b>The Water Tether</b></span><span class="wd-say">Water beats metal.</span></button></div>
+</div></section>
+
+<section id="neon"><div class="wrap">
+  <div class="splash">
+    <div class="txt">
+      <span class="mw">Meanwhile...</span>
+      <h2>Deep under Arridia, Doc Neon is very cross.</h2>
+      <p>He thinks water is rude and dust is lovely. His clone army, the Neonites, chant one thing: “No more water.” He loses with style, and he melts when he gets wet.</p>
+      <a class="btn alt" href="#neon" data-crew="docneon" style="justify-self:start">Read his file</a>
+    </div>
+    <div class="pics"><img class="p1" data-crew="docneon" src="../img/hd/docneon.webp" alt="Doc Neon"><img class="p2" data-crew="neonites" src="../img/hd/neonites.webp" alt="The Neonites"><span class="zap">ZAP!</span></div>
+  </div>
+</div></section>
+
+<section id="fun"><div class="wrap back">
+  <div class="act box"><span class="cap">The back page</span><h3>Draw your own panel</h3><img src="../img/hd/storyboards.jpg" alt="Episode 1 storyboard sketches"><p>Print the blank comic page, finish the story, and send it in. We share our favorites every month.</p><a class="btn alt" href="#fun" style="justify-self:start">Get the blank page</a></div>
+  <div class="sign box"><span class="cap">For grown-ups</span><h3>Get the next issue by email</h3><p>New episodes, coloring pages and comics, once a month. No ads.</p>
+    <form id="nf"><label class="cap" for="em">Parent email</label><input id="em" type="email" placeholder="parent@email.com" required><button class="btn" type="submit">Sign me up</button></form>
+  </div>
+</div></section>
+</main>
+
+<footer><div class="wrap"><span class="t">Brighter Worlds. Together.</span><small>The Qoogies © XBX Entertainment · Press and partners · Parents · Template 2 · Sunday Funnies</small></div></footer>
+<script src="crew.js" data-skin="comic"></script>
+<script src="worlds.js" data-skin="comic"></script>
+<script>
+document.getElementById('nf').addEventListener('submit',e=>{e.preventDefault();e.target.outerHTML='<p class="ok">KA-SPLASH! You\'re signed up.</p>'});
+</script>
+</body>
+</html>
